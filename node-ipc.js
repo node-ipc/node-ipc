@@ -34,9 +34,9 @@ var defaults={
 var ipc = {
     config      : defaults,
     connectTo   : connect,
-    connectToTCP: connectTCP,
+    connectToNet: connectNet,
     serve       : serve,
-    serveTCP    : serveTCP,
+    serveNet    : serveNet,
     of          : {},
     server      : false,
     log         : log
@@ -80,28 +80,18 @@ function serve(path,callback){
     );
 }
 
-function serveTCP(host,port,callback){
+function serveNet(host,port,UDPType,callback){
     if(typeof host=='number'){
-        callback=port;
+        callback=UDPType;
+        UDPType=port;
         port=host;
         host=false;   
     }
     if(typeof host=='function'){
         callback=host;
+        UDPType=false;
         host=false;
         port=false;   
-    }
-    if(typeof port=='function'){
-        callback=port;
-        port=false;   
-    }
-    if(!port){
-        ipc.log(
-            'Server port not specified, so defaulting to'.notice, 
-            'ipc.config.networkPort'.variable, 
-            ipc.config.networkPort
-        );
-        port=ipc.config.networkPort;
     }
     if(!host){
         ipc.log(
@@ -111,6 +101,37 @@ function serveTCP(host,port,callback){
         );
         host=ipc.config.networkHost;
     }
+    if(host.toLowerCase()=='udp4' || host.toLowerCase()=='udp6'){
+        callback=port;
+        UDPType=host.toLowerCase();
+        port=false;
+        host=ipc.config.networkHost;   
+    }
+    
+    if(typeof port=='string'){
+        callback=UDPType;
+        UDPType=port;
+        port=false;   
+    }
+    if(typeof port=='function'){
+        callback=port;
+        UDPType=false;
+        port=false;
+    }
+    if(!port){
+        ipc.log(
+            'Server port not specified, so defaulting to'.notice, 
+            'ipc.config.networkPort'.variable, 
+            ipc.config.networkPort
+        );
+        port=ipc.config.networkPort;
+    }
+    
+    if(typeof UDPType=='function'){
+        callback=UDPType;
+        UDPType=false;
+    }
+    
     if(!callback)
         callback=function(){};
         
@@ -120,6 +141,11 @@ function serveTCP(host,port,callback){
         log,
         port
     );
+    
+    if(UDPType)
+        ipc.server[UDPType]=true;
+    
+    console.log(callback.toString())
     
     ipc.server.on(
         'start',
@@ -175,7 +201,7 @@ function connect(id,path,callback){
     callback();
 }
 
-function connectTCP(id,host,port,callback){
+function connectNet(id,host,port,callback,UDPType){
     if(!id){
         ipc.log(
             'Service id required'.warn,
@@ -183,20 +209,42 @@ function connectTCP(id,host,port,callback){
         );
         return;
     }
-    
     if(typeof host=='number'){
+        UDPType=callback;
         callback=port;
         port=host;
-        host=false;   
+        host=false;
     }
     if(typeof host=='function'){
+        UDPType=port;
         callback=host;
         host=false;
         port=false;   
     }
+    if(host=='udp4' || host=='udp6'){
+        UDPType=host;
+        host=false;
+        port=false;
+        callback=false;
+    }
+    if(!host){
+        ipc.log(
+            'Server host not specified, so defaulting to'.notice, 
+            'ipc.config.networkHost'.variable, 
+            ipc.config.networkHost.data
+        );
+        host=ipc.config.networkHost;
+    }
+    
     if(typeof port=='function'){
+        UDPType=callback;
         callback=port;
         port=false;   
+    }
+    if(typeof port == 'string'){
+        UDPType=port;
+        port=false;
+        callback=false;
     }
     if(!port){
         ipc.log(
@@ -206,13 +254,10 @@ function connectTCP(id,host,port,callback){
         );
         port=ipc.config.networkPort;
     }
-    if(!host){
-        ipc.log(
-            'Server host not specified, so defaulting to'.notice, 
-            'ipc.config.networkHost'.variable, 
-            ipc.config.networkHost.data
-        );
-        host=ipc.config.networkHost;
+    
+    if(typeof callback == 'string'){
+        UDPType=callback;
+        callback=false;
     }
     if(!callback)
         callback=function(){};

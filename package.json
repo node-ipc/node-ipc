@@ -1,6 +1,6 @@
 {
   "name": "node-ipc",
-  "version": "0.0.2",
+  "version": "0.9.0",
   "description": "A nodejs module for local and remote Inter Process Communication (IPC) uses Unix Sockets for local communication avoiding the network card for lower overhead and latency. ## Solid but, ### Still under development and lacking documentation, but useable.",
   "main": "node-ipc.js",
   "directories": {
@@ -29,5 +29,13 @@
     "memory"
   ],
   "author": "Brandon Nozaki Miller",
-  "license": "Unlicenced"
+  "license": "Unlicenced",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RIAEvangelist/node-ipc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/RIAEvangelist/node-ipc/issues"
+  },
+  "homepage": "https://github.com/RIAEvangelist/node-ipc"
 }
