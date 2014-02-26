@@ -22,6 +22,8 @@ var defaults={
     root            : process.env.HOME,
     appspace        : socketPrefix,
     socketRoot      : '/tmp/',
+    networkHost     : 'localhost',
+    networkPort     : 8000,
     id              : os.hostname(),
     encoding        : 'utf8',
     silent          : false,
@@ -32,7 +34,9 @@ var defaults={
 var ipc = {
     config      : defaults,
     connectTo   : connect,
+    connectToTCP: connectTCP,
     serve       : serve,
+    serveTCP    : serveTCP,
     of          : {},
     server      : false,
     log         : log
@@ -61,10 +65,60 @@ function serve(path,callback){
         path=ipc.config.socketRoot+ipc.config.appspace+ipc.config.id;
     }
     
+    if(!callback)
+        callback=function(){};
+    
     ipc.server=new Server(
         path,
         ipc.config,
         log
+    );
+    
+    ipc.server.on(
+        'start',
+        callback
+    );
+}
+
+function serveTCP(host,port,callback){
+    if(typeof host=='number'){
+        callback=port;
+        port=host;
+        host=false;   
+    }
+    if(typeof host=='function'){
+        callback=host;
+        host=false;
+        port=false;   
+    }
+    if(typeof port=='function'){
+        callback=port;
+        port=false;   
+    }
+    if(!port){
+        ipc.log(
+            'Server port not specified, so defaulting to'.notice, 
+            'ipc.config.networkPort'.variable, 
+            ipc.config.networkPort
+        );
+        port=ipc.config.networkPort;
+    }
+    if(!host){
+        ipc.log(
+            'Server host not specified, so defaulting to'.notice, 
+            'ipc.config.networkHost'.variable, 
+            ipc.config.networkHost.data
+        );
+        host=ipc.config.networkHost;
+    }
+    if(!callback)
+        callback=function(){};
+        
+    ipc.server=new Server(
+        host,
+        ipc.config,
+        log,
+        port
     );
     
     ipc.server.on(
@@ -115,6 +169,71 @@ function connect(id,path,callback){
     ipc.of[id]       = new Client(ipc.config,ipc.log);
     ipc.of[id].id    = id;
     ipc.of[id].path  = path;
+    
+    ipc.of[id].connect();
+    
+    callback();
+}
+
+function connectTCP(id,host,port,callback){
+    if(!id){
+        ipc.log(
+            'Service id required'.warn,
+            'Requested service connection without specifying service id. Aborting connection attempt'.notice
+        );
+        return;
+    }
+    
+    if(typeof host=='number'){
+        callback=port;
+        port=host;
+        host=false;   
+    }
+    if(typeof host=='function'){
+        callback=host;
+        host=false;
+        port=false;   
+    }
+    if(typeof port=='function'){
+        callback=port;
+        port=false;   
+    }
+    if(!port){
+        ipc.log(
+            'Server port not specified, so defaulting to'.notice, 
+            'ipc.config.networkPort'.variable, 
+            ipc.config.networkPort
+        );
+        port=ipc.config.networkPort;
+    }
+    if(!host){
+        ipc.log(
+            'Server host not specified, so defaulting to'.notice, 
+            'ipc.config.networkHost'.variable, 
+            ipc.config.networkHost.data
+        );
+        host=ipc.config.networkHost;
+    }
+    if(!callback)
+        callback=function(){};
+    
+    if(ipc.of[id]){
+        if(!ipc.of[id].socket.destroyed){
+            ipc.log(
+                'Already Connected to'.notice, 
+                id.variable,
+                '- So executing success without connection'.notice
+            );
+            callback();
+            return;
+        }
+        ipc.of[id].destroy();
+    }
+    
+    ipc.of[id]       = new Client(ipc.config,ipc.log);
+    ipc.of[id].id    = id;
+    ipc.of[id].path  = host;
+    ipc.of[id].port  = port;
     
     ipc.of[id].connect();
     
