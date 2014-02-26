@@ -6,11 +6,17 @@
 *this is a new project so more documentation will come*
 
 ----
-#### Local IPC
-Uses Unix Sockets to give lightning fast communication and avoid the network card to reduce overhead and latency.
+#### Types of IPC Sockets
 
-##### Server Example 
-The server is the process keeping a Unix Socket for IPC open. Multiple sockets can connect to this server and talk to it. It can also broadcast to all clients or emit to a specific client.
+1. ``Local IPC`` Uses ***Unix Sockets*** to give lightning fast communication and avoid the network card to reduce overhead and latency.  
+2. ``IPC over TCP`` Uses ***TCP Sockets*** to give the most reliable communication across the network. Can be used for local IPC as well, but is slower than #1's Unix Socket Implementation because TCP sockets go through the network card while Unix Sockets do not.
+3. ``Remote IPC over TLS`` ***coming soon...***
+4. ``Remote IPC over UDP`` ***coming soon...***
+
+----
+
+#### Basic Server Example 
+The server is the process keeping a socket for IPC open. Multiple sockets can connect to this server and talk to it. It can also broadcast to all clients or emit to a specific client.
 
     var ipc=require('node-ipc');
 
@@ -34,8 +40,8 @@ The server is the process keeping a Unix Socket for IPC open. Multiple sockets c
     
     ipc.server.start();
 
-##### Client Example 
-The client connects to the servers Unix Socket for Inter Process Communication. The socket will recieve events emitted to it specifically as well as events which are broadcast out on the Unix Socket by the server.
+#### Basic Client Example 
+The client connects to the servers socket for Inter Process Communication. The socket will recieve events emitted to it specifically as well as events which are broadcast out on the socket by the server.
 
     var ipc=require('../../../node-ipc');
 
@@ -71,6 +77,6 @@ The client connects to the servers Unix Socket for Inter Process Communication. 
     );
 
 ----
-#### Remote IPC - coming soon
-Uses ``not yet defined`` Sockets to give fastest possible communication across the network with the minimum overhead and latency.
 
+#### Customizing server and client
+Documentation coming soon.
