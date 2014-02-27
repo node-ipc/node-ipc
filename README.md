@@ -24,37 +24,6 @@
 **Windows** users may want to use UDP servers for the fastest local IPC. Unix Servers are the fastest oprion on Linux and Mac, but not available for windows.  
 
 ----
-### IPC Default Variables  
-
-``ipc.config``  
-
-Set these variables in the ``ipc.config`` scope to overwrite or set default values.
-
-    {
-        appspace        : 'app.',
-        socketRoot      : '/tmp/',
-        id              : os.hostname(),
-        networkHost     : 'localhost',
-        networkPort     : 8000,
-        encoding        : 'utf8',
-        silent          : false,
-        maxConnections  : 100,
-        retry           : 500
-    }
-
-| variable | documentation |
-|----------|---------------|
-| appspace | used for Unix Socket (Unix Domain Socket) namespacing. If not set specifically, the Unix Domain Socket will combine the socketRoot, appspace, and id to form the Unix Socket Path for creation or binding. This is available incase you have many apps running on your system, you may have several sockets with the same id, but if you change the appspace, you will still have app specic unique sockets.|
-| socketRoot| the directory in which to create or bind to a Unix Socket |
-| id       | the id of this socket or service |
-| networkHost| the local or remote host on which TCP, TLS or UDP Sockets should connect |
-| networkPort| the default port on which TCP, TLS, or UDP sockets should connect |
-| encoding | the default encoding for data sent on sockets |
-| silent   | turn on/off logging default is false which means logging is on |
-| maxConnections| this is the max number of connections allowed to a socket. It is currently only being set on Unix Sockets. Other Socket types are using the system defaults. |
-| retry    | this is the time in milliseconds a client will wait before trying to reconnect to a server if the connection is lost. This does not effect UDP sockets since they do not have a client server relationship like Unix Sockets and TCP Sockets. |
-
-----
 
 #### IPC Methods  
 These methods are available in the IPC Scope.  
@@ -96,12 +65,13 @@ You can override any of these settings by requireing colors and setting the them
 
 Used for connecting as a client to local Unix Sockets. ***This is the fastst way for processes on the same machine to communicate*** because it bypasses the network card which TCP and UDP must both use.
 
+| variable | required | definition |
+|----------|----------|------------|
+| id       | required |  is the string id of the socket being connected to. The socket with this id is added to the ipc.of object when created. |
+| path     | optional | is the path of the Unix Domain Socket File, if not set this will be defaylted to ``ipc.config.socketRoot``+``ipc.config.appspace``+``id`` |
+| callback | optional | this is the function to execute when the socket has been created. |
 
-1. ``id`` ***required*** is the string id of the socket being connected to. The socket with this id is added to the ipc.of object when created.
-2. ``path`` ***optional*** is the path of the Unix Domain Socket File, if not set this will be defaylted to ``ipc.config.socketRoot``+``ipc.config.appspace``+``id`` 
-3. ``callback`` ***optional*** this is the function to execute when the socket has been created.
-
-**examples**
+**examples** arguments can be ommitted solong as they are still in order.
 
     ipc.connectTo('world');
     
@@ -143,10 +113,12 @@ or explicitly setting the path with callback
 
 Used to connect as a client to a TCP or TLS socket via the network card. This can be local or remote, if local, it is recommended that you use the Unix Socket Implementaion of ``connectTo`` instead as it is much faster since it avoids the network card alltogether.
 
-1. ``id`` ***required*** is the string id of the socket being connected to. For TCP & TLS sockets, this id is added to the ``ipc.of`` object when the socket is created with a refrence to the socket.
-2. ``host`` ***optional*** is the host on which the TCP or TLS socket resides.  This will default to  ``ipc.config.networkHost`` if not specified.
-3. ``port`` ***optional***
-4. ``callback`` ***optional*** this is the function to execute when the socket has been created.
+| variable | required | definition |
+|----------|----------|------------|
+| id       | required | is the string id of the socket being connected to. For TCP & TLS sockets, this id is added to the ``ipc.of`` object when the socket is created with a refrence to the socket. |
+| host     | optional | is the host on which the TCP or TLS socket resides.  This will default to  ``ipc.config.networkHost`` if not specified. |
+| port     | optional | the port on which the TCP or TLS socket resides. |
+| callback | optional | this is the function to execute when the socket has been created. |
 
 **examples** arguments can be ommitted solong as they are still in order.  
 So while the default is : (id,host,port,callback), the following examples will still work because they are still in order (id,port,callback) or (id,host,callback) or (id,port) etc.
@@ -182,20 +154,16 @@ or only explicitly setting port and callback
 
 ----
 ##### serve
-
 ``ipc.serve(path,callback);``  
 
 Used to create local Unix Socket Server to which Clients can bind. The server can ``emit`` events to specific Client Sockets, or ``broadcast`` events to all known Client Sockets.   
 
-1. ``path`` ***optional*** This is the Unix Domain Socket path to bind to. If not supplied, it will default to : ipc.config.socketRoot + ipc.config.appspace + ipc.config.id;
-2. ``callback`` ***optional*** This is a function to be called after the Server has started. This can also be done by binding an event to the start event as follows :
+| variable | required | definition |
+|----------|----------|------------|
+| path     | optional | This is the Unix Domain Socket path to bind to. If not supplied, it will default to : ipc.config.socketRoot + ipc.config.appspace + ipc.config.id; |
+| callback | optional | This is a function to be called after the Server has started. This can also be done by binding an event to the start event like ``ipc.server.on('start',function(){});`` |
 
-    ipc.server.on(
-        'start',
-        callback
-    );
-
-***examples***
+***examples*** arguments can be ommitted solong as they are still in order.
 
     ipc.serve();
 
@@ -220,8 +188,115 @@ or specifying everything
 
 ----    
 ##### serveNet
-coming soon ...
-For TCP, TLS & UDP servers this is most likely going to be local host or 0.0.0.0 unless you have something like [node-http-server](https://github.com/RIAEvangelist/node-http-server) installed to run subdomains for you.
+
+``serveNet(host,port,UDPType,callback)``
+
+Used to create TCP, TLS or UDP Socket Server to which Clients can bind or other servers can send data to. The server can ``emit`` events to specific Client Sockets, or ``broadcast`` events to all known Client Sockets. 
+
+
+| variable | required | definition |
+|----------|----------|------------|
+| host     | optional | If not specified this defaults to localhost. For TCP, TLS & UDP servers this is most likely going to be localhost or 0.0.0.0 unless you have something like [node-http-server](https://github.com/RIAEvangelist/node-http-server) installed to run subdomains for you. |
+| port     | optional | The port on which the TCP, UDP, or TLS Socket server will be bound, this defaults to 8000 if not specified |
+| UDPType  | optional | If set this will create the server as a UDP socket. 'udp4' or 'udp6' are valid values. This defaults to not being set.
+| callback | optional | Function to be called when the server is created |
+
+***examples*** arguments can be ommitted solong as they are still in order.
+
+default tcp server
+
+    ipc.serveNet();
+    
+default udp server
+
+    ipc.serveNet('udp4');
+
+or specifying TCP server with callback
+
+    ipc.serveNet(
+        function(){...}
+    );
+    
+or specifying UDP server with callback
+
+    ipc.serveNet(
+        'udp4',
+        function(){...}
+    );
+    
+or specify port
+
+    ipc.serveNet(
+        3435
+    );
+    
+or specifying everything TCP
+
+    ipc.serveNet(
+        'MyMostAwesomeApp.com',
+        3435,
+        function(){...}
+    );
+
+or specifying everything UDP
+
+    ipc.serveNet(
+        'MyMostAwesomeApp.com',
+        3435,
+        'udp4',
+        function(){...}
+    );
+
+----
+### IPC Stores and Default Variables  
+
+``ipc.of``
+
+This is where socket connection refrences will be stored when connecting to them as a client via the ``ipc.connectTo`` or ``iupc.connectToNet``.
+
+***example***
+    
+    ipc.connectTo(
+        'world',
+        function(){
+        
+            ipc.of.world.on(
+                'message',
+                function(data){...}
+            );
+            
+        }
+    );
+
+----
+
+``ipc.config``  
+
+Set these variables in the ``ipc.config`` scope to overwrite or set default values.
+
+    {
+        appspace        : 'app.',
+        socketRoot      : '/tmp/',
+        id              : os.hostname(),
+        networkHost     : 'localhost',
+        networkPort     : 8000,
+        encoding        : 'utf8',
+        silent          : false,
+        maxConnections  : 100,
+        retry           : 500
+    }
+
+| variable | documentation |
+|----------|---------------|
+| appspace | used for Unix Socket (Unix Domain Socket) namespacing. If not set specifically, the Unix Domain Socket will combine the socketRoot, appspace, and id to form the Unix Socket Path for creation or binding. This is available incase you have many apps running on your system, you may have several sockets with the same id, but if you change the appspace, you will still have app specic unique sockets.|
+| socketRoot| the directory in which to create or bind to a Unix Socket |
+| id       | the id of this socket or service |
+| networkHost| the local or remote host on which TCP, TLS or UDP Sockets should connect |
+| networkPort| the default port on which TCP, TLS, or UDP sockets should connect |
+| encoding | the default encoding for data sent on sockets |
+| silent   | turn on/off logging default is false which means logging is on |
+| maxConnections| this is the max number of connections allowed to a socket. It is currently only being set on Unix Sockets. Other Socket types are using the system defaults. |
+| retry    | this is the time in milliseconds a client will wait before trying to reconnect to a server if the connection is lost. This does not effect UDP sockets since they do not have a client server relationship like Unix Sockets and TCP Sockets. |
 
 ----
 ### Basic Examples  
