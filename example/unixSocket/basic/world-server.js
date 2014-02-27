@@ -16,7 +16,8 @@ ipc.serve(
             'message',
             function(data,socket){
                 ipc.log('got a message : '.debug, data);
-                socket.emit(
+                ipc.server.emit(
+                    socket,
                     'message',
                     data+' world!'
                 );
