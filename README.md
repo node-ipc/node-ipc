@@ -88,6 +88,7 @@ You can override any of these settings by requireing colors and setting the them
 
 Used for connecting as a client to local Unix Sockets. ***This is the fastst way for processes on the same machine to communicate*** because it bypasses the network card which TCP and UDP must both use.
 
+
 1. ``id`` ***required*** is the string id of the socket being connected to. The socket with this id is added to the ipc.of object when created.
 2. ``path`` ***optional*** is the path of the Unix Domain Socket File, if not set this will be defaylted to ``ipc.config.socketRoot``+``ipc.config.appspace``+``id`` 
 3. ``callback`` ***optional*** this is the function to execute when the socket has been created.
