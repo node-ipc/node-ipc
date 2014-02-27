@@ -3,8 +3,7 @@ var os          = require('os'),
     pubsub      = require('event-pubsub'),
     eventParser = require('./lib/eventParser.js'),
     Client      = require('./lib/client.js'),
-    Server      = require('./lib/socketServer.js'),
-    socketPrefix= 'app.';
+    Server      = require('./lib/socketServer.js');
 
 colors.setTheme(
     {
@@ -19,8 +18,7 @@ colors.setTheme(
 );
 
 var defaults={
-    root            : process.env.HOME,
-    appspace        : socketPrefix,
+    appspace        : 'app.',
     socketRoot      : '/tmp/',
     networkHost     : 'localhost',
     networkPort     : 8000,
@@ -201,7 +199,7 @@ function connect(id,path,callback){
     callback();
 }
 
-function connectNet(id,host,port,callback,UDPType){
+function connectNet(id,host,port,callback){
     if(!id){
         ipc.log(
             'Service id required'.warn,
@@ -210,22 +208,14 @@ function connectNet(id,host,port,callback,UDPType){
         return;
     }
     if(typeof host=='number'){
-        UDPType=callback;
         callback=port;
         port=host;
         host=false;
     }
     if(typeof host=='function'){
-        UDPType=port;
         callback=host;
         host=false;
         port=false;   
-    }
-    if(host=='udp4' || host=='udp6'){
-        UDPType=host;
-        host=false;
-        port=false;
-        callback=false;
     }
     if(!host){
         ipc.log(
@@ -237,14 +227,8 @@ function connectNet(id,host,port,callback,UDPType){
     }
     
     if(typeof port=='function'){
-        UDPType=callback;
         callback=port;
         port=false;   
-    }
-    if(typeof port == 'string'){
-        UDPType=port;
-        port=false;
-        callback=false;
     }
     if(!port){
         ipc.log(
