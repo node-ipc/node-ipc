@@ -8,10 +8,10 @@
 ----
 #### Types of IPC Sockets
 
-1. ``Local IPC`` Uses ***Unix Sockets*** to give lightning fast communication and avoid the network card to reduce overhead and latency.  
-2. ``IPC over TCP`` Uses ***TCP Sockets*** to give the most reliable communication across the network. Can be used for local IPC as well, but is slower than #1's Unix Socket Implementation because TCP sockets go through the network card while Unix Sockets do not.
+1. ``Local IPC`` Uses ***Unix Sockets*** to give lightning fast communication and avoid the network card to reduce overhead and latency. [Local Unix Socket examples ](https://github.com/RIAEvangelist/node-ipc/tree/master/example/unixSocket/ "Unix Socket Node IPC examples")  
+2. ``IPC over TCP`` Uses ***TCP Sockets*** to give the most reliable communication across the network. Can be used for local IPC as well, but is slower than #1's Unix Socket Implementation because TCP sockets go through the network card while Unix Sockets do not. [Local or remote network TCP Socket examples ](https://github.com/RIAEvangelist/node-ipc/tree/master/example/TCPSocket/ "TCP Socket Node IPC examples")
 3. ``Remote IPC over TLS`` ***coming soon...***
-4. ``Remote IPC over UDP`` Uses ***UDP Sockets*** to give the **fastest network communication**. UDP is less reliable but much faster than TCP. It is best used for streaming non critical data like sound, video, or multiplayer game data as it can drop packets depending on network connectivity and other factors. UDP can be used for local IPC as well, but is slower than #1's Unix Socket Implementation because UDP sockets go through the network card while Unix Sockets do not. 
+4. ``Remote IPC over UDP`` Uses ***UDP Sockets*** to give the **fastest network communication**. UDP is less reliable but much faster than TCP. It is best used for streaming non critical data like sound, video, or multiplayer game data as it can drop packets depending on network connectivity and other factors. UDP can be used for local IPC as well, but is slower than #1's Unix Socket Implementation because UDP sockets go through the network card while Unix Sockets do not. [Local or remote network UDP Socket examples ](https://github.com/RIAEvangelist/node-ipc/tree/master/example/UDPSocket/ "UDP Socket Node IPC examples")
 
 ----
 
@@ -154,5 +154,32 @@ This is the most basic example which will work for both local Unix Sockets and l
 
 ----
 
-#### Customizing server and client
-Documentation coming soon.
+#### IPC Default Variables
+Set these variables in the ipc.config scope to overwrite or set default values.
+
+    {
+        appspace        : 'app.',
+        socketRoot      : '/tmp/',
+        id              : os.hostname(),
+        networkHost     : 'localhost',
+        networkPort     : 8000,
+        encoding        : 'utf8',
+        silent          : false,
+        maxConnections  : 100,
+        retry           : 500
+    }
+
+* ``appspace`` used for Unix Socket (Unix Domain Socket) namespacing. If not set specifically, the Unix Domain Socket will combine the socketRoot, appspace, and id to form the Unix Socket Path for creation or binding. This is available incase you have many apps running on your system, you may have several sockets with the same id, but if you change the appspace, you will still have app specic unique sockets.
+* ``socketRoot`` the directory in which to create or bind to a Unix Socket
+* ``id`` the id of this socket or service
+* ``networkHost`` the local or remote host on which TCP, TLS or UDP Sockets should connect
+* ``networkPort`` the default port on which TCP, TLS, or UDP sockets should connect
+* ``encoding`` the default encoding for data sent on sockets
+* ``silent`` turn on/off logging default is false which means logging is on
+* ``maxConnections`` this is the max number of connections allowed to a socket. It is currently only being set on Unix Sockets. Other Socket types are using the system defaults.
+* ``retry`` this is the time in milliseconds a client will wait before trying to reconnect to a server if the connection is lost. This does not effect UDP sockets since they do not have a client server relationship like Unix Sockets and TCP Sockets.
+
+----
+
+#### IPC Methods
+documentaion coming soon...
