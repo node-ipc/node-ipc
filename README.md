@@ -1,19 +1,24 @@
 #node-ipc
 *a nodejs module for local and remote Inter Process Communication* for Linux, Mac and Windows.
 
-**npm install node-ipc**
+**npm install node-ipc**  
+[![alt node-ipc npm details](https://nodei.co/npm/node-ipc.png?stars=true "node-ipc npm module details ")](https://npmjs.org/package/event-pubsub "node-ipc details from npm")
 
-*this is a new project so more documentation will come*
+Package details websites :
+* [GitHub.io site](http://riaevangelist.github.io/node-ipc/ "node-ipc documentation"). A prettier version of this site.
+* [NPM Module](https://www.npmjs.org/package/node-ipc "node-ipc npm module"). The npm page for the node-ipc module.
+
+
 
 ----
 #### Types of IPC Sockets
 
-| Type      | Definition |
-|-----------|------------|
-|Unix Socket| Gives Linux and Mac lightning fast communication and avoids the network card to reduce overhead and latency. [Local Unix Socket examples ](https://github.com/RIAEvangelist/node-ipc/tree/master/example/unixSocket/ "Unix Socket Node IPC examples")  |
-|TCP Socket | Gives the most reliable communication across the network. Can be used for local IPC as well, but is slower than #1's Unix Socket Implementation because TCP sockets go through the network card while Unix Sockets do not. [Local or remote network TCP Socket examples ](https://github.com/RIAEvangelist/node-ipc/tree/master/example/TCPSocket/ "TCP Socket Node IPC examples") |
-|TLS Socket | ***coming soon...*** |
-|UDP Sockets| Gives the **fastest network communication**. UDP is less reliable but much faster than TCP. It is best used for streaming non critical data like sound, video, or multiplayer game data as it can drop packets depending on network connectivity and other factors. UDP can be used for local IPC as well, but is slower than #1's Unix Socket Implementation because UDP sockets go through the network card while Unix Sockets do not. [Local or remote network UDP Socket examples ](https://github.com/RIAEvangelist/node-ipc/tree/master/example/UDPSocket/ "UDP Socket Node IPC examples") |  
+| Type      | Stability |Definition |
+|-----------|-----------|-----------|
+|Unix Socket| Stable    | Gives Linux and Mac lightning fast communication and avoids the network card to reduce overhead and latency. [Local Unix Socket examples ](https://github.com/RIAEvangelist/node-ipc/tree/master/example/unixSocket/ "Unix Socket Node IPC examples")  |
+|TCP Socket | Stable    | Gives the most reliable communication across the network. Can be used for local IPC as well, but is slower than #1's Unix Socket Implementation because TCP sockets go through the network card while Unix Sockets do not. [Local or remote network TCP Socket examples ](https://github.com/RIAEvangelist/node-ipc/tree/master/example/TCPSocket/ "TCP Socket Node IPC examples") |
+|TLS Socket | Alpha     | ***coming soon...*** |
+|UDP Sockets| Stable    | Gives the **fastest network communication**. UDP is less reliable but much faster than TCP. It is best used for streaming non critical data like sound, video, or multiplayer game data as it can drop packets depending on network connectivity and other factors. UDP can be used for local IPC as well, but is slower than #1's Unix Socket Implementation because UDP sockets go through the network card while Unix Sockets do not. [Local or remote network UDP Socket examples ](https://github.com/RIAEvangelist/node-ipc/tree/master/example/UDPSocket/ "UDP Socket Node IPC examples") |  
 
 | OS  | Supported Sockets  |
 |-----|--------------------|
