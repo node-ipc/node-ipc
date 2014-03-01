@@ -34,6 +34,8 @@ events.on(
     'world',
     function(data){
         eventLog.log('World event got',data);
+        events.off('*');
+        eventLog.log('Removed all events')
     }
 );
 

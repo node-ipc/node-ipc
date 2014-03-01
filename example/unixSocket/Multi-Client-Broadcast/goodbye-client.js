@@ -7,7 +7,7 @@ var ipc=require('../../../node-ipc');
  * 
  * *************************************/
 
-ipc.config.id   = 'hello';
+ipc.config.id   = 'goodbye';
 ipc.config.retry= 1500;
 
 ipc.connectTo(
@@ -21,7 +21,7 @@ ipc.connectTo(
                     'app.message',
                     {
                         id      : ipc.config.id,
-                        message : 'hello'
+                        message : 'goodbye'
                     }
                 )
             }
@@ -33,9 +33,10 @@ ipc.connectTo(
             }
         );
         ipc.of.world.on(
-            'app.message',
+            'kill.connection',
             function(data){
-                ipc.log('got a message from world : '.debug, data);
+                ipc.log('world requested kill.connection'.notice);
+                ipc.disconnect('world');
             }
         );
     }

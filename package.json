@@ -1,13 +1,13 @@
 {
   "name": "node-ipc",
-  "version": "0.9.7",
+  "version": "0.9.9",
   "description": "A nodejs module for local and remote Inter Process Communication (IPC), Neural Networking, and able to facilitate machine learning.",
   "main": "node-ipc.js",
   "directories": {
     "example": "example"
   },
   "dependencies": {
-    "event-pubsub": "~1.0.2",
+    "event-pubsub": "~1.0.3",
     "colors": "~0.6.2"
   },
   "devDependencies": {},
@@ -42,5 +42,5 @@
   "bugs": {
     "url": "https://github.com/RIAEvangelist/node-ipc/issues"
   },
-  "homepage": "riaevangelist.github.io/node-ipc/"
+  "homepage": "http://riaevangelist.github.io/node-ipc/"
 }
