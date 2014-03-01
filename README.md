@@ -3,7 +3,7 @@
 A great solution for **Neural Networking** in Node.JS
 
 **npm install node-ipc**  
-[![alt node-ipc npm details](https://nodei.co/npm/node-ipc.png?stars=true "node-ipc npm module details ")](https://npmjs.org/package/event-pubsub "node-ipc details from npm")
+[![alt node-ipc npm details](https://nodei.co/npm/node-ipc.png?stars=true "node-ipc npm module details ")](https://npmjs.org/package/node-ipc "node-ipc details from npm")
 
 Package details websites :
 * [GitHub.io site](http://riaevangelist.github.io/node-ipc/ "node-ipc documentation"). A prettier version of this site.
