@@ -157,8 +157,6 @@ function serveNet(host,port,UDPType,callback){
     if(UDPType)
         ipc.server[UDPType]=true;
     
-    console.log(callback.toString())
-    
     ipc.server.on(
         'start',
         callback
