@@ -2,23 +2,19 @@ var ipc=require('../../../node-ipc');
 
 /***************************************\
  * 
- * UDP Client is really a UDP server
+ * Since there is no client relationship
+ * with UDP sockets sockets are not kept 
+ * open.
  * 
- * Dedicated UDP sockets on the same 
- * machine can not be bound to in the
- * traditional client/server method
+ * This means the order sockets are opened
+ * is important.
  * 
- * Every UDP socket is it's own UDP server
- * And so must have a unique port on its
- * machine, unlike TCP or Unix Sockts
- * which can share on the same machine.
- * 
- * Since there is no open client server
- * relationship, you should start world
- * first and then hello.
+ * Start World first. Then you can start 
+ * hello or goodbye in any order you
+ * choose.
  * 
  * *************************************/
-
+ 
 ipc.config.id   = 'hello';
 ipc.config.retry= 1500;
 
