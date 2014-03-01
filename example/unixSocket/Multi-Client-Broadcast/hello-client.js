@@ -38,5 +38,12 @@ ipc.connectTo(
                 ipc.log('got a message from world : '.debug, data);
             }
         );
+        ipc.of.world.on(
+            'kill.connection',
+            function(data){
+                ipc.log('world requested kill.connection'.notice);
+                ipc.disconnect('world');
+            }
+        );
     }
 );

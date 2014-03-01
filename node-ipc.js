@@ -33,6 +33,7 @@ var ipc = {
     config      : defaults,
     connectTo   : connect,
     connectToNet: connectNet,
+    disconnect  : disconnect,
     serve       : serve,
     serveNet    : serveNet,
     of          : {},
@@ -47,6 +48,19 @@ function log(){
     console.log(
         Array.prototype.slice.call(arguments).join(' ')
     );
+}
+
+function disconnect(id){
+    if(!ipc.of[id])
+        return;
+        
+    ipc.of[id].off('*');
+    if(ipc.of[id].socket){
+        if(ipc.of[id].socket.destroy)
+            ipc.of[id].socket.destroy();
+    }
+    
+    delete ipc.of[id];
 }
 
 function serve(path,callback){
