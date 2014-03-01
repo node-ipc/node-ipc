@@ -44,9 +44,18 @@ var ipc = {
 function log(){
     if(ipc.config.silent)
         return;
-        
+    
+    var args=Array.prototype.slice.call(arguments);
+    
+    for(var i=0, count=args.length; i<count; i++){
+        if(typeof args[i] != 'object')
+            continue;
+            
+        args[i]=JSON.stringify(args[i]);
+    }
+    
     console.log(
-        Array.prototype.slice.call(arguments).join(' ')
+        args.join(' ')
     );
 }
 
