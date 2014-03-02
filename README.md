@@ -159,6 +159,21 @@ or only explicitly setting port and callback
     );
 
 ----
+##### disconnect
+
+``ipc.disconnect(id)``  
+
+Used to disconnect a client from a Unix, TCP or TLS socket. The socket and its refrence will be removed from memory and the ``ipc.of`` scope. This can be local or remote. UDP clients do not maintain connections and so there are no Clients and this method has no value to them.
+
+| variable | required | definition |
+|----------|----------|------------|
+| id       | required | is the string id of the socket from which to disconnect. |
+
+**examples**
+
+    ipc.disconnect('world');
+
+----
 ##### serve
 ``ipc.serve(path,callback);``  
 
