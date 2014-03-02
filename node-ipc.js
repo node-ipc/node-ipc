@@ -26,7 +26,8 @@ var defaults={
     encoding        : 'utf8',
     silent          : false,
     maxConnections  : 100,
-    retry           : 500
+    retry           : 500,
+    stopRetrying    : false,
 }
 
 var ipc = {
