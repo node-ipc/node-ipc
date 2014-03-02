@@ -31,6 +31,39 @@ Package details websites :
 
 ----
 
+``ipc.config``  
+
+Set these variables in the ``ipc.config`` scope to overwrite or set default values.
+
+    {
+        appspace        : 'app.',
+        socketRoot      : '/tmp/',
+        id              : os.hostname(),
+        networkHost     : 'localhost',
+        networkPort     : 8000,
+        encoding        : 'utf8',
+        silent          : false,
+        maxConnections  : 100,
+        retry           : 500,
+        stopRetrying    : false
+    }
+
+
+| variable | documentation |
+|----------|---------------|
+| appspace | used for Unix Socket (Unix Domain Socket) namespacing. If not set specifically, the Unix Domain Socket will combine the socketRoot, appspace, and id to form the Unix Socket Path for creation or binding. This is available incase you have many apps running on your system, you may have several sockets with the same id, but if you change the appspace, you will still have app specic unique sockets.|
+| socketRoot| the directory in which to create or bind to a Unix Socket |
+| id       | the id of this socket or service |
+| networkHost| the local or remote host on which TCP, TLS or UDP Sockets should connect |
+| networkPort| the default port on which TCP, TLS, or UDP sockets should connect |
+| encoding | the default encoding for data sent on sockets |
+| silent   | turn on/off logging default is false which means logging is on |
+| maxConnections| this is the max number of connections allowed to a socket. It is currently only being set on Unix Sockets. Other Socket types are using the system defaults. |
+| retry    | this is the time in milliseconds a client will wait before trying to reconnect to a server if the connection is lost. This does not effect UDP sockets since they do not have a client server relationship like Unix Sockets and TCP Sockets. |
+| stopRetrying| Defaults to false mwaning clients will continue to retryt to connect to servers indefinately at the retry interval. If set to any number the client will stop retrying when that number is exceeded after each disconnect. If set to 0, the client will ***NOT*** try to reconnect. |
+
+----
+
 #### IPC Methods  
 These methods are available in the IPC Scope.  
 
@@ -288,36 +321,6 @@ This is where socket connection refrences will be stored when connecting to them
             
         }
     );
-
-----
-
-``ipc.config``  
-
-Set these variables in the ``ipc.config`` scope to overwrite or set default values.
-
-    {
-        appspace        : 'app.',
-        socketRoot      : '/tmp/',
-        id              : os.hostname(),
-        networkHost     : 'localhost',
-        networkPort     : 8000,
-        encoding        : 'utf8',
-        silent          : false,
-        maxConnections  : 100,
-        retry           : 500
-    }
-
-| variable | documentation |
-|----------|---------------|
-| appspace | used for Unix Socket (Unix Domain Socket) namespacing. If not set specifically, the Unix Domain Socket will combine the socketRoot, appspace, and id to form the Unix Socket Path for creation or binding. This is available incase you have many apps running on your system, you may have several sockets with the same id, but if you change the appspace, you will still have app specic unique sockets.|
-| socketRoot| the directory in which to create or bind to a Unix Socket |
-| id       | the id of this socket or service |
-| networkHost| the local or remote host on which TCP, TLS or UDP Sockets should connect |
-| networkPort| the default port on which TCP, TLS, or UDP sockets should connect |
-| encoding | the default encoding for data sent on sockets |
-| silent   | turn on/off logging default is false which means logging is on |
-| maxConnections| this is the max number of connections allowed to a socket. It is currently only being set on Unix Sockets. Other Socket types are using the system defaults. |
-| retry    | this is the time in milliseconds a client will wait before trying to reconnect to a server if the connection is lost. This does not effect UDP sockets since they do not have a client server relationship like Unix Sockets and TCP Sockets. |
 
 ----
 ### Basic Examples  
