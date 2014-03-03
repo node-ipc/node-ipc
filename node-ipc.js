@@ -1,4 +1,5 @@
 var os          = require('os'),
+    util        = require('util'),
     colors      = require('colors'),
     pubsub      = require('event-pubsub'),
     eventParser = require('./lib/eventParser.js'),
@@ -52,7 +53,7 @@ function log(){
         if(typeof args[i] != 'object')
             continue;
             
-        args[i]=JSON.stringify(args[i]);
+        args[i]=util.inspect(args[i],{colors:true});
     }
     
     console.log(
