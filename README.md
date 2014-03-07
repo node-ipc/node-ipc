@@ -10,6 +10,24 @@ Package details websites :
 * [NPM Module](https://www.npmjs.org/package/node-ipc "node-ipc npm module"). The npm page for the node-ipc module.
 
 
+----
+#### Contents
+
+1. [Types of IPC Sockets and Supporting OS](#types-of-ipc-sockets)
+2. [IPC Methods](#ipc-methods)
+    1. [log](#log)
+    2. [connectTo](#connectto)
+    3. [connectToNet](#connecttonet)
+    4. [disconnect](#disconnect)
+    5. [serve](#serve)
+    6. [serveNet](#servenet)
+3. [IPC Stores and Default Variables](#ipc-stores-and-default-variables)
+4. [Basic Examples](#basic-examples)
+    1. [Server for Unix Sockets & TCP Sockets](#server-for-unix-sockets--tcp-sockets)
+    2. [Client for Unix Sockets & TCP Sockets](#client-for-unix-sockets--tcp-sockets)
+    3. [Server & Client for UDP Sockets](#server--client-for-udp-sockets)
+5. [Advanced Examples](https://github.com/RIAEvangelist/node-ipc/tree/master/example)
+
 
 ----
 #### Types of IPC Sockets
@@ -304,26 +322,14 @@ or specifying everything UDP
 ----
 ### IPC Stores and Default Variables  
 
-``ipc.of``
-
-This is where socket connection refrences will be stored when connecting to them as a client via the ``ipc.connectTo`` or ``iupc.connectToNet``.
-
-***example***
-    
-    ipc.connectTo(
-        'world',
-        function(){
-        
-            ipc.of.world.on(
-                'message',
-                function(data){...}
-            );
-            
-        }
-    );
+| variable  | definition |
+|-----------|------------|
+| ipc.of    | This is where socket connection refrences will be stored when connecting to them as a client via the ``ipc.connectTo`` or ``iupc.connectToNet``. They will be stored based on the ID used to create them, eg : ipc.of.mySocket|
+| ipc.server| This is a refrence to the server created by ``ipc.serve`` or ``ipc.serveNet``|
 
 ----
-### Basic Examples  
+### Basic Examples 
+You can find [Advanced Examples](https://github.com/RIAEvangelist/node-ipc/tree/master/example) in the examples folder. In the examples you will find more complex demos including multi client examples.
 
 #### Server for Unix Sockets & TCP Sockets 
 The server is the process keeping a socket for IPC open. Multiple sockets can connect to this server and talk to it. It can also broadcast to all clients or emit to a specific client. This is the most basic example which will work for both local Unix Sockets and local or remote network TCP Sockets.
