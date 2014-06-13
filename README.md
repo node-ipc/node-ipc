@@ -9,7 +9,7 @@ Package details websites :
 * [GitHub.io site](http://riaevangelist.github.io/node-ipc/ "node-ipc documentation"). A prettier version of this site.
 * [NPM Module](https://www.npmjs.org/package/node-ipc "node-ipc npm module"). The npm page for the node-ipc module.
 
-
+This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/). 
 ----
 #### Contents
 
