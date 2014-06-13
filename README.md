@@ -10,6 +10,7 @@ Package details websites :
 * [NPM Module](https://www.npmjs.org/package/node-ipc "node-ipc npm module"). The npm page for the node-ipc module.
 
 This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/). 
+
 ----
 #### Contents
 
