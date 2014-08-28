@@ -64,7 +64,9 @@ function log(){
 function disconnect(id){
     if(!ipc.of[id])
         return;
-        
+    
+    ipc.of[id].stopRetrying=true;
+    
     ipc.of[id].off('*');
     if(ipc.of[id].socket){
         if(ipc.of[id].socket.destroy)

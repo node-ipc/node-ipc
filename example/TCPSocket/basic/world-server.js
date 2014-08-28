@@ -23,6 +23,13 @@ ipc.serveNet(
                 );
             }
         );
+        
+        ipc.server.on(
+            'socket.disconnected',
+            function(data,socket){
+                console.log(arguments)
+            }
+        );
     }
 );
 

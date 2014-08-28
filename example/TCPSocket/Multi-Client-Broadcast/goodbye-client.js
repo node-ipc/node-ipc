@@ -9,6 +9,7 @@ var ipc=require('../../../node-ipc');
 
 ipc.config.id   = 'goodbye';
 ipc.config.retry= 1500;
+ipc.config.maxRetries= 10;
 
 ipc.connectToNet(
     'world',
