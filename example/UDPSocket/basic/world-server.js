@@ -17,7 +17,7 @@ var ipc=require('../../../node-ipc');
  * relationship, you should start world
  * first and then hello.
  * 
- * *************************************//
+ ***************************************/
 
 ipc.config.id   = 'world';
 ipc.config.retry= 1500;

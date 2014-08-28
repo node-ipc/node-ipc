@@ -13,7 +13,7 @@ var ipc=require('../../../node-ipc');
  * hello or goodbye in any order you
  * choose.
  * 
- * *************************************/
+ ***************************************/
 
 ipc.config.id   = 'world';
 ipc.config.retry= 1500;
