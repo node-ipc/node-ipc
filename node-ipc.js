@@ -221,7 +221,7 @@ function connect(id,path,callback){
     
     ipc.of[id].connect();
     
-    callback();
+    callback(ipc);
 }
 
 function connectNet(id,host,port,callback){
@@ -291,7 +291,7 @@ function connectNet(id,host,port,callback){
     
     ipc.of[id].connect();
     
-    callback();
+    callback(ipc);
 }
 
 module.exports=ipc;
