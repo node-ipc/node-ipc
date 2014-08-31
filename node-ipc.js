@@ -28,7 +28,8 @@ var defaults={
     silent          : false,
     maxConnections  : 100,
     retry           : 500,
-    stopRetrying    : false,
+    maxRetries      : false,
+    stopRetrying    : false
 }
 
 var ipc = {

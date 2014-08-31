@@ -64,7 +64,7 @@ Set these variables in the ``ipc.config`` scope to overwrite or set default valu
         silent          : false,
         maxConnections  : 100,
         retry           : 500,
-        maxRetries      : 0,
+        maxRetries      : false,
         stopRetrying    : false
     }
 
@@ -80,7 +80,7 @@ Set these variables in the ``ipc.config`` scope to overwrite or set default valu
 | silent   | turn on/off logging default is false which means logging is on |
 | maxConnections| this is the max number of connections allowed to a socket. It is currently only being set on Unix Sockets. Other Socket types are using the system defaults. |
 | retry    | this is the time in milliseconds a client will wait before trying to reconnect to a server if the connection is lost. This does not effect UDP sockets since they do not have a client server relationship like Unix Sockets and TCP Sockets. |
-| maxRetries    | the maximum number of retries after each disconnect before giving up and completely killing a specific connection |
+| maxRetries    | if set, it represents the maximum number of retries after each disconnect before giving up and completely killing a specific connection |
 | stopRetrying| Defaults to false mwaning clients will continue to retryt to connect to servers indefinately at the retry interval. If set to any number the client will stop retrying when that number is exceeded after each disconnect. If set to 0, the client will ***NOT*** try to reconnect. |
 
 ----
