@@ -7,7 +7,7 @@ var ipc=require('../../../node-ipc');
  * 
  * *************************************/
 
-ipc.config.id   = 'hello';
+ipc.config.id   = false;
 ipc.config.retry = 1000;
 
 ipc.connectTo(
@@ -20,7 +20,7 @@ ipc.connectTo(
                 ipc.of.world.emit(
                     'app.message',
                     {
-                        id      : ipc.config.id,
+                        //id      : ipc.config.id,
                         message : 'hello'
                     }
                 )
