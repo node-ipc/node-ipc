@@ -160,7 +160,7 @@ function checkComplete(){
     ipc.log('####################################\n\n         RESULTS\n\n####################################\n\n'.rainbow,tests,'\n\n');
     ipc.log('####################################\n\n         PASSES\n\n####################################\n\n'.good,passes.join('\n').good,'\n\n');
     ipc.log('####################################\n\n         FAILS\n\n####################################\n\n'.warn,fails.join('\n').warn,'\n\n');
-    ipc.log('####################################\n\n         COUNT\n\n####################################\n\n'.data,(passes.length+' ').good,(fails.length+' ').warn,'\n\n');
+    ipc.log('####################################\n\n         PASS/FAIL COUNT\n\n####################################\n\n'.data,(passes.length+' ').good,(fails.length+' ').warn,'\n\n');
     
     process.exit(0);
 }

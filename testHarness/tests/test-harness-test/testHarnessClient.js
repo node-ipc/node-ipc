@@ -14,7 +14,7 @@ ipc.connectTo(
                     'start.test',
                     {
                         id      : ipc.config.id,
-                        duration: 1000
+                        duration: 1200
                     }
                 );
                 ipc.of.testHarness.emit(
