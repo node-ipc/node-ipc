@@ -1,7 +1,6 @@
 var ipc = require('../node-ipc'),
     cmd = require('node-cmd'),
     fs  = require('fs'),
-    events= require('event-pubsub')(),
     tests = {},
     testCount=0,
     fails=[],
@@ -96,7 +95,7 @@ ipc.log('TestHarness started.'.debug, 'Loading Tests.'.notice);
 
 ipc.server.define.listen['start.test']='This event should be called when a test is starting. It accepts an object with test details including the test id and duration';
 ipc.server.define.listen['end.test']='This event should be called when a test is completed.';
-ipc.server.define.listen['pass']='This event should be called when a test has passed, it accepts the name of the test portion which passed';
+ipc.server.define.listen['pass']='This event should be called when a test has passed, it accepts the name of the test portion which passed';
 ipc.server.define.listen['fail']='This event should be called when a test has failed, it accepts the name of the test portion which failed';
 
 ipc.server.start();
