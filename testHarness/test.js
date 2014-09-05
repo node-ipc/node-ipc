@@ -4,7 +4,8 @@ var ipc = require('../node-ipc'),
     tests = {},
     testCount=0,
     fails=[],
-    passes=[];
+    passes=[],
+    debug=true;
 
 ipc.config.id   = 'testHarness';
 
@@ -161,5 +162,6 @@ function checkComplete(){
     ipc.log('####################################\n\n         FAILS\n\n####################################\n\n'.warn,fails.join('\n').warn,'\n\n');
     ipc.log('####################################\n\n         PASS/FAIL COUNT\n\n####################################\n\n'.data,(passes.length+' ').good,(fails.length+' ').warn,'\n\n');
     
-    process.exit(0);
+    if(!debug)
+        process.exit(0);
 }

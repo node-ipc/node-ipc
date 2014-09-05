@@ -3,7 +3,7 @@ var ipc = require('../../../node-ipc'),
     server=server[server.length-1]
 
 ipc.config.id   = server+'-client';
-ipc.config.maxRetries=1;
+ipc.config.maxRetries=50;
 
 ipc.connectTo(
     server,
@@ -18,7 +18,21 @@ ipc.connectTo(
                     }
                 );
                 
-                process.exit();
+                //wait to ensure above event has opportunity to tranfer and register client properly
+                setTimeout(
+                    function(){
+                        ipc.disconnect(server);
+                    },
+                    100
+                );
+                
+                //wait long enough that the test will fail if disconnect does not happen
+                setTimeout(
+                    function(){
+                        process.exit(0);
+                    },
+                    2000
+                )
             }
         );
     }
