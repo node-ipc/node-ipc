@@ -23,7 +23,7 @@ ipc.connectTo(
                 );
                 ipc.of.testHarness.emit(
                     'fail',
-                    'test-harness-fail-test'
+                    'test-harness-this-test-should-fail'
                 );
                 setTimeout(
                     function(){
