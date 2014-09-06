@@ -66,7 +66,7 @@ function disconnect(id){
     if(!ipc.of[id])
         return;
     
-    ipc.of[id].stopRetrying=true;
+    ipc.of[id].config.stopRetrying=true;
     
     ipc.of[id].off('*');
     if(ipc.of[id].socket){

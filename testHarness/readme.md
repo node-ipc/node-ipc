@@ -1,4 +1,5 @@
 #node-ipc test harness
+***TestHarness was intended to be run on linux.***
 *the test.js file is intended to start and run all of the files in the test folder*
 
 A full regression test should be done before each release to npm to insure that no expected or previously documented bugs pop up again. 
