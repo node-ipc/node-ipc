@@ -1,9 +1,10 @@
-var ipc = require('../../../node-ipc'),
-    expectedClient=ipc.config.id+'-client';
+var ipc = require('../../../node-ipc');
 
 ipc.config.id   = __dirname.split('/');
 ipc.config.id   = ipc.config.id[ipc.config.id.length-1]
 ipc.config.maxRetries=1;
+
+var expectedClient=ipc.config.id+'-client';
 
 ipc.connectTo(
     'testHarness',
@@ -15,7 +16,7 @@ ipc.connectTo(
                     'start.test',
                     {
                         id      : ipc.config.id,
-                        duration: 1200
+                        duration: 1400
                     }
                 );
             }
@@ -43,7 +44,7 @@ ipc.server.on(
     'socket.disconnected',
     function(socket,id){
         var test='unix-server-detected-correct-id-disconnection';
-        if(id==ipc.config.id+'-client'){
+        if(id==expectedClient){
             ipc.of.testHarness.emit(
                 'pass',
                 test
@@ -51,14 +52,19 @@ ipc.server.on(
         }else{
             ipc.of.testHarness.emit(
                 'fail',
-                test+' : detected wrong id of '+id
+                test+' : detected wrong id of '+id+' expecting :: '+expectedClient
             );
         }
         ipc.of.testHarness.emit(
             'end.test'
         );
         
-        process.exit(0);
+        setTimeout(
+            function(){
+                process.exit(0);
+            },
+            400
+        )
     }
 )
 
@@ -70,11 +76,18 @@ ipc.server.on(
             'unix-client-message'
         );
         
+        var test='unix-client-registered with proper id'
+        
         if(socket.id==expectedClient){
             ipc.of.testHarness.emit(
                 'pass',
-                'unix-client-registered with proper id'
+                test
             );  
+        }else{
+            ipc.of.testHarness.emit(
+                'fail',
+                test+' : detected wrong id of '+socket.id+' expecting :: '+expectedClient
+            );
         }
     }
 );

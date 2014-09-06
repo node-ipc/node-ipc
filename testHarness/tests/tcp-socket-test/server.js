@@ -1,9 +1,10 @@
-var ipc=require('../../../node-ipc'),
-    expectedClient=ipc.config.id+'-client';
+var ipc=require('../../../node-ipc');
 
 ipc.config.id   = __dirname.split('/');
 ipc.config.id   = ipc.config.id[ipc.config.id.length-1]
 ipc.config.maxRetries=1;
+
+expectedClient=ipc.config.id+'-client';
 
 ipc.connectTo(
     'testHarness',
@@ -51,7 +52,7 @@ ipc.server.on(
         }else{
             ipc.of.testHarness.emit(
                 'fail',
-                test+' : detected wrong id of '+id
+                test+' : detected wrong id of '+socket.id+' expecting :: '+expectedClient
             );
         }
         ipc.of.testHarness.emit(
@@ -70,11 +71,18 @@ ipc.server.on(
             'tcp-client-message'
         );
         
+        var test='tcp-client-registered with proper id'
+        
         if(socket.id==expectedClient){
             ipc.of.testHarness.emit(
                 'pass',
-                'tcp-client-registered with proper id'
+                test
             );  
+        }else{
+            ipc.of.testHarness.emit(
+                'fail',
+                test+' : detected wrong id of '+id+' expecting :: '+expectedClient
+            );
         }
     }
 );
