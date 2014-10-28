@@ -1,9 +1,11 @@
-#node-ipc
+node-ipc
+================
 *a nodejs module for local and remote Inter Process Communication* for Linux, Mac and Windows.  
 A great solution for **Neural Networking** in Node.JS
 
 **npm install node-ipc**  
-[![alt node-ipc npm details](https://nodei.co/npm/node-ipc.png?stars=true "node-ipc npm module details ")](https://npmjs.org/package/node-ipc "node-ipc details from npm")
+![NPM Stats for node-ipc](https://nodei.co/npm/node-ipc.png?downloads=true&downloadRank=true&stars=true)
+![NPM Download Graph for node-ipc](https://nodei.co/npm-dl/node-ipc.png?months=6&height=3)
 
 Package details websites :
 * [GitHub.io site](http://riaevangelist.github.io/node-ipc/ "node-ipc documentation"). A prettier version of this site.
