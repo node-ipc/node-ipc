@@ -4,6 +4,7 @@ node-ipc
 A great solution for **Neural Networking** in Node.JS
 
 **npm install node-ipc**
+
 [![NPM Stats for node-ipc](https://nodei.co/npm/node-ipc.png?downloads=true&downloadRank=true&stars=true)](https://npmjs.org/package/node-ipc)
 [![NPM Download Graph for node-ipc](https://nodei.co/npm-dl/node-ipc.png?months=6&height=3)](https://npmjs.org/package/node-ipc)
 
