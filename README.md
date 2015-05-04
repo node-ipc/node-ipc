@@ -353,6 +353,7 @@ The server is the process keeping a socket for IPC open. Multiple sockets can co
                 function(data,socket){
                     ipc.log('got a message : '.debug, data);
                     ipc.server.emit(
+                        socket,
                         'message',
                         data+' world!'
                     );
@@ -366,7 +367,7 @@ The server is the process keeping a socket for IPC open. Multiple sockets can co
 #### Client for Unix Sockets & TCP Sockets 
 The client connects to the servers socket for Inter Process Communication. The socket will recieve events emitted to it specifically as well as events which are broadcast out on the socket by the server. This is the most basic example which will work for both local Unix Sockets and local or remote network TCP Sockets.
 
-    var ipc=require('../../../node-ipc');
+    var ipc=require('node-ipc');
 
     ipc.config.id   = 'hello';
     ipc.config.retry= 1500;
