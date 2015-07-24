@@ -7,6 +7,7 @@ A great solution for **Neural Networking** in Node.JS
 
 [![NPM Stats for node-ipc](https://nodei.co/npm/node-ipc.png?downloads=true&downloadRank=true&stars=true)](https://npmjs.org/package/node-ipc)
 [![NPM Download Graph for node-ipc](https://nodei.co/npm-dl/node-ipc.png?months=6&height=3)](https://npmjs.org/package/node-ipc)
+[![node-ipc package quality](http://npm.packagequality.com/badge/node-ipc.png)](http://packagequality.com/#?package=node-ipc)
 
 Package details websites :
 * [GitHub.io site](http://riaevangelist.github.io/node-ipc/ "node-ipc documentation"). A prettier version of this site.
@@ -49,7 +50,7 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
 |Mac  | Unix, TCP, TLS, UDP|
 |Win  | TCP, TLS, UDP      |  
 
-**Windows** users may want to use UDP servers for the fastest local IPC. Unix Servers are the fastest oprion on Linux and Mac, but not available for windows.  
+**Windows** users may want to use UDP servers for the fastest local IPC. Unix Servers are the fastest option on Linux and Mac, but not available for Windows.  
 
 ----
 
@@ -84,7 +85,7 @@ Set these variables in the ``ipc.config`` scope to overwrite or set default valu
 | maxConnections| this is the max number of connections allowed to a socket. It is currently only being set on Unix Sockets. Other Socket types are using the system defaults. |
 | retry    | this is the time in milliseconds a client will wait before trying to reconnect to a server if the connection is lost. This does not effect UDP sockets since they do not have a client server relationship like Unix Sockets and TCP Sockets. |
 | maxRetries    | if set, it represents the maximum number of retries after each disconnect before giving up and completely killing a specific connection |
-| stopRetrying| Defaults to false mwaning clients will continue to retryt to connect to servers indefinately at the retry interval. If set to any number the client will stop retrying when that number is exceeded after each disconnect. If set to 0, the client will ***NOT*** try to reconnect. |
+| stopRetrying| Defaults to false meaning clients will continue to retry to connect to servers indefinitely at the retry interval. If set to any number the client will stop retrying when that number is exceeded after each disconnect. If set to 0, the client will ***NOT*** try to reconnect. |
 
 ----
 
@@ -96,9 +97,9 @@ These methods are available in the IPC Scope.
 
 ``ipc.log(a,b,c,d,e...);``  
 
-ipc.log will accept any number of arguments and if ``ipc.config.silent`` is not set, it will concat them all with a sincle space ' ' between them and then log them to the console. This is fast because it prevents any concation from happening if the ipc is set to silent. That way if you leave your logging in place it should not effect performance.
+ipc.log will accept any number of arguments and if ``ipc.config.silent`` is not set, it will concat them all with a sincle space ' ' between them and then log them to the console. This is fast because it prevents any concatenation from happening if the ipc is set to silent. That way if you leave your logging in place it should not effect performance.
 
-the log also supports [colors](https://github.com/Marak/colors.js) implementation. All of the available styles are supported and the theme styles are as follows :
+The log also supports [colors](https://github.com/Marak/colors.js) implementation. All of the available styles are supported and the theme styles are as follows :
 
     {
         good    : 'green',
@@ -131,10 +132,10 @@ Used for connecting as a client to local Unix Sockets. ***This is the fastst way
 | variable | required | definition |
 |----------|----------|------------|
 | id       | required |  is the string id of the socket being connected to. The socket with this id is added to the ipc.of object when created. |
-| path     | optional | is the path of the Unix Domain Socket File, if not set this will be defaylted to ``ipc.config.socketRoot``+``ipc.config.appspace``+``id`` |
+| path     | optional | is the path of the Unix Domain Socket File, if not set this will default to ``ipc.config.socketRoot``+``ipc.config.appspace``+``id`` |
 | callback | optional | this is the function to execute when the socket has been created. |
 
-**examples** arguments can be ommitted solong as they are still in order.
+**examples** arguments can be ommitted so long as they are still in order.
 
     ipc.connectTo('world');
     
@@ -174,16 +175,16 @@ or explicitly setting the path with callback
 
 ``ipc.connectToNet(id,host,port,callback)``  
 
-Used to connect as a client to a TCP or TLS socket via the network card. This can be local or remote, if local, it is recommended that you use the Unix Socket Implementaion of ``connectTo`` instead as it is much faster since it avoids the network card alltogether.
+Used to connect as a client to a TCP or TLS socket via the network card. This can be local or remote, if local, it is recommended that you use the Unix Socket Implementaion of ``connectTo`` instead as it is much faster since it avoids the network card altogether.
 
 | variable | required | definition |
 |----------|----------|------------|
-| id       | required | is the string id of the socket being connected to. For TCP & TLS sockets, this id is added to the ``ipc.of`` object when the socket is created with a refrence to the socket. |
+| id       | required | is the string id of the socket being connected to. For TCP & TLS sockets, this id is added to the ``ipc.of`` object when the socket is created with a reference to the socket. |
 | host     | optional | is the host on which the TCP or TLS socket resides.  This will default to  ``ipc.config.networkHost`` if not specified. |
 | port     | optional | the port on which the TCP or TLS socket resides. |
 | callback | optional | this is the function to execute when the socket has been created. |
 
-**examples** arguments can be ommitted solong as they are still in order.  
+**examples** arguments can be ommitted so long as they are still in order.  
 So while the default is : (id,host,port,callback), the following examples will still work because they are still in order (id,port,callback) or (id,host,callback) or (id,port) etc.
 
     ipc.connectToNet('world');
@@ -241,7 +242,7 @@ Used to create local Unix Socket Server to which Clients can bind. The server ca
 | path     | optional | This is the Unix Domain Socket path to bind to. If not supplied, it will default to : ipc.config.socketRoot + ipc.config.appspace + ipc.config.id; |
 | callback | optional | This is a function to be called after the Server has started. This can also be done by binding an event to the start event like ``ipc.server.on('start',function(){});`` |
 
-***examples*** arguments can be ommitted solong as they are still in order.
+***examples*** arguments can be ommitted so long as they are still in order.
 
     ipc.serve();
 
@@ -352,6 +353,7 @@ The server is the process keeping a socket for IPC open. Multiple sockets can co
                 function(data,socket){
                     ipc.log('got a message : '.debug, data);
                     ipc.server.emit(
+                        socket,
                         'message',
                         data+' world!'
                     );
@@ -365,7 +367,7 @@ The server is the process keeping a socket for IPC open. Multiple sockets can co
 #### Client for Unix Sockets & TCP Sockets 
 The client connects to the servers socket for Inter Process Communication. The socket will recieve events emitted to it specifically as well as events which are broadcast out on the socket by the server. This is the most basic example which will work for both local Unix Sockets and local or remote network TCP Sockets.
 
-    var ipc=require('../../../node-ipc');
+    var ipc=require('node-ipc');
 
     ipc.config.id   = 'hello';
     ipc.config.retry= 1500;
@@ -401,7 +403,7 @@ The client connects to the servers socket for Inter Process Communication. The s
 #### Server & Client for UDP Sockets 
 UDP Sockets are different than Unix & TCP Sockets because they must be bound to a unique port on their machine to recieve messages. For example, A TCP or Unix Socket client could just connect to a seperate TCP or Unix Socket sever. That client could then exchange, both send and recive, data on the servers port or location. UDP Sockets can not do this. They must bind to a port to recieve or send data.  
 
-This means a UDP Client and Server are the same thing because inorder to recieve data, a UDP Socket must have its own port to recieve data on, and only one process can use this port at a time. It also means that inorder to ``emit`` or ``broadcast`` data the UDP server will need to know the host and port of the Socket it intends to broadcast the data to.
+This means a UDP Client and Server are the same thing because in order to recieve data, a UDP Socket must have its own port to recieve data on, and only one process can use this port at a time. It also means that inorder to ``emit`` or ``broadcast`` data the UDP server will need to know the host and port of the Socket it intends to broadcast the data to.
 
 This is the most basic example which will work for both local Unix Sockets and local or remote network TCP Sockets.
 
