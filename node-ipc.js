@@ -21,7 +21,7 @@ colors.setTheme(
 var defaults={
     appspace        : 'app.',
     socketRoot      : '/tmp/',
-    networkHost     : 'localhost',
+    networkHost     : '127.0.0.1',
     networkPort     : 8000,
     id              : os.hostname(),
     encoding        : 'utf8',
