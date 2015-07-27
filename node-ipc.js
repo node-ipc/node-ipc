@@ -1,4 +1,5 @@
 var os          = require('os'),
+    dns         = require('dns'),
     util        = require('util'),
     colors      = require('colors'),
     pubsub      = require('event-pubsub'),
@@ -21,7 +22,9 @@ colors.setTheme(
 var defaults={
     appspace        : 'app.',
     socketRoot      : '/tmp/',
-    networkHost     : '127.0.0.1',
+    networkHost     : os.networkInterfaces()[
+        Object.keys(os.networkInterfaces())[0]
+    ][0].address,
     networkPort     : 8000,
     id              : os.hostname(),
     encoding        : 'utf8',
@@ -160,17 +163,18 @@ function serveNet(host,port,UDPType,callback){
     
     if(!callback)
         callback=function(){};
-        
+
+
     ipc.server=new Server(
         host,
         ipc.config,
         log,
         port
     );
-    
+
     if(UDPType)
         ipc.server[UDPType]=true;
-    
+
     ipc.server.on(
         'start',
         callback

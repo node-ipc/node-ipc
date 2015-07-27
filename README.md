@@ -62,7 +62,7 @@ Set these variables in the ``ipc.config`` scope to overwrite or set default valu
         appspace        : 'app.',
         socketRoot      : '/tmp/',
         id              : os.hostname(),
-        networkHost     : '127.0.0.1', //we use this instead of localhost as default because windows without network connection turns dns off and is unable to find localhost like other... smarter... OSes
+        networkHost     : 'localhost', //should resolve to 127.0.0.1 or ::1 see the table below related to this
         networkPort     : 8000,
         encoding        : 'utf8',
         silent          : false,
@@ -275,7 +275,7 @@ Used to create TCP, TLS or UDP Socket Server to which Clients can bind or other 
 
 | variable | required | definition |
 |----------|----------|------------|
-| host     | optional | If not specified this defaults to 127.0.0.1. For TCP, TLS & UDP servers this is most likely going to be 127.0.0.1 or 0.0.0.0 unless you have something like [node-http-server](https://github.com/RIAEvangelist/node-http-server) installed to run subdomains for you. |
+| host     | optional | If not specified this defaults to the first address in os.networkInterfaces(). For TCP, TLS & UDP servers this is most likely going to be 127.0.0.1 or ::1 |
 | port     | optional | The port on which the TCP, UDP, or TLS Socket server will be bound, this defaults to 8000 if not specified |
 | UDPType  | optional | If set this will create the server as a UDP socket. 'udp4' or 'udp6' are valid values. This defaults to not being set.
 | callback | optional | Function to be called when the server is created |
