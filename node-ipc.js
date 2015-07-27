@@ -19,12 +19,14 @@ colors.setTheme(
     }    
 );
 
+var IPType=os.networkInterfaces()[
+    Object.keys(os.networkInterfaces())[0]
+][0].family
+
 var defaults={
     appspace        : 'app.',
     socketRoot      : '/tmp/',
-    networkHost     : os.networkInterfaces()[
-        Object.keys(os.networkInterfaces())[0]
-    ][0].address,
+    networkHost     : (IPType=='IPv6')? '::1' : '127.0.0.1',
     networkPort     : 8000,
     id              : os.hostname(),
     encoding        : 'utf8',
@@ -32,7 +34,8 @@ var defaults={
     maxConnections  : 100,
     retry           : 500,
     maxRetries      : false,
-    stopRetrying    : false
+    stopRetrying    : false,
+    IPType          : IPType
 }
 
 var ipc = {
