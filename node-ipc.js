@@ -34,7 +34,7 @@ var defaults={
     silent          : false,
     maxConnections  : 100,
     retry           : 500,
-    maxRetries      : false,
+    maxRetries      : Infinity,
     stopRetrying    : false,
     IPType          : IPType
 }

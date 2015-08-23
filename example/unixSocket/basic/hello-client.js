@@ -36,8 +36,9 @@ ipc.connectTo(
             'app.message',
             function(data){
                 ipc.log('got a message from world : '.debug, data);
-                ipc.disconnect('world');
             }
         );
+
+        console.log(ipc.of.world.destroy);
     }
 );
