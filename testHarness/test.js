@@ -80,7 +80,6 @@ ipc.server.on(
     'end.test',
     function(data,socket){
         ipc.log(socket.id.notice, 'completed'.debug);
-        
         clearTimeout(
             tests[socket.id].delay
         );
@@ -162,6 +161,10 @@ function checkComplete(){
     ipc.log('####################################\n\n         FAILS\n\n####################################\n\n'.warn,fails.join('\n').warn,'\n\n');
     ipc.log('####################################\n\n         PASS/FAIL COUNT\n\n####################################\n\n'.data,(passes.length+' ').good,(fails.length+' ').warn,'\n\n');
     
+    fs.unlink('/tmp/app.testHarness');
+    fs.unlink('/tmp/app.stopRetrieing-unix-socket-test');
+    fs.unlink('/tmp/app.unix-socket-test');
+
     if(!debug)
         process.exit(0);
 }
