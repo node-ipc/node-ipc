@@ -65,6 +65,7 @@ Set these variables in the ``ipc.config`` scope to overwrite or set default valu
         networkHost     : 'localhost', //should resolve to 127.0.0.1 or ::1 see the table below related to this
         networkPort     : 8000,
         encoding        : 'utf8',
+        rawBuffer       : false,
         silent          : false,
         maxConnections  : 100,
         retry           : 500,
@@ -81,6 +82,7 @@ Set these variables in the ``ipc.config`` scope to overwrite or set default valu
 | networkHost| the local or remote host on which TCP, TLS or UDP Sockets should connect |
 | networkPort| the default port on which TCP, TLS, or UDP sockets should connect |
 | encoding | the default encoding for data sent on sockets |
+| rawBuffer| if true, data will be sent and recieved as a raw node ` Buffer ` __NOT__ an ` Object ` as JSON. |
 | silent   | turn on/off logging default is false which means logging is on |
 | maxConnections| this is the max number of connections allowed to a socket. It is currently only being set on Unix Sockets. Other Socket types are using the system defaults. |
 | retry    | this is the time in milliseconds a client will wait before trying to reconnect to a server if the connection is lost. This does not effect UDP sockets since they do not have a client server relationship like Unix Sockets and TCP Sockets. |

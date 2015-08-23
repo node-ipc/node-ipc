@@ -1,14 +1,16 @@
 var ipc=require('../../../node-ipc');
 
 /***************************************\
- * 
+ *
  * You should start both hello and world
  * then you will see them communicating.
- * 
+ *
  * *************************************/
 
 ipc.config.id   = 'hello';
-ipc.config.retry = 1000;
+ipc.config.retry= 1500;
+ipc.config.rawBuffer=true;
+ipc.config.encoding='ascii';
 
 ipc.connectTo(
     'world',
@@ -18,25 +20,15 @@ ipc.connectTo(
             function(){
                 ipc.log('## connected to world ##'.rainbow, ipc.config.delay);
                 ipc.of.world.emit(
-                    'app.message',
-                    {
-                        id      : ipc.config.id,
-                        message : 'hello'
-                    }
+                    'hello'
                 )
             }
         );
+
         ipc.of.world.on(
-            'disconnect',
-            function(){
-                ipc.log('disconnected from world'.notice);
-            }
-        );
-        ipc.of.world.on(
-            'app.message',
+            'data',
             function(data){
-                ipc.log('got a message from world : '.debug, data);
-                ipc.disconnect('world');
+                ipc.log('got a message from world : '.debug, data,data.toString());
             }
         );
     }

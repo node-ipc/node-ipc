@@ -30,6 +30,7 @@ var defaults={
     networkPort     : 8000,
     id              : os.hostname(),
     encoding        : 'utf8',
+    rawBuffer       : false,
     silent          : false,
     maxConnections  : 100,
     retry           : 500,
