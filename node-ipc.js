@@ -221,7 +221,7 @@ function connect(id,path,callback){
             callback();
             return;
         }
-        ipc.of[id].destroy();
+        ipc.of[id].socket.destroy();
     }
     
     ipc.of[id]       = new Client(ipc.config,ipc.log);
@@ -290,7 +290,7 @@ function connectNet(id,host,port,callback){
             callback();
             return;
         }
-        ipc.of[id].destroy();
+        ipc.of[id].socket.destroy();
     }
     
     ipc.of[id]       = new Client(ipc.config,ipc.log);
