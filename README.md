@@ -81,7 +81,7 @@ Set these variables in the ``ipc.config`` scope to overwrite or set default valu
 | id       | the id of this socket or service |
 | networkHost| the local or remote host on which TCP, TLS or UDP Sockets should connect |
 | networkPort| the default port on which TCP, TLS, or UDP sockets should connect |
-| encoding | the default encoding for data sent on sockets |
+| encoding | the default encoding for data sent on sockets. Mostly used if rawBuffer is set to true. Valid values are : ` ascii` ` utf8 ` ` utf16le` ` ucs2` ` base64` ` hex ` .
 | rawBuffer| if true, data will be sent and recieved as a raw node ` Buffer ` __NOT__ an ` Object ` as JSON. |
 | silent   | turn on/off logging default is false which means logging is on |
 | maxConnections| this is the max number of connections allowed to a socket. It is currently only being set on Unix Sockets. Other Socket types are using the system defaults. |
@@ -477,3 +477,54 @@ This is the most basic example which will work for both local Unix Sockets and l
     ipc.server.define.listen.message='This event type listens for message strings as value of data key.';
     
     ipc.server.start();
+
+#### Binary or Buffer Sockets
+Binary or Buffer sockets can be used with any of the above socket types, however the way data events are emit is ***slightly*** different.
+
+When setting up a rawBuffer socket you must specify it as such :
+
+    ipc.config.rawBuffer=true;
+
+You can also specify its encoding type. The default is ` utf8 `
+
+    ipc.config.encoding='utf8';
+
+
+emit string buffer :
+
+    //server
+    ipc.server.emit(
+        socket,
+        'hello'
+    );
+    
+    //client
+    ipc.of.world.emit(
+        'hello'
+    )
+    
+emit byte array buffer :
+
+    //server
+    ipc.server.emit(
+        socket,
+        [10,20,30]
+    );
+    
+    //client
+    ipc.server.emit(
+        [10,20,30]
+    );
+    
+emit hex array buffer :
+    
+    //server
+    ipc.server.emit(
+        socket,
+        [0x05,0x6d,0x5c]
+    );
+    
+    //client
+    ipc.server.emit(
+        [0x05,0x6d,0x5c]
+    );
