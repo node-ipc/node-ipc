@@ -7,9 +7,9 @@ A great solution for **Neural Networking** in Node.JS
 
 [![Package Quality](http://npm.packagequality.com/shield/node-ipc.svg)](http://packagequality.com/#?package=node-ipc)
 
-[![NPM Stats for node-ipc](https://nodei.co/npm/node-ipc.png?downloads=true&downloadRank=true&stars=true)](https://npmjs.org/package/node-ipc)
-
 [![node-ipc package quality](http://npm.packagequality.com/badge/node-ipc.png)](http://packagequality.com/#?package=node-ipc)
+
+[See NPM stats for node-ipc](http://npm-stat.com/charts.html?package=node-ipc&author=&from=&to=)
 
 Package details websites :
 * [GitHub.io site](http://riaevangelist.github.io/node-ipc/ "node-ipc documentation"). A prettier version of this site.
