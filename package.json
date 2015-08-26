@@ -12,9 +12,9 @@
     "node-cmd": "~1.0.1"
   },
   "devDependencies": {
-    "colors": "^0.6.2",
-    "event-pubsub": "^1.0.3",
-    "node-cmd": "^1.0.2"
+    "colors": "*",
+    "event-pubsub": "*",
+    "node-cmd": "*"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
