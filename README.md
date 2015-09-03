@@ -42,17 +42,18 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
 | Type      | Stability |Definition |
 |-----------|-----------|-----------|
 |Unix Socket| Stable    | Gives Linux and Mac lightning fast communication and avoids the network card to reduce overhead and latency. [Local Unix Socket examples ](https://github.com/RIAEvangelist/node-ipc/tree/master/example/unixSocket/ "Unix Socket Node IPC examples")  |
+|Posix Socket| to do    | Will function just like the Unix Socket above but work on all platforms including windows  |
 |TCP Socket | Stable    | Gives the most reliable communication across the network. Can be used for local IPC as well, but is slower than #1's Unix Socket Implementation because TCP sockets go through the network card while Unix Sockets do not. [Local or remote network TCP Socket examples ](https://github.com/RIAEvangelist/node-ipc/tree/master/example/TCPSocket/ "TCP Socket Node IPC examples") |
 |TLS Socket | Alpha     | ***coming soon...*** |
 |UDP Sockets| Stable    | Gives the **fastest network communication**. UDP is less reliable but much faster than TCP. It is best used for streaming non critical data like sound, video, or multiplayer game data as it can drop packets depending on network connectivity and other factors. UDP can be used for local IPC as well, but is slower than #1's Unix Socket Implementation because UDP sockets go through the network card while Unix Sockets do not. [Local or remote network UDP Socket examples ](https://github.com/RIAEvangelist/node-ipc/tree/master/example/UDPSocket/ "UDP Socket Node IPC examples") |  
 
 | OS  | Supported Sockets  |
 |-----|--------------------|
-|Linux| Unix, TCP, TLS, UDP|
-|Mac  | Unix, TCP, TLS, UDP|
-|Win  | TCP, TLS, UDP      |  
+|Linux| Unix, Posix, TCP, TLS, UDP|
+|Mac  | Unix, Posix, TCP, TLS, UDP|
+|Win  | Posix, TCP, TLS, UDP      |  
 
-**Windows** users may want to use UDP servers for the fastest local IPC. Unix Servers are the fastest option on Linux and Mac, but not available for Windows.  
+**Windows** users may want to use UDP servers for the fastest local IPC. Unix Servers are the fastest option on Linux and Mac, but not available for Windows. __Posix Socket support will be coming soon and normalize the ` Unix ` functionality__  Posix sockets will become the fastest way to communicate on windows as well as other platforms. Switching from a UDP socket on windows to a Posix Socket on windows will not require more than 5 lines of code change in your app.
 
 ----
 
@@ -84,7 +85,7 @@ Set these variables in the ``ipc.config`` scope to overwrite or set default valu
 | networkHost| the local or remote host on which TCP, TLS or UDP Sockets should connect |
 | networkPort| the default port on which TCP, TLS, or UDP sockets should connect |
 | encoding | the default encoding for data sent on sockets. Mostly used if rawBuffer is set to true. Valid values are : ` ascii` ` utf8 ` ` utf16le` ` ucs2` ` base64` ` hex ` .
-| rawBuffer| if true, data will be sent and recieved as a raw node ` Buffer ` __NOT__ an ` Object ` as JSON. |
+| rawBuffer| if true, data will be sent and recieved as a raw node ` Buffer ` __NOT__ an ` Object ` as JSON. This is great for Binary or hex IPC, and communicating with other processes in languages like C and C++  |
 | silent   | turn on/off logging default is false which means logging is on |
 | maxConnections| this is the max number of connections allowed to a socket. It is currently only being set on Unix Sockets. Other Socket types are using the system defaults. |
 | retry    | this is the time in milliseconds a client will wait before trying to reconnect to a server if the connection is lost. This does not effect UDP sockets since they do not have a client server relationship like Unix Sockets and TCP Sockets. |
