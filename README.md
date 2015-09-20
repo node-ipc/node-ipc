@@ -5,17 +5,18 @@ A great solution for **Neural Networking** in Node.JS
 
 **npm install node-ipc**
 
-[![Package Quality](http://npm.packagequality.com/shield/node-ipc.svg)](http://packagequality.com/#?package=node-ipc)
 
-[![node-ipc package quality](http://npm.packagequality.com/badge/node-ipc.png)](http://packagequality.com/#?package=node-ipc)
+npm info :  [See npm trends and stats for node-ipc](http://npm-stat.com/charts.html?package=node-ipc&author=&from=&to=)  
+![node-ipc npm version](https://img.shields.io/npm/v/node-ipc.svg) ![supported node version for node-ipc](https://img.shields.io/node/v/node-ipc.svg) ![total npm downloads for node-ipc](https://img.shields.io/npm/dt/node-ipc.svg) ![monthly npm downloads for node-ipc](https://img.shields.io/npm/dm/node-ipc.svg) ![npm licence for node-ipc](https://img.shields.io/npm/l/node-ipc.svg)
 
-[See NPM stats for node-ipc](http://npm-stat.com/charts.html?package=node-ipc&author=&from=&to=)
+GitHub info :  
+![node-ipc GitHub Release](https://img.shields.io/github/release/RIAEvangelist/node-ipc.svg) ![GitHub license node-ipc license](https://img.shields.io/github/license/RIAEvangelist/node-ipc.svg) ![open issues for node-ipc on GitHub](https://img.shields.io/github/issues/RIAEvangelist/node-ipc.svg)
 
 Package details websites :
 * [GitHub.io site](http://riaevangelist.github.io/node-ipc/ "node-ipc documentation"). A prettier version of this site.
 * [NPM Module](https://www.npmjs.org/package/node-ipc "node-ipc npm module"). The npm page for the node-ipc module.
 
-This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/). 
+This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/).
 
 ----
 #### Contents
@@ -119,7 +120,7 @@ The log also supports [colors](https://github.com/Marak/colors.js) implementatio
 You can override any of these settings by requireing colors and setting the theme as follows :
 
     var colors=require('colors');
-    
+
     colors.setTheme(
         {
             good    : 'zebra',
@@ -143,16 +144,16 @@ Used for connecting as a client to local Unix Sockets. ***This is the fastst way
 **examples** arguments can be ommitted so long as they are still in order.
 
     ipc.connectTo('world');
-    
+
 or using just an id and a callback
-    
+
     ipc.connectTo(
         'world',
         function(){
             ipc.of.world.on(
                 'hello',
                 function(data){
-                    ipc.log(data.debug); 
+                    ipc.log(data.debug);
                     //if data was a string, it would have the color set to the debug style applied to it
                 }
             )
@@ -165,7 +166,7 @@ or explicitly setting the path
         'world',
         'myapp.world'
     );
-    
+
 or explicitly setting the path with callback
 
     ipc.connectTo(
@@ -193,9 +194,9 @@ Used to connect as a client to a TCP or TLS socket via the network card. This ca
 So while the default is : (id,host,port,callback), the following examples will still work because they are still in order (id,port,callback) or (id,host,callback) or (id,port) etc.
 
     ipc.connectToNet('world');
-    
+
 or using just an id and a callback
-    
+
     ipc.connectToNet(
         'world',
         function(){
@@ -210,7 +211,7 @@ or explicitly setting the host and path
         'myapp.com',serve(path,callback)
         3435
     );
-    
+
 or only explicitly setting port and callback
 
     ipc.connectToNet(
@@ -256,13 +257,13 @@ or specifying callback
     ipc.serve(
         function(){...}
     );
-    
+
 or specify path
 
     ipc.serve(
         '/tmp/myapp.myservice'
     );
-    
+
 or specifying everything
 
     ipc.serve(
@@ -275,7 +276,7 @@ or specifying everything
 
 ``serveNet(host,port,UDPType,callback)``
 
-Used to create TCP, TLS or UDP Socket Server to which Clients can bind or other servers can send data to. The server can ``emit`` events to specific Client Sockets, or ``broadcast`` events to all known Client Sockets. 
+Used to create TCP, TLS or UDP Socket Server to which Clients can bind or other servers can send data to. The server can ``emit`` events to specific Client Sockets, or ``broadcast`` events to all known Client Sockets.
 
 
 | variable | required | definition |
@@ -290,7 +291,7 @@ Used to create TCP, TLS or UDP Socket Server to which Clients can bind or other 
 default tcp server
 
     ipc.serveNet();
-    
+
 default udp server
 
     ipc.serveNet('udp4');
@@ -300,20 +301,20 @@ or specifying TCP server with callback
     ipc.serveNet(
         function(){...}
     );
-    
+
 or specifying UDP server with callback
 
     ipc.serveNet(
         'udp4',
         function(){...}
     );
-    
+
 or specify port
 
     ipc.serveNet(
         3435
     );
-    
+
 or specifying everything TCP
 
     ipc.serveNet(
@@ -340,17 +341,17 @@ or specifying everything UDP
 | ipc.server| This is a refrence to the server created by ``ipc.serve`` or ``ipc.serveNet``|
 
 ----
-### Basic Examples 
+### Basic Examples
 You can find [Advanced Examples](https://github.com/RIAEvangelist/node-ipc/tree/master/example) in the examples folder. In the examples you will find more complex demos including multi client examples.
 
-#### Server for Unix Sockets & TCP Sockets 
+#### Server for Unix Sockets & TCP Sockets
 The server is the process keeping a socket for IPC open. Multiple sockets can connect to this server and talk to it. It can also broadcast to all clients or emit to a specific client. This is the most basic example which will work for both local Unix Sockets and local or remote network TCP Sockets.
 
     var ipc=require('node-ipc');
 
     ipc.config.id   = 'world';
     ipc.config.retry= 1500;
-    
+
     ipc.serve(
         function(){
             ipc.server.on(
@@ -366,17 +367,17 @@ The server is the process keeping a socket for IPC open. Multiple sockets can co
             );
         }
     );
-    
+
     ipc.server.start();
 
-#### Client for Unix Sockets & TCP Sockets 
+#### Client for Unix Sockets & TCP Sockets
 The client connects to the servers socket for Inter Process Communication. The socket will recieve events emitted to it specifically as well as events which are broadcast out on the socket by the server. This is the most basic example which will work for both local Unix Sockets and local or remote network TCP Sockets.
 
     var ipc=require('node-ipc');
 
     ipc.config.id   = 'hello';
     ipc.config.retry= 1500;
-    
+
     ipc.connectTo(
         'world',
         function(){
@@ -404,21 +405,21 @@ The client connects to the servers socket for Inter Process Communication. The s
             );
         }
     );
-    
-#### Server & Client for UDP Sockets 
+
+#### Server & Client for UDP Sockets
 UDP Sockets are different than Unix & TCP Sockets because they must be bound to a unique port on their machine to recieve messages. For example, A TCP or Unix Socket client could just connect to a seperate TCP or Unix Socket sever. That client could then exchange, both send and recive, data on the servers port or location. UDP Sockets can not do this. They must bind to a port to recieve or send data.  
 
 This means a UDP Client and Server are the same thing because in order to recieve data, a UDP Socket must have its own port to recieve data on, and only one process can use this port at a time. It also means that inorder to ``emit`` or ``broadcast`` data the UDP server will need to know the host and port of the Socket it intends to broadcast the data to.
 
 This is the most basic example which will work for both local Unix Sockets and local or remote network TCP Sockets.
 
-##### UDP Server 1 - "World" 
+##### UDP Server 1 - "World"
 
     var ipc=require('../../../node-ipc');
 
     ipc.config.id   = 'world';
     ipc.config.retry= 1500;
-    
+
     ipc.serveNet(
         'udp4',
         function(){
@@ -437,21 +438,21 @@ This is the most basic example which will work for both local Unix Sockets and l
                     );
                 }
             );
-            
+
             console.log(ipc.server);
         }
     );
-    
+
     ipc.server.define.listen.message='This event type listens for message strings as value of data key.';
-    
+
     ipc.server.start();
-    
+
 ##### UDP Server 2 - "Hello"
 *note* we set the port here to 8001 because the world server is already using the default ipc.config.networkPort of 8000. So we can not bind to 8000 while world is using it.
 
     ipc.config.id   = 'hello';
     ipc.config.retry= 1500;
-    
+
     ipc.serveNet(
         8001,
         'udp4',
@@ -476,9 +477,9 @@ This is the most basic example which will work for both local Unix Sockets and l
             );
         }
     );
-    
+
     ipc.server.define.listen.message='This event type listens for message strings as value of data key.';
-    
+
     ipc.server.start();
 
 #### Binary or Buffer Sockets
@@ -500,12 +501,12 @@ emit string buffer :
         socket,
         'hello'
     );
-    
+
     //client
     ipc.of.world.emit(
         'hello'
     )
-    
+
 emit byte array buffer :
 
     //server
@@ -513,20 +514,20 @@ emit byte array buffer :
         socket,
         [10,20,30]
     );
-    
+
     //client
     ipc.server.emit(
         [10,20,30]
     );
-    
+
 emit hex array buffer :
-    
+
     //server
     ipc.server.emit(
         socket,
         [0x05,0x6d,0x5c]
     );
-    
+
     //client
     ipc.server.emit(
         [0x05,0x6d,0x5c]
