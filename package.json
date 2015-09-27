@@ -7,15 +7,12 @@
     "example": "example"
   },
   "dependencies": {
-    "event-pubsub": "~1.0.3",
     "colors": "~0.6.2",
+    "event-pubsub": "~1.0.3",
+    "js-message": "*",
     "node-cmd": "~1.0.1"
   },
-  "devDependencies": {
-    "colors": "*",
-    "event-pubsub": "*",
-    "node-cmd": "*"
-  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

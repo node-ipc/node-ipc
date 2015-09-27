@@ -1,10 +1,10 @@
 var ipc=require('../../../node-ipc');
 
 /***************************************\
- * 
+ *
  * You should start both hello and world
  * then you will see them communicating.
- * 
+ *
  * *************************************/
 
 ipc.config.id   = 'goodbye';

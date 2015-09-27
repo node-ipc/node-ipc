@@ -8,9 +8,11 @@ var ipc=require('../../../node-ipc');
  * *************************************/
 
 ipc.config.id   = 'hello';
-ipc.config.retry = 1000;
+ipc.config.retry= 1500;
+ipc.config.rawBuffer=true;
+ipc.config.encoding='ascii';
 
-ipc.connectTo(
+ipc.connectToNet(
     'world',
     function(){
         ipc.of.world.on(
@@ -18,27 +20,16 @@ ipc.connectTo(
             function(){
                 ipc.log('## connected to world ##'.rainbow, ipc.config.delay);
                 ipc.of.world.emit(
-                    'app.message',
-                    {
-                        id      : ipc.config.id,
-                        message : 'hello'
-                    }
+                    'hello'
                 )
             }
         );
-        ipc.of.world.on(
-            'disconnect',
-            function(){
-                ipc.log('disconnected from world'.notice);
-            }
-        );
-        ipc.of.world.on(
-            'app.message',
-            function(data){
-                ipc.log('got a message from world : '.debug, data);
-            }
-        );
 
-        console.log(ipc.of.world.destroy);
+        ipc.of.world.on(
+            'data',
+            function(data){
+                ipc.log('got a message from world : '.debug, data,data.toString());
+            }
+        );
     }
 );

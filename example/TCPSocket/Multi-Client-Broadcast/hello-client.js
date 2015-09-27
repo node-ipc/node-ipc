@@ -1,10 +1,10 @@
 var ipc=require('../../../node-ipc');
 
 /***************************************\
- * 
+ *
  * You should start both hello and world
  * then you will see them communicating.
- * 
+ *
  * *************************************/
 
 ipc.config.id   = 'hello';
@@ -36,7 +36,7 @@ ipc.connectToNet(
         ipc.of.world.on(
             'app.message',
             function(data){
-                ipc.log('got a message from world : '.debug, data.messgae);
+                ipc.log('got a message from world : '.debug, data.message);
             }
         );
         ipc.of.world.on(
