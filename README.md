@@ -33,8 +33,8 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
     6. [serveNet](#servenet)
 3. [IPC Stores and Default Variables](#ipc-stores-and-default-variables)
 4. [Basic Examples](#basic-examples)
-    1. [Server for Unix Sockets & TCP Sockets](#server-for-unix-sockets--tcp-sockets)
-    2. [Client for Unix Sockets & TCP Sockets](#client-for-unix-sockets--tcp-sockets)
+    1. [Server for Unix||Windows Sockets & TCP Sockets](#server-for-unix-sockets--tcp-sockets)
+    2. [Client for Unix||Windows Sockets & TCP Sockets](#client-for-unix-sockets--tcp-sockets)
     3. [Server & Client for UDP Sockets](#server--client-for-udp-sockets)
 5. [Advanced Examples](https://github.com/RIAEvangelist/node-ipc/tree/master/example)
 
@@ -44,25 +44,22 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
 
 | Type      | Stability |Definition |
 |-----------|-----------|-----------|
-|Unix Socket| Stable    | Gives Linux and Mac lightning fast communication and avoids the network card to reduce overhead and latency. [Local Unix Socket examples ](https://github.com/RIAEvangelist/node-ipc/tree/master/example/unixSocket/ "Unix Socket Node IPC examples")  |
-|Posix Socket| to do    | Will function just like the Unix Socket above but work on all platforms including windows  |
-|TCP Socket | Stable    | Gives the most reliable communication across the network. Can be used for local IPC as well, but is slower than #1's Unix Socket Implementation because TCP sockets go through the network card while Unix Sockets do not. [Local or remote network TCP Socket examples ](https://github.com/RIAEvangelist/node-ipc/tree/master/example/TCPSocket/ "TCP Socket Node IPC examples") |
+|Unix Socket or Windows Socket| Stable    | Gives Linux, Mac, and Windows lightning fast communication and avoids the network card to reduce overhead and latency. [Local Unix and Windows Socket examples ](https://github.com/RIAEvangelist/node-ipc/tree/master/example/unixWindowsSocket/ "Unix and Windows Socket Node IPC examples")  |
+|TCP Socket | Stable    | Gives the most reliable communication across the network. Can be used for local IPC as well, but is slower than #1's Unix Socket Implementation because TCP sockets go through the network card while Unix Sockets and Windows Sockets do not. [Local or remote network TCP Socket examples ](https://github.com/RIAEvangelist/node-ipc/tree/master/example/TCPSocket/ "TCP Socket Node IPC examples") |
 |TLS Socket | Alpha     | ***coming soon...*** |
-|UDP Sockets| Stable    | Gives the **fastest network communication**. UDP is less reliable but much faster than TCP. It is best used for streaming non critical data like sound, video, or multiplayer game data as it can drop packets depending on network connectivity and other factors. UDP can be used for local IPC as well, but is slower than #1's Unix Socket Implementation because UDP sockets go through the network card while Unix Sockets do not. [Local or remote network UDP Socket examples ](https://github.com/RIAEvangelist/node-ipc/tree/master/example/UDPSocket/ "UDP Socket Node IPC examples") |  
+|UDP Sockets| Stable    | Gives the **fastest network communication**. UDP is less reliable but much faster than TCP. It is best used for streaming non critical data like sound, video, or multiplayer game data as it can drop packets depending on network connectivity and other factors. UDP can be used for local IPC as well, but is slower than #1's Unix Socket or Windows Socket Implementation because UDP sockets go through the network card while Unix and Windows Sockets do not. [Local or remote network UDP Socket examples ](https://github.com/RIAEvangelist/node-ipc/tree/master/example/UDPSocket/ "UDP Socket Node IPC examples") |  
 
 | OS  | Supported Sockets  |
 |-----|--------------------|
 |Linux| Unix, Posix, TCP, TLS, UDP|
 |Mac  | Unix, Posix, TCP, TLS, UDP|
-|Win  | Posix, TCP, TLS, UDP      |  
-
-**Windows** users may want to use UDP servers for the fastest local IPC. Unix Servers are the fastest option on Linux and Mac, but not available for Windows. __Posix Socket support will be coming soon and normalize the ` Unix ` functionality__  Posix sockets will become the fastest way to communicate on windows as well as other platforms. Switching from a UDP socket on windows to a Posix Socket on windows will not require more than 5 lines of code change in your app.
+|Win  | Windows, TCP, TLS, UDP      |  
 
 ----
 
-``ipc.config``  
+`ipc.config`  
 
-Set these variables in the ``ipc.config`` scope to overwrite or set default values.
+Set these variables in the `ipc.config` scope to overwrite or set default values.
 
     {
         appspace        : 'app.',
@@ -88,7 +85,7 @@ Set these variables in the ``ipc.config`` scope to overwrite or set default valu
 | networkHost| the local or remote host on which TCP, TLS or UDP Sockets should connect |
 | networkPort| the default port on which TCP, TLS, or UDP sockets should connect |
 | encoding | the default encoding for data sent on sockets. Mostly used if rawBuffer is set to true. Valid values are : ` ascii` ` utf8 ` ` utf16le` ` ucs2` ` base64` ` hex ` .
-| rawBuffer| if true, data will be sent and recieved as a raw node ` Buffer ` __NOT__ an ` Object ` as JSON. This is great for Binary or hex IPC, and communicating with other processes in languages like C and C++  |
+| rawBuffer| if true, data will be sent and received as a raw node ` Buffer ` __NOT__ an ` Object ` as JSON. This is great for Binary or hex IPC, and communicating with other processes in languages like C and C++  |
 | silent   | turn on/off logging default is false which means logging is on |
 | maxConnections| this is the max number of connections allowed to a socket. It is currently only being set on Unix Sockets. Other Socket types are using the system defaults. |
 | retry    | this is the time in milliseconds a client will wait before trying to reconnect to a server if the connection is lost. This does not effect UDP sockets since they do not have a client server relationship like Unix Sockets and TCP Sockets. |
@@ -103,9 +100,9 @@ These methods are available in the IPC Scope.
 ----
 ##### log
 
-``ipc.log(a,b,c,d,e...);``  
+`ipc.log(a,b,c,d,e...);`  
 
-ipc.log will accept any number of arguments and if ``ipc.config.silent`` is not set, it will concat them all with a sincle space ' ' between them and then log them to the console. This is fast because it prevents any concatenation from happening if the ipc is set to silent. That way if you leave your logging in place it should not effect performance.
+ipc.log will accept any number of arguments and if `ipc.config.silent` is not set, it will concat them all with a sincle space ' ' between them and then log them to the console. This is fast because it prevents any concatenation from happening if the ipc is set to silent. That way if you leave your logging in place it should not effect performance.
 
 The log also supports [colors](https://github.com/Marak/colors.js) implementation. All of the available styles are supported and the theme styles are as follows :
 
@@ -133,14 +130,14 @@ You can override any of these settings by requireing colors and setting the them
 ----
 ##### connectTo
 
-``ipc.connectTo(id,path,callback);``  
+`ipc.connectTo(id,path,callback);`  
 
-Used for connecting as a client to local Unix Sockets. ***This is the fastst way for processes on the same machine to communicate*** because it bypasses the network card which TCP and UDP must both use.
+Used for connecting as a client to local Unix Sockets and Windows Sockets. ***This is the fastst way for processes on the same machine to communicate*** because it bypasses the network card which TCP and UDP must both use.
 
 | variable | required | definition |
 |----------|----------|------------|
 | id       | required |  is the string id of the socket being connected to. The socket with this id is added to the ipc.of object when created. |
-| path     | optional | is the path of the Unix Domain Socket File, if not set this will default to ``ipc.config.socketRoot``+``ipc.config.appspace``+``id`` |
+| path     | optional | is the path of the Unix Domain Socket File, if the System is Windows, this will automatically be converted to an appropriate pipe with the same information as the Unix Domain Socket File. If not set this will default to ` ipc.config.socketRoot `+` ipc.config.appspace `+` id ` |
 | callback | optional | this is the function to execute when the socket has been created. |
 
 **examples** arguments can be ommitted so long as they are still in order.
@@ -181,14 +178,14 @@ or explicitly setting the path with callback
 ----
 ##### connectToNet
 
-``ipc.connectToNet(id,host,port,callback)``  
+`ipc.connectToNet(id,host,port,callback)`  
 
-Used to connect as a client to a TCP or TLS socket via the network card. This can be local or remote, if local, it is recommended that you use the Unix Socket Implementaion of ``connectTo`` instead as it is much faster since it avoids the network card altogether.
+Used to connect as a client to a TCP or TLS socket via the network card. This can be local or remote, if local, it is recommended that you use the Unix and Windows Socket Implementaion of `connectTo` instead as it is much faster since it avoids the network card altogether.
 
 | variable | required | definition |
 |----------|----------|------------|
-| id       | required | is the string id of the socket being connected to. For TCP & TLS sockets, this id is added to the ``ipc.of`` object when the socket is created with a reference to the socket. |
-| host     | optional | is the host on which the TCP or TLS socket resides.  This will default to  ``ipc.config.networkHost`` if not specified. |
+| id       | required | is the string id of the socket being connected to. For TCP & TLS sockets, this id is added to the `ipc.of` object when the socket is created with a reference to the socket. |
+| host     | optional | is the host on which the TCP or TLS socket resides.  This will default to  `ipc.config.networkHost` if not specified. |
 | port     | optional | the port on which the TCP or TLS socket resides. |
 | callback | optional | this is the function to execute when the socket has been created. |
 
@@ -227,9 +224,9 @@ or only explicitly setting port and callback
 ----
 ##### disconnect
 
-``ipc.disconnect(id)``  
+`ipc.disconnect(id)`  
 
-Used to disconnect a client from a Unix, TCP or TLS socket. The socket and its refrence will be removed from memory and the ``ipc.of`` scope. This can be local or remote. UDP clients do not maintain connections and so there are no Clients and this method has no value to them.
+Used to disconnect a client from a Unix, Windows, TCP or TLS socket. The socket and its refrence will be removed from memory and the `ipc.of` scope. This can be local or remote. UDP clients do not maintain connections and so there are no Clients and this method has no value to them.
 
 | variable | required | definition |
 |----------|----------|------------|
@@ -241,16 +238,16 @@ Used to disconnect a client from a Unix, TCP or TLS socket. The socket and its r
 
 ----
 ##### serve
-``ipc.serve(path,callback);``  
+`ipc.serve(path,callback);`  
 
-Used to create local Unix Socket Server to which Clients can bind. The server can ``emit`` events to specific Client Sockets, or ``broadcast`` events to all known Client Sockets.   
+Used to create local Unix Socket Server or Windows Socket Server to which Clients can bind. The server can `emit` events to specific Client Sockets, or `broadcast` events to all known Client Sockets.   
 
 | variable | required | definition |
 |----------|----------|------------|
-| path     | optional | This is the Unix Domain Socket path to bind to. If not supplied, it will default to : ipc.config.socketRoot + ipc.config.appspace + ipc.config.id; |
-| callback | optional | This is a function to be called after the Server has started. This can also be done by binding an event to the start event like ``ipc.server.on('start',function(){});`` |
+| path     | optional | This  is the path of the Unix Domain Socket File, if the System is Windows, this will automatically be converted to an appropriate pipe with the same information as the Unix Domain Socket File. If not set this will default to ` ipc.config.socketRoot `+` ipc.config.appspace `+` id ` |
+| callback | optional | This is a function to be called after the Server has started. This can also be done by binding an event to the start event like `ipc.server.on('start',function(){});` |
 
-***examples*** arguments can be ommitted so long as they are still in order.
+***examples*** arguments can be omitted so long as they are still in order.
 
     ipc.serve();
 
@@ -276,15 +273,15 @@ or specifying everything
 ----    
 ##### serveNet
 
-``serveNet(host,port,UDPType,callback)``
+`serveNet(host,port,UDPType,callback)`
 
-Used to create TCP, TLS or UDP Socket Server to which Clients can bind or other servers can send data to. The server can ``emit`` events to specific Client Sockets, or ``broadcast`` events to all known Client Sockets.
+Used to create TCP, TLS or UDP Socket Server to which Clients can bind or other servers can send data to. The server can `emit` events to specific Client Sockets, or `broadcast` events to all known Client Sockets.
 
 
 | variable | required | definition |
 |----------|----------|------------|
 | host     | optional | If not specified this defaults to the first address in os.networkInterfaces(). For TCP, TLS & UDP servers this is most likely going to be 127.0.0.1 or ::1 |
-| port     | optional | The port on which the TCP, UDP, or TLS Socket server will be bound, this defaults to 8000 if not specified |
+| port     | optional | The port on wunich the TCP, UDP, or TLS Socket server will be bound, this defaults to 8000 if not specified |
 | UDPType  | optional | If set this will create the server as a UDP socket. 'udp4' or 'udp6' are valid values. This defaults to not being set.
 | callback | optional | Function to be called when the server is created |
 
@@ -339,15 +336,15 @@ or specifying everything UDP
 
 | variable  | definition |
 |-----------|------------|
-| ipc.of    | This is where socket connection refrences will be stored when connecting to them as a client via the ``ipc.connectTo`` or ``iupc.connectToNet``. They will be stored based on the ID used to create them, eg : ipc.of.mySocket|
-| ipc.server| This is a refrence to the server created by ``ipc.serve`` or ``ipc.serveNet``|
+| ipc.of    | This is where socket connection refrences will be stored when connecting to them as a client via the `ipc.connectTo` or `iupc.connectToNet`. They will be stored based on the ID used to create them, eg : ipc.of.mySocket|
+| ipc.server| This is a refrence to the server created by `ipc.serve` or `ipc.serveNet`|
 
 ----
 ### Basic Examples
 You can find [Advanced Examples](https://github.com/RIAEvangelist/node-ipc/tree/master/example) in the examples folder. In the examples you will find more complex demos including multi client examples.
 
-#### Server for Unix Sockets & TCP Sockets
-The server is the process keeping a socket for IPC open. Multiple sockets can connect to this server and talk to it. It can also broadcast to all clients or emit to a specific client. This is the most basic example which will work for both local Unix Sockets and local or remote network TCP Sockets.
+#### Server for Unix Sockets, Windows Sockets & TCP Sockets
+The server is the process keeping a socket for IPC open. Multiple sockets can connect to this server and talk to it. It can also broadcast to all clients or emit to a specific client. This is the most basic example which will work for local Unix and Windows Sockets as well as local or remote network TCP Sockets.
 
     var ipc=require('node-ipc');
 
@@ -373,7 +370,7 @@ The server is the process keeping a socket for IPC open. Multiple sockets can co
     ipc.server.start();
 
 #### Client for Unix Sockets & TCP Sockets
-The client connects to the servers socket for Inter Process Communication. The socket will recieve events emitted to it specifically as well as events which are broadcast out on the socket by the server. This is the most basic example which will work for both local Unix Sockets and local or remote network TCP Sockets.
+The client connects to the servers socket for Inter Process Communication. The socket will receive events emitted to it specifically as well as events which are broadcast out on the socket by the server. This is the most basic example which will work for both local Unix Sockets and local or remote network TCP Sockets.
 
     var ipc=require('node-ipc');
 
@@ -409,11 +406,11 @@ The client connects to the servers socket for Inter Process Communication. The s
     );
 
 #### Server & Client for UDP Sockets
-UDP Sockets are different than Unix & TCP Sockets because they must be bound to a unique port on their machine to recieve messages. For example, A TCP or Unix Socket client could just connect to a seperate TCP or Unix Socket sever. That client could then exchange, both send and recive, data on the servers port or location. UDP Sockets can not do this. They must bind to a port to recieve or send data.  
+UDP Sockets are different than Unix, Windows & TCP Sockets because they must be bound to a unique port on their machine to receive messages. For example, A TCP, Unix, or Windows Socket client could just connect to a separate TCP, Unix, or Windows Socket sever. That client could then exchange, both send and receive, data on the servers port or location. UDP Sockets can not do this. They must bind to a port to receive or send data.  
 
-This means a UDP Client and Server are the same thing because in order to recieve data, a UDP Socket must have its own port to recieve data on, and only one process can use this port at a time. It also means that inorder to ``emit`` or ``broadcast`` data the UDP server will need to know the host and port of the Socket it intends to broadcast the data to.
+This means a UDP Client and Server are the same thing because in order to receive data, a UDP Socket must have its own port to receive data on, and only one process can use this port at a time. It also means that in order to `emit` or `broadcast` data the UDP server will need to know the host and port of the Socket it intends to broadcast the data to.
 
-This is the most basic example which will work for both local Unix Sockets and local or remote network TCP Sockets.
+This is the most basic example which will work for both local and remote UDP Sockets.
 
 ##### UDP Server 1 - "World"
 
@@ -484,7 +481,7 @@ This is the most basic example which will work for both local Unix Sockets and l
 
     ipc.server.start();
 
-#### Binary or Buffer Sockets
+#### Raw Buffer or Binary Sockets
 Binary or Buffer sockets can be used with any of the above socket types, however the way data events are emit is ***slightly*** different.
 
 When setting up a rawBuffer socket you must specify it as such :
