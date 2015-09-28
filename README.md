@@ -35,10 +35,10 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
 4. [Basic Examples](#basic-examples)
     1. [Server for Unix||Windows Sockets & TCP Sockets](#server-for-unix-sockets--tcp-sockets)
     2. [Client for Unix||Windows Sockets & TCP Sockets](#client-for-unix-sockets--tcp-sockets)
-    3. [Working with TLS Servers & clients](https://github.com/RIAEvangelist/node-ipc/tree/master/example/TLSSocket)
     4. [Server & Client for UDP Sockets](#server--client-for-udp-sockets)
     5. [Raw Buffers or Binary Sockets](#raw-buffer-or-binary-sockets)
-5. [Advanced Examples](https://github.com/RIAEvangelist/node-ipc/tree/master/example)
+5. [Working with TLS/SSL Socket Servers & Clients](https://github.com/RIAEvangelist/node-ipc/tree/master/example/TLSSocket)
+6. [Advanced Examples](https://github.com/RIAEvangelist/node-ipc/tree/master/example)
 
 
 ----
