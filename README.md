@@ -36,6 +36,7 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
     1. [Server for Unix||Windows Sockets & TCP Sockets](#server-for-unix-sockets--tcp-sockets)
     2. [Client for Unix||Windows Sockets & TCP Sockets](#client-for-unix-sockets--tcp-sockets)
     3. [Server & Client for UDP Sockets](#server--client-for-udp-sockets)
+    4. [Raw Buffers or Binary Sockets](#raw-buffer-or-binary-sockets)
 5. [Advanced Examples](https://github.com/RIAEvangelist/node-ipc/tree/master/example)
 
 
@@ -46,7 +47,7 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
 |-----------|-----------|-----------|
 |Unix Socket or Windows Socket| Stable    | Gives Linux, Mac, and Windows lightning fast communication and avoids the network card to reduce overhead and latency. [Local Unix and Windows Socket examples ](https://github.com/RIAEvangelist/node-ipc/tree/master/example/unixWindowsSocket/ "Unix and Windows Socket Node IPC examples")  |
 |TCP Socket | Stable    | Gives the most reliable communication across the network. Can be used for local IPC as well, but is slower than #1's Unix Socket Implementation because TCP sockets go through the network card while Unix Sockets and Windows Sockets do not. [Local or remote network TCP Socket examples ](https://github.com/RIAEvangelist/node-ipc/tree/master/example/TCPSocket/ "TCP Socket Node IPC examples") |
-|TLS Socket | Alpha     | ***coming soon...*** |
+|TLS Socket | Stable    | Configureable and secure network socket over SSL. Equivalent to https. |
 |UDP Sockets| Stable    | Gives the **fastest network communication**. UDP is less reliable but much faster than TCP. It is best used for streaming non critical data like sound, video, or multiplayer game data as it can drop packets depending on network connectivity and other factors. UDP can be used for local IPC as well, but is slower than #1's Unix Socket or Windows Socket Implementation because UDP sockets go through the network card while Unix and Windows Sockets do not. [Local or remote network UDP Socket examples ](https://github.com/RIAEvangelist/node-ipc/tree/master/example/UDPSocket/ "UDP Socket Node IPC examples") |  
 
 | OS  | Supported Sockets  |
@@ -60,6 +61,8 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
 `ipc.config`  
 
 Set these variables in the `ipc.config` scope to overwrite or set default values.
+
+```javascript
 
     {
         appspace        : 'app.',
@@ -76,6 +79,7 @@ Set these variables in the `ipc.config` scope to overwrite or set default values
         stopRetrying    : false
     }
 
+```
 
 | variable | documentation |
 |----------|---------------|
@@ -106,6 +110,8 @@ ipc.log will accept any number of arguments and if `ipc.config.silent` is not se
 
 The log also supports [colors](https://github.com/Marak/colors.js) implementation. All of the available styles are supported and the theme styles are as follows :
 
+```javascript
+
     {
         good    : 'green',
         notice  : 'yellow',
@@ -116,7 +122,11 @@ The log also supports [colors](https://github.com/Marak/colors.js) implementatio
         data    : 'blue'
     }    
 
+```
+
 You can override any of these settings by requireing colors and setting the theme as follows :
+
+```javascript
 
     var colors=require('colors');
 
@@ -127,6 +137,9 @@ You can override any of these settings by requireing colors and setting the them
             ...
         }    
     );
+
+```
+
 ----
 ##### connectTo
 
@@ -142,9 +155,15 @@ Used for connecting as a client to local Unix Sockets and Windows Sockets. ***Th
 
 **examples** arguments can be ommitted so long as they are still in order.
 
+```javascript
+
     ipc.connectTo('world');
 
+```
+
 or using just an id and a callback
+
+```javascript
 
     ipc.connectTo(
         'world',
@@ -159,14 +178,22 @@ or using just an id and a callback
         }
     );
 
+```
+
 or explicitly setting the path
+
+```javascript
 
     ipc.connectTo(
         'world',
         'myapp.world'
     );
 
+```
+
 or explicitly setting the path with callback
+
+```javascript
 
     ipc.connectTo(
         'world',
@@ -175,6 +202,9 @@ or explicitly setting the path with callback
             ...
         }
     );
+
+```
+
 ----
 ##### connectToNet
 
@@ -192,9 +222,15 @@ Used to connect as a client to a TCP or TLS socket via the network card. This ca
 **examples** arguments can be ommitted so long as they are still in order.  
 So while the default is : (id,host,port,callback), the following examples will still work because they are still in order (id,port,callback) or (id,host,callback) or (id,port) etc.
 
+```javascript
+
     ipc.connectToNet('world');
 
+```
+
 or using just an id and a callback
+
+```javascript
 
     ipc.connectToNet(
         'world',
@@ -203,7 +239,11 @@ or using just an id and a callback
         }
     );
 
+```
+
 or explicitly setting the host and path
+
+```javascript
 
     ipc.connectToNet(
         'world',
@@ -211,7 +251,11 @@ or explicitly setting the host and path
         3435
     );
 
+```
+
 or only explicitly setting port and callback
+
+```javascript
 
     ipc.connectToNet(
         'world',
@@ -220,6 +264,8 @@ or only explicitly setting port and callback
             ...
         }
     );
+
+```
 
 ----
 ##### disconnect
@@ -234,7 +280,11 @@ Used to disconnect a client from a Unix, Windows, TCP or TLS socket. The socket 
 
 **examples**
 
+```javascript
+
     ipc.disconnect('world');
+
+```
 
 ----
 ##### serve
@@ -249,26 +299,42 @@ Used to create local Unix Socket Server or Windows Socket Server to which Client
 
 ***examples*** arguments can be omitted so long as they are still in order.
 
+```javascript
+
     ipc.serve();
 
+```
+
 or specifying callback
+
+```javascript
 
     ipc.serve(
         function(){...}
     );
 
+```
+
 or specify path
+
+```javascript
 
     ipc.serve(
         '/tmp/myapp.myservice'
     );
 
+```
+
 or specifying everything
+
+```javascript
 
     ipc.serve(
         '/tmp/myapp.myservice',
         function(){...}
     );
+
+```
 
 ----    
 ##### serveNet
@@ -289,32 +355,54 @@ Used to create TCP, TLS or UDP Socket Server to which Clients can bind or other 
 
 default tcp server
 
+```javascript
+
     ipc.serveNet();
+
+```
 
 default udp server
 
+```javascript
+
     ipc.serveNet('udp4');
 
+```
+
 or specifying TCP server with callback
+
+```javascript
 
     ipc.serveNet(
         function(){...}
     );
 
+```
+
 or specifying UDP server with callback
+
+```javascript
 
     ipc.serveNet(
         'udp4',
         function(){...}
     );
 
+```
+
 or specify port
+
+```javascript
 
     ipc.serveNet(
         3435
     );
 
+```
+
 or specifying everything TCP
+
+```javascript
 
     ipc.serveNet(
         'MyMostAwesomeApp.com',
@@ -322,7 +410,11 @@ or specifying everything TCP
         function(){...}
     );
 
+```
+
 or specifying everything UDP
+
+```javascript
 
     ipc.serveNet(
         'MyMostAwesomeApp.com',
@@ -330,6 +422,8 @@ or specifying everything UDP
         'udp4',
         function(){...}
     );
+
+```
 
 ----
 ### IPC Stores and Default Variables  
@@ -345,6 +439,8 @@ You can find [Advanced Examples](https://github.com/RIAEvangelist/node-ipc/tree/
 
 #### Server for Unix Sockets, Windows Sockets & TCP Sockets
 The server is the process keeping a socket for IPC open. Multiple sockets can connect to this server and talk to it. It can also broadcast to all clients or emit to a specific client. This is the most basic example which will work for local Unix and Windows Sockets as well as local or remote network TCP Sockets.
+
+```javascript
 
     var ipc=require('node-ipc');
 
@@ -369,8 +465,12 @@ The server is the process keeping a socket for IPC open. Multiple sockets can co
 
     ipc.server.start();
 
+```
+
 #### Client for Unix Sockets & TCP Sockets
 The client connects to the servers socket for Inter Process Communication. The socket will receive events emitted to it specifically as well as events which are broadcast out on the socket by the server. This is the most basic example which will work for both local Unix Sockets and local or remote network TCP Sockets.
+
+```javascript
 
     var ipc=require('node-ipc');
 
@@ -405,6 +505,8 @@ The client connects to the servers socket for Inter Process Communication. The s
         }
     );
 
+```
+
 #### Server & Client for UDP Sockets
 UDP Sockets are different than Unix, Windows & TCP Sockets because they must be bound to a unique port on their machine to receive messages. For example, A TCP, Unix, or Windows Socket client could just connect to a separate TCP, Unix, or Windows Socket sever. That client could then exchange, both send and receive, data on the servers port or location. UDP Sockets can not do this. They must bind to a port to receive or send data.  
 
@@ -413,6 +515,8 @@ This means a UDP Client and Server are the same thing because in order to receiv
 This is the most basic example which will work for both local and remote UDP Sockets.
 
 ##### UDP Server 1 - "World"
+
+```javascript
 
     var ipc=require('../../../node-ipc');
 
@@ -446,8 +550,12 @@ This is the most basic example which will work for both local and remote UDP Soc
 
     ipc.server.start();
 
+```
+
 ##### UDP Server 2 - "Hello"
 *note* we set the port here to 8001 because the world server is already using the default ipc.config.networkPort of 8000. So we can not bind to 8000 while world is using it.
+
+```javascript
 
     ipc.config.id   = 'hello';
     ipc.config.retry= 1500;
@@ -481,19 +589,30 @@ This is the most basic example which will work for both local and remote UDP Soc
 
     ipc.server.start();
 
+```
+
 #### Raw Buffer or Binary Sockets
 Binary or Buffer sockets can be used with any of the above socket types, however the way data events are emit is ***slightly*** different.
 
 When setting up a rawBuffer socket you must specify it as such :
 
+```javascript
+
     ipc.config.rawBuffer=true;
+
+```
 
 You can also specify its encoding type. The default is ` utf8 `
 
+```javascript
+
     ipc.config.encoding='utf8';
 
+```
 
 emit string buffer :
+
+```javascript
 
     //server
     ipc.server.emit(
@@ -506,7 +625,11 @@ emit string buffer :
         'hello'
     )
 
+```
+
 emit byte array buffer :
+
+```javascript
 
     //server
     ipc.server.emit(
@@ -518,9 +641,13 @@ emit byte array buffer :
     ipc.server.emit(
         [10,20,30]
     );
+
+```
 
 emit hex array buffer :
 
+```javascript
+
     //server
     ipc.server.emit(
         socket,
@@ -531,3 +658,8 @@ emit hex array buffer :
     ipc.server.emit(
         [0x05,0x6d,0x5c]
     );
+
+```
+
+#### Licensed under DBAD license
+See the [DBAD license](https://github.com/philsturgeon/dbad) in your language or our [licence.md](https://github.com/RIAEvangelist/node-phidget-API/blob/master/license.md) file.

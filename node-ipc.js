@@ -16,7 +16,7 @@ colors.setTheme(
         debug   : 'magenta',
         variable: 'cyan',
         data    : 'blue'
-    }    
+    }
 );
 
 var IPType=os.networkInterfaces()[
@@ -36,7 +36,8 @@ var defaults={
     retry           : 500,
     maxRetries      : Infinity,
     stopRetrying    : false,
-    IPType          : IPType
+    IPType          : IPType,
+    tls             : false
 }
 
 var ipc = {
@@ -54,16 +55,16 @@ var ipc = {
 function log(){
     if(ipc.config.silent)
         return;
-    
+
     var args=Array.prototype.slice.call(arguments);
-    
+
     for(var i=0, count=args.length; i<count; i++){
         if(typeof args[i] != 'object')
             continue;
-            
+
         args[i]=util.inspect(args[i],{colors:true});
     }
-    
+
     console.log(
         args.join(' ')
     );
@@ -72,41 +73,41 @@ function log(){
 function disconnect(id){
     if(!ipc.of[id])
         return;
-    
+
     ipc.of[id].config.stopRetrying=true;
-    
+
     ipc.of[id].off('*');
     if(ipc.of[id].socket){
         if(ipc.of[id].socket.destroy)
             ipc.of[id].socket.destroy();
     }
-    
+
     delete ipc.of[id];
 }
 
 function serve(path,callback){
     if(typeof path=='function'){
         callback=path;
-        path=false;   
+        path=false;
     }
     if(!path){
         ipc.log(
-            'Server path not specified, so defaulting to'.notice, 
-            'ipc.config.socketRoot + ipc.config.appspace + ipc.config.id'.variable, 
+            'Server path not specified, so defaulting to'.notice,
+            'ipc.config.socketRoot + ipc.config.appspace + ipc.config.id'.variable,
             (ipc.config.socketRoot+ipc.config.appspace+ipc.config.id).data
         );
         path=ipc.config.socketRoot+ipc.config.appspace+ipc.config.id;
     }
-    
+
     if(!callback)
         callback=function(){};
-    
+
     ipc.server=new Server(
         path,
         ipc.config,
         log
     );
-    
+
     ipc.server.on(
         'start',
         callback
@@ -118,18 +119,18 @@ function serveNet(host,port,UDPType,callback){
         callback=UDPType;
         UDPType=port;
         port=host;
-        host=false;   
+        host=false;
     }
     if(typeof host=='function'){
         callback=host;
         UDPType=false;
         host=false;
-        port=false;   
+        port=false;
     }
     if(!host){
         ipc.log(
-            'Server host not specified, so defaulting to'.notice, 
-            'ipc.config.networkHost'.variable, 
+            'Server host not specified, so defaulting to'.notice,
+            'ipc.config.networkHost'.variable,
             ipc.config.networkHost.data
         );
         host=ipc.config.networkHost;
@@ -138,13 +139,13 @@ function serveNet(host,port,UDPType,callback){
         callback=port;
         UDPType=host.toLowerCase();
         port=false;
-        host=ipc.config.networkHost;   
+        host=ipc.config.networkHost;
     }
-    
+
     if(typeof port=='string'){
         callback=UDPType;
         UDPType=port;
-        port=false;   
+        port=false;
     }
     if(typeof port=='function'){
         callback=port;
@@ -153,18 +154,18 @@ function serveNet(host,port,UDPType,callback){
     }
     if(!port){
         ipc.log(
-            'Server port not specified, so defaulting to'.notice, 
-            'ipc.config.networkPort'.variable, 
+            'Server port not specified, so defaulting to'.notice,
+            'ipc.config.networkPort'.variable,
             ipc.config.networkPort
         );
         port=ipc.config.networkPort;
     }
-    
+
     if(typeof UDPType=='function'){
         callback=UDPType;
         UDPType=false;
     }
-    
+
     if(!callback)
         callback=function(){};
 
@@ -190,10 +191,10 @@ function connect(id,path,callback){
         callback=path;
         path=false;
     }
-    
+
     if(!callback)
         callback=function(){};
-    
+
     if(!id){
         ipc.log(
             'Service id required'.warn,
@@ -201,20 +202,20 @@ function connect(id,path,callback){
         );
         return;
     }
-    
+
     if(!path){
         ipc.log(
-            'Service path not specified, so defaulting to'.notice, 
-            'ipc.config.socketRoot + ipc.config.appspace + id'.variable, 
+            'Service path not specified, so defaulting to'.notice,
+            'ipc.config.socketRoot + ipc.config.appspace + id'.variable,
             (ipc.config.socketRoot+ipc.config.appspace+id).data
         );
         path=ipc.config.socketRoot+ipc.config.appspace+id;
     }
-    
+
     if(ipc.of[id]){
         if(!ipc.of[id].socket.destroyed){
             ipc.log(
-                'Already Connected to'.notice, 
+                'Already Connected to'.notice,
                 id.variable,
                 '- So executing success without connection'.notice
             );
@@ -223,13 +224,13 @@ function connect(id,path,callback){
         }
         ipc.of[id].socket.destroy();
     }
-    
+
     ipc.of[id]       = new Client(ipc.config,ipc.log);
     ipc.of[id].id    = id;
     ipc.of[id].path  = path;
-    
+
     ipc.of[id].connect();
-    
+
     callback(ipc);
 }
 
@@ -249,41 +250,41 @@ function connectNet(id,host,port,callback){
     if(typeof host=='function'){
         callback=host;
         host=false;
-        port=false;   
+        port=false;
     }
     if(!host){
         ipc.log(
-            'Server host not specified, so defaulting to'.notice, 
-            'ipc.config.networkHost'.variable, 
+            'Server host not specified, so defaulting to'.notice,
+            'ipc.config.networkHost'.variable,
             ipc.config.networkHost.data
         );
         host=ipc.config.networkHost;
     }
-    
+
     if(typeof port=='function'){
         callback=port;
-        port=false;   
+        port=false;
     }
     if(!port){
         ipc.log(
-            'Server port not specified, so defaulting to'.notice, 
-            'ipc.config.networkPort'.variable, 
+            'Server port not specified, so defaulting to'.notice,
+            'ipc.config.networkPort'.variable,
             ipc.config.networkPort
         );
         port=ipc.config.networkPort;
     }
-    
+
     if(typeof callback == 'string'){
         UDPType=callback;
         callback=false;
     }
     if(!callback)
         callback=function(){};
-    
+
     if(ipc.of[id]){
         if(!ipc.of[id].socket.destroyed){
             ipc.log(
-                'Already Connected to'.notice, 
+                'Already Connected to'.notice,
                 id.variable,
                 '- So executing success without connection'.notice
             );
@@ -292,14 +293,14 @@ function connectNet(id,host,port,callback){
         }
         ipc.of[id].socket.destroy();
     }
-    
+
     ipc.of[id]       = new Client(ipc.config,ipc.log);
     ipc.of[id].id    = id;
     ipc.of[id].path  = host;
     ipc.of[id].port  = port;
-    
+
     ipc.of[id].connect();
-    
+
     callback(ipc);
 }
 
