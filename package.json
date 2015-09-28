@@ -7,10 +7,10 @@
     "example": "example"
   },
   "dependencies": {
-    "colors": "~0.6.2",
-    "event-pubsub": "~1.0.3",
-    "js-message": "*",
-    "node-cmd": "~1.0.1"
+    "colors": "^1.1.2",
+    "event-pubsub": "^1.0.3",
+    "js-message": "^1.0.5",
+    "node-cmd": "^1.0.1"
   },
   "devDependencies": {},
   "scripts": {
