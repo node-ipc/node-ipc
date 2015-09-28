@@ -35,8 +35,9 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
 4. [Basic Examples](#basic-examples)
     1. [Server for Unix||Windows Sockets & TCP Sockets](#server-for-unix-sockets--tcp-sockets)
     2. [Client for Unix||Windows Sockets & TCP Sockets](#client-for-unix-sockets--tcp-sockets)
-    3. [Server & Client for UDP Sockets](#server--client-for-udp-sockets)
-    4. [Raw Buffers or Binary Sockets](#raw-buffer-or-binary-sockets)
+    3. [Working with TLS Servers & clients](https://github.com/RIAEvangelist/node-ipc/tree/master/example/TLSSocket)
+    4. [Server & Client for UDP Sockets](#server--client-for-udp-sockets)
+    5. [Raw Buffers or Binary Sockets](#raw-buffer-or-binary-sockets)
 5. [Advanced Examples](https://github.com/RIAEvangelist/node-ipc/tree/master/example)
 
 
@@ -210,7 +211,9 @@ or explicitly setting the path with callback
 
 `ipc.connectToNet(id,host,port,callback)`  
 
-Used to connect as a client to a TCP or TLS socket via the network card. This can be local or remote, if local, it is recommended that you use the Unix and Windows Socket Implementaion of `connectTo` instead as it is much faster since it avoids the network card altogether.
+Used to connect as a client to a TCP or [TLS socket](https://github.com/RIAEvangelist/node-ipc/tree/master/example/TLSSocket) via the network card. This can be local or remote, if local, it is recommended that you use the Unix and Windows Socket Implementaion of `connectTo` instead as it is much faster since it avoids the network card altogether.
+
+For TLS and SSL Sockets see the [node-ipc TLS and SSL docs](https://github.com/RIAEvangelist/node-ipc/tree/master/example/TLSSocket). They have a few additional requirements, and things to know about and so have their own doc.
 
 | variable | required | definition |
 |----------|----------|------------|
