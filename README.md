@@ -95,7 +95,7 @@ Set these variables in the `ipc.config` scope to overwrite or set default values
 | maxConnections| this is the max number of connections allowed to a socket. It is currently only being set on Unix Sockets. Other Socket types are using the system defaults. |
 | retry    | this is the time in milliseconds a client will wait before trying to reconnect to a server if the connection is lost. This does not effect UDP sockets since they do not have a client server relationship like Unix Sockets and TCP Sockets. |
 | maxRetries    | if set, it represents the maximum number of retries after each disconnect before giving up and completely killing a specific connection |
-| stopRetrying| Defaults to false meaning clients will continue to retry to connect to servers indefinitely at the retry interval. If set to any number the client will stop retrying when that number is exceeded after each disconnect. If set to true in real time it will immediately irregardless of maxRetries. If set to 0, the client will ***NOT*** try to reconnect. |
+| stopRetrying| Defaults to false meaning clients will continue to retry to connect to servers indefinitely at the retry interval. If set to any number the client will stop retrying when that number is exceeded after each disconnect. If set to true in real time it will immediately stop trying to connect regardless of maxRetries. If set to 0, the client will ***NOT*** try to reconnect. |
 
 ----
 
