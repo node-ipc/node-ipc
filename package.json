@@ -1,16 +1,16 @@
 {
   "name": "node-ipc",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "A nodejs module for local and remote Inter Process Communication (IPC), Neural Networking, and able to facilitate machine learning.",
   "main": "node-ipc.js",
   "directories": {
     "example": "example"
   },
   "dependencies": {
-    "colors": "^1.1.2",
-    "event-pubsub": "^1.0.3",
-    "js-message": "^1.0.5",
-    "node-cmd": "^1.0.1"
+    "colors": "*",
+    "event-pubsub": "*",
+    "js-message": "*",
+    "node-cmd": "*"
   },
   "devDependencies": {},
   "scripts": {
