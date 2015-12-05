@@ -1,0 +1,10 @@
+{
+  "spec_dir": "spec",
+  "spec_files": [
+      
+      "/support/jasmineTest/clientTestCases.spec.js",
+      "/support/jasmineTest/serverTestCases.spec.js"
+      
+  ]
+  
+}
