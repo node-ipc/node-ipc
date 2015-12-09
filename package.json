@@ -6,6 +6,9 @@
   "directories": {
     "example": "example"
   },
+  "engines" : {
+      "node" : ">=1.0.0"
+  },
   "dependencies": {
     "colors": "*",
     "event-pubsub": "*",
