@@ -204,7 +204,7 @@ describe('Test Cases for client: ',
                 }
             );
        
-        xit(
+        it(
             'Verify UDP server of type udp6 connects to UDP server named "udp6Server" and receives message.',
             function(done){
                 
