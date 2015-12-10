@@ -9,7 +9,7 @@ var ipc=require('../../../node-ipc');
 
 ipc.config.id   = 'world';
 ipc.config.retry= 1500;
-ipc.config.sync = true; //sync servers do not bradcast defined events
+ipc.config.sync = true;
 
 ipc.serveNet(
     function(){
@@ -40,6 +40,6 @@ ipc.serveNet(
     }
 );
 
-ipc.server.define.listen.message='This event type listens for message strings as value of data key.';
+
 
 ipc.server.start();

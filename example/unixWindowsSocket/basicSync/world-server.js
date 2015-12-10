@@ -36,6 +36,6 @@ ipc.serve(
     }
 );
 
-ipc.server.define.listen['app.message']='This event type listens for message strings as value of data key.';
+
 
 ipc.server.start();

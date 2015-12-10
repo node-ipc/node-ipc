@@ -43,6 +43,6 @@ ipc.serveNet(
     }
 );
 
-ipc.server.define.listen.message='This event type listens for message strings as value of data key.';
+
 
 ipc.server.start();

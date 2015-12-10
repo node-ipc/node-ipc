@@ -450,8 +450,8 @@ or specifying everything UDP
 |connect||triggered when socket connected|
 |disconnect||triggered when socket disconnected|
 |destroy||triggered when socket has been totally destroyed, no further auto retries will happen and all references are gone.|
-||||
-||||
+|data|buffer|triggered when ipc.config.rawBuffer is true and a message is received.|
+|***your event type***|***your event data***|triggered when a JSON message is received. The event name will be the type string from your message and the param will be the data object from your message eg : ` { type:'myEvent',data:{a:1}} ` |
 ||||
 
 ----
@@ -476,7 +476,8 @@ The server is the process keeping a socket for IPC open. Multiple sockets can co
                     ipc.log('got a message : '.debug, data);
                     ipc.server.emit(
                         socket,
-                        'message',
+                        'message',  //this can be anything you want so long as
+                                    //your client knows.
                         data+' world!'
                     );
                 }
@@ -506,7 +507,7 @@ The client connects to the servers socket for Inter Process Communication. The s
                 function(){
                     ipc.log('## connected to world ##'.rainbow, ipc.config.delay);
                     ipc.of.world.emit(
-                        'message',
+                        'message',  //any event or message type your server listens for
                         'hello'
                     )
                 }
@@ -518,7 +519,7 @@ The client connects to the servers socket for Inter Process Communication. The s
                 }
             );
             ipc.of.world.on(
-                'message',
+                'message',  //any event or message type your server listens for
                 function(data){
                     ipc.log('got a message from world : '.debug, data);
                 }
@@ -567,8 +568,6 @@ This is the most basic example which will work for both local and remote UDP Soc
         }
     );
 
-    ipc.server.define.listen.message='This event type listens for message strings as value of data key.';
-
     ipc.server.start();
 
 ```
@@ -605,8 +604,6 @@ This is the most basic example which will work for both local and remote UDP Soc
             );
         }
     );
-
-    ipc.server.define.listen.message='This event type listens for message strings as value of data key.';
 
     ipc.server.start();
 

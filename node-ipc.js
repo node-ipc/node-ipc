@@ -31,7 +31,7 @@ var defaults={
     id              : os.hostname(),
     encoding        : 'utf8',
     rawBuffer       : false,
-    sync           : false,
+    sync            : false,
     silent          : false,
     maxConnections  : 100,
     retry           : 500,
