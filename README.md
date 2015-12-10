@@ -33,13 +33,14 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
     5. [serve](#serve)
     6. [serveNet](#servenet)
 3. [IPC Stores and Default Variables](#ipc-stores-and-default-variables)
-4. [Basic Examples](#basic-examples)
+4. [IPC Events](#ipc-events)
+5. [Basic Examples](#basic-examples)
     1. [Server for Unix||Windows Sockets & TCP Sockets](#server-for-unix-sockets--tcp-sockets)
     2. [Client for Unix||Windows Sockets & TCP Sockets](#client-for-unix-sockets--tcp-sockets)
     4. [Server & Client for UDP Sockets](#server--client-for-udp-sockets)
     5. [Raw Buffers or Binary Sockets](#raw-buffer-or-binary-sockets)
-5. [Working with TLS/SSL Socket Servers & Clients](https://github.com/RIAEvangelist/node-ipc/tree/master/example/TLSSocket)
-6. [Advanced Examples](https://github.com/RIAEvangelist/node-ipc/tree/master/example)
+6. [Working with TLS/SSL Socket Servers & Clients](https://github.com/RIAEvangelist/node-ipc/tree/master/example/TLSSocket)
+7. [Advanced Examples](https://github.com/RIAEvangelist/node-ipc/tree/master/example)
 
 
 ----
@@ -74,6 +75,7 @@ Set these variables in the `ipc.config` scope to overwrite or set default values
         networkPort     : 8000,
         encoding        : 'utf8',
         rawBuffer       : false,
+        sync            : false,
         silent          : false,
         maxConnections  : 100,
         retry           : 500,
@@ -92,6 +94,7 @@ Set these variables in the `ipc.config` scope to overwrite or set default values
 | networkPort| the default port on which TCP, TLS, or UDP sockets should connect |
 | encoding | the default encoding for data sent on sockets. Mostly used if rawBuffer is set to true. Valid values are : ` ascii` ` utf8 ` ` utf16le` ` ucs2` ` base64` ` hex ` .
 | rawBuffer| if true, data will be sent and received as a raw node ` Buffer ` __NOT__ an ` Object ` as JSON. This is great for Binary or hex IPC, and communicating with other processes in languages like C and C++  |
+| sync     | synchronous requests. Clients will not send new requests until the server answers. Servers will not broadcast initial events on connection |
 | silent   | turn on/off logging default is false which means logging is on |
 | maxConnections| this is the max number of connections allowed to a socket. It is currently only being set on Unix Sockets. Other Socket types are using the system defaults. |
 | retry    | this is the time in milliseconds a client will wait before trying to reconnect to a server if the connection is lost. This does not effect UDP sockets since they do not have a client server relationship like Unix Sockets and TCP Sockets. |
@@ -436,6 +439,20 @@ or specifying everything UDP
 |-----------|------------|
 | ipc.of    | This is where socket connection refrences will be stored when connecting to them as a client via the `ipc.connectTo` or `iupc.connectToNet`. They will be stored based on the ID used to create them, eg : ipc.of.mySocket|
 | ipc.server| This is a refrence to the server created by `ipc.serve` or `ipc.serveNet`|
+
+----
+
+### IPC Events  
+
+|event name|params|definition|
+|----------|------|----------|
+|error|err obj|triggered when an error has occured|
+|connect||triggered when socket connected|
+|disconnect||triggered when socket disconnected|
+|destroy||triggered when socket has been totally destroyed, no further auto retries will happen and all references are gone.|
+||||
+||||
+||||
 
 ----
 ### Basic Examples
