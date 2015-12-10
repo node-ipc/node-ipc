@@ -94,7 +94,7 @@ Set these variables in the `ipc.config` scope to overwrite or set default values
 | networkPort| the default port on which TCP, TLS, or UDP sockets should connect |
 | encoding | the default encoding for data sent on sockets. Mostly used if rawBuffer is set to true. Valid values are : ` ascii` ` utf8 ` ` utf16le` ` ucs2` ` base64` ` hex ` .
 | rawBuffer| if true, data will be sent and received as a raw node ` Buffer ` __NOT__ an ` Object ` as JSON. This is great for Binary or hex IPC, and communicating with other processes in languages like C and C++  |
-| sync     | synchronous requests. Clients will not send new requests until the server answers. Servers will not broadcast initial events on connection |
+| sync     | synchronous requests. Clients will not send new requests until the server answers. |
 | silent   | turn on/off logging default is false which means logging is on |
 | maxConnections| this is the max number of connections allowed to a socket. It is currently only being set on Unix Sockets. Other Socket types are using the system defaults. |
 | retry    | this is the time in milliseconds a client will wait before trying to reconnect to a server if the connection is lost. This does not effect UDP sockets since they do not have a client server relationship like Unix Sockets and TCP Sockets. |
