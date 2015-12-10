@@ -114,37 +114,6 @@ describe('Test Cases for client: ',
                              done();
                          },700
                     );
-                                    
-//                                  
-//                                    retryAttempt--;
-//                                    if(ipc.of.fakeworld.retriesRemaining < 3){
-//                                        
-//                                        expect(retryAttempt).not.toBeLessThan(3);
-//                                        
-//                                        ipc.of.fakeworld.on(
-//                                            'error',
-//                                            function(err){
-//                                                console.log('Error is: ', err);
-//                                                ipc.disconnect('fakeworld');
-//                                            }
-//                                        );
-//                                        done();
-//                                    }
-//                                }
-//                             );
-//                         }
-//                    );
-//                    
-//                     setTimeout(
-//                         function(){
-//                             expect(retryAttempt).toBe(ipc.of.fakeworld.retriesRemaining);
-//                             expect(ipc.of.fakeworld.retriesRemaining).toBe(ipc.config.maxRetries); 
-//                             expect(ipc.of.fakeworld.socket.destroyed).toBe(true);
-//                             done();
-//                         },700
-//                     );
-//                     
-                     
                 }
             );
    
@@ -182,7 +151,7 @@ describe('Test Cases for client: ',
                                             'error',
                                             function(err){
                                                 console.log('Error is: ', err); done();
-                                               // ipc.disconnect('unixServer');
+                                                ipc.disconnect('unixServer');
                                             }
                                     );
                                     
@@ -431,7 +400,7 @@ describe('Test Cases for client: ',
     
     
     
-    /// End test cases
+    // End test cases
     
     
           }
