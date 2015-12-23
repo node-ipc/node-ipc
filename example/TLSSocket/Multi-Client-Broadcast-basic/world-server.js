@@ -49,7 +49,7 @@ ipc.serveNet(
     }
 );
 
-ipc.server.define.listen['app.message']='This event type listens for message strings as value of data key.';
-ipc.server.define.broadcast['kill.connection']='This event is a command to kill connection to this server, the data object will contain the id of this server incase the client needs it';
+
+
 
 ipc.server.start();

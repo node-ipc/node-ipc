@@ -6,7 +6,8 @@ A great solution for **Neural Networking** in Node.JS
 **npm install node-ipc**
 
 
-npm info :  [See npm trends and stats for node-ipc](http://npm-stat.com/charts.html?package=node-ipc&author=&from=&to=)  
+npm info :  [See npm trends and stats for node-ipc](http://npm-stat.com/charts.html?package=node-ipc&author=&from=&to=)   
+[![NPM](https://nodei.co/npm/node-ipc.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/node-ipc/)  
 ![node-ipc npm version](https://img.shields.io/npm/v/node-ipc.svg) ![supported node version for node-ipc](https://img.shields.io/node/v/node-ipc.svg) ![total npm downloads for node-ipc](https://img.shields.io/npm/dt/node-ipc.svg) ![monthly npm downloads for node-ipc](https://img.shields.io/npm/dm/node-ipc.svg) ![npm licence for node-ipc](https://img.shields.io/npm/l/node-ipc.svg)
 
 [![RIAEvangelist](https://avatars3.githubusercontent.com/u/369041?v=3&s=100)](https://github.com/RIAEvangelist)
@@ -32,13 +33,14 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
     5. [serve](#serve)
     6. [serveNet](#servenet)
 3. [IPC Stores and Default Variables](#ipc-stores-and-default-variables)
-4. [Basic Examples](#basic-examples)
+4. [IPC Events](#ipc-events)
+5. [Basic Examples](#basic-examples)
     1. [Server for Unix||Windows Sockets & TCP Sockets](#server-for-unix-sockets--tcp-sockets)
     2. [Client for Unix||Windows Sockets & TCP Sockets](#client-for-unix-sockets--tcp-sockets)
     4. [Server & Client for UDP Sockets](#server--client-for-udp-sockets)
     5. [Raw Buffers or Binary Sockets](#raw-buffer-or-binary-sockets)
-5. [Working with TLS/SSL Socket Servers & Clients](https://github.com/RIAEvangelist/node-ipc/tree/master/example/TLSSocket)
-6. [Advanced Examples](https://github.com/RIAEvangelist/node-ipc/tree/master/example)
+6. [Working with TLS/SSL Socket Servers & Clients](https://github.com/RIAEvangelist/node-ipc/tree/master/example/TLSSocket)
+7. [Advanced Examples](https://github.com/RIAEvangelist/node-ipc/tree/master/example)
 
 
 ----
@@ -73,6 +75,7 @@ Set these variables in the `ipc.config` scope to overwrite or set default values
         networkPort     : 8000,
         encoding        : 'utf8',
         rawBuffer       : false,
+        sync            : false,
         silent          : false,
         maxConnections  : 100,
         retry           : 500,
@@ -91,6 +94,7 @@ Set these variables in the `ipc.config` scope to overwrite or set default values
 | networkPort| the default port on which TCP, TLS, or UDP sockets should connect |
 | encoding | the default encoding for data sent on sockets. Mostly used if rawBuffer is set to true. Valid values are : ` ascii` ` utf8 ` ` utf16le` ` ucs2` ` base64` ` hex ` .
 | rawBuffer| if true, data will be sent and received as a raw node ` Buffer ` __NOT__ an ` Object ` as JSON. This is great for Binary or hex IPC, and communicating with other processes in languages like C and C++  |
+| sync     | synchronous requests. Clients will not send new requests until the server answers. |
 | silent   | turn on/off logging default is false which means logging is on |
 | maxConnections| this is the max number of connections allowed to a socket. It is currently only being set on Unix Sockets. Other Socket types are using the system defaults. |
 | retry    | this is the time in milliseconds a client will wait before trying to reconnect to a server if the connection is lost. This does not effect UDP sockets since they do not have a client server relationship like Unix Sockets and TCP Sockets. |
@@ -437,6 +441,20 @@ or specifying everything UDP
 | ipc.server| This is a refrence to the server created by `ipc.serve` or `ipc.serveNet`|
 
 ----
+
+### IPC Events  
+
+|event name|params|definition|
+|----------|------|----------|
+|error|err obj|triggered when an error has occured|
+|connect||triggered when socket connected|
+|disconnect||triggered when socket disconnected|
+|destroy||triggered when socket has been totally destroyed, no further auto retries will happen and all references are gone.|
+|data|buffer|triggered when ipc.config.rawBuffer is true and a message is received.|
+|***your event type***|***your event data***|triggered when a JSON message is received. The event name will be the type string from your message and the param will be the data object from your message eg : ` { type:'myEvent',data:{a:1}} ` |
+||||
+
+----
 ### Basic Examples
 You can find [Advanced Examples](https://github.com/RIAEvangelist/node-ipc/tree/master/example) in the examples folder. In the examples you will find more complex demos including multi client examples.
 
@@ -458,7 +476,8 @@ The server is the process keeping a socket for IPC open. Multiple sockets can co
                     ipc.log('got a message : '.debug, data);
                     ipc.server.emit(
                         socket,
-                        'message',
+                        'message',  //this can be anything you want so long as
+                                    //your client knows.
                         data+' world!'
                     );
                 }
@@ -488,7 +507,7 @@ The client connects to the servers socket for Inter Process Communication. The s
                 function(){
                     ipc.log('## connected to world ##'.rainbow, ipc.config.delay);
                     ipc.of.world.emit(
-                        'message',
+                        'message',  //any event or message type your server listens for
                         'hello'
                     )
                 }
@@ -500,7 +519,7 @@ The client connects to the servers socket for Inter Process Communication. The s
                 }
             );
             ipc.of.world.on(
-                'message',
+                'message',  //any event or message type your server listens for
                 function(data){
                     ipc.log('got a message from world : '.debug, data);
                 }
@@ -549,8 +568,6 @@ This is the most basic example which will work for both local and remote UDP Soc
         }
     );
 
-    ipc.server.define.listen.message='This event type listens for message strings as value of data key.';
-
     ipc.server.start();
 
 ```
@@ -587,8 +604,6 @@ This is the most basic example which will work for both local and remote UDP Soc
             );
         }
     );
-
-    ipc.server.define.listen.message='This event type listens for message strings as value of data key.';
 
     ipc.server.start();
 

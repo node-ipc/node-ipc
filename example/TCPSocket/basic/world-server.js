@@ -1,10 +1,10 @@
 var ipc=require('../../../node-ipc');
 
 /***************************************\
- * 
+ *
  * You should start both hello and world
  * then you will see them communicating.
- * 
+ *
  * *************************************/
 
 ipc.config.id   = 'world';
@@ -23,7 +23,7 @@ ipc.serveNet(
                 );
             }
         );
-        
+
         ipc.server.on(
             'socket.disconnected',
             function(data,socket){
@@ -32,7 +32,5 @@ ipc.serveNet(
         );
     }
 );
-
-ipc.server.define.listen.message='This event type listens for message strings as value of data key.';
 
 ipc.server.start();

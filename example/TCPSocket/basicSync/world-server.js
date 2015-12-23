@@ -9,10 +9,7 @@ var ipc=require('../../../node-ipc');
 
 ipc.config.id   = 'world';
 ipc.config.retry= 1500;
-//node-ipc will default to its local certs
-ipc.config.tls={
-    rejectUnauthorized:false
-}
+ipc.config.sync = true;
 
 ipc.serveNet(
     function(){
@@ -20,10 +17,16 @@ ipc.serveNet(
             'message',
             function(data,socket){
                 ipc.log('got a message : '.debug, data);
-                ipc.server.emit(
-                    socket,
-                    'message',
-                    data+' world!'
+                //fake some synch procedural code
+                setTimeout(
+                    function(){
+                        ipc.server.emit(
+                            socket,
+                            'message',
+                            data+' world!'
+                        );
+                    },
+                    3000
                 );
             }
         );
