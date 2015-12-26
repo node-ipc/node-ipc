@@ -150,7 +150,7 @@ You can override any of these settings by requireing colors and setting the them
 
 `ipc.connectTo(id,path,callback);`  
 
-Used for connecting as a client to local Unix Sockets and Windows Sockets. ***This is the fastst way for processes on the same machine to communicate*** because it bypasses the network card which TCP and UDP must both use.
+Used for connecting as a client to local Unix Sockets and Windows Sockets. ***This is the fastest way for processes on the same machine to communicate*** because it bypasses the network card which TCP and UDP must both use.
 
 | variable | required | definition |
 |----------|----------|------------|
