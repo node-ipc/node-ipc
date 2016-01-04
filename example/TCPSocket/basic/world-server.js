@@ -33,4 +33,11 @@ ipc.serveNet(
     }
 );
 
+ipc.server.on(
+    'error',
+    function(err){
+        ipc.log('Got an ERROR!'.warn,err)
+    }
+)
+
 ipc.server.start();
