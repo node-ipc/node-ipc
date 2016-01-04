@@ -442,6 +442,14 @@ or specifying everything UDP
 | ipc.server| This is a refrence to the server created by `ipc.serve` or `ipc.serveNet`|
 
 ----
+### IPC Server Methods  
+
+| method  | definition |
+|-----------|------------|
+|start| start serving need top call ` serve ` or ` serveNet ` first to set up the server |
+|stop| close the server and stop serving |
+
+----
 
 ### IPC Events  
 
