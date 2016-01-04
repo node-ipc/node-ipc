@@ -11,8 +11,8 @@ ipc.config.id   = 'world';
 ipc.config.retry= 1500;
 ipc.config.sync= true;
 ipc.config.tls={
-    public: '../../../local-node-ipc-certs/server.pub',
-    private: '../../../local-node-ipc-certs/private/server.key'
+    public: __dirname+'/../../../local-node-ipc-certs/server.pub',
+    private: __dirname+'/../../../local-node-ipc-certs/private/server.key'
 }
 
 ipc.serveNet(

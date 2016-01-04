@@ -10,11 +10,11 @@ var ipc=require('../../../node-ipc');
 ipc.config.id   = 'hello';
 ipc.config.retry= 1500;
 ipc.config.tls={
-    private: '../../../local-node-ipc-certs/private/client.key',
-    public: '../../../local-node-ipc-certs/client.pub',
+    private: __dirname+'/../../../local-node-ipc-certs/private/client.key',
+    public: __dirname+'/../../../local-node-ipc-certs/client.pub',
     rejectUnauthorized:false,
     trustedConnections: [
-        '../../../local-node-ipc-certs/server.pub'
+        __dirname+'/../../../local-node-ipc-certs/server.pub'
     ]
 };
 

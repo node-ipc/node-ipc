@@ -10,13 +10,13 @@ var ipc=require('../../../node-ipc');
 ipc.config.id   = 'world';
 ipc.config.retry= 1500;
 ipc.config.tls={
-    public: '../../../local-node-ipc-certs/server.pub',
-    private: '../../../local-node-ipc-certs/private/server.key',
-    dhparam: '../../../local-node-ipc-certs/private/dhparam.pem',
+    public: __dirname+'/../../../local-node-ipc-certs/server.pub',
+    private: __dirname+'/../../../local-node-ipc-certs/private/server.key',
+    dhparam: __dirname+'/../../../local-node-ipc-certs/private/dhparam.pem',
     requestCert: true,
     rejectUnauthorized:false,
     trustedConnections: [
-        '../../../local-node-ipc-certs/client.pub'
+        __dirname+'/../../../local-node-ipc-certs/client.pub'
     ]
 }
 
