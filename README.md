@@ -355,8 +355,8 @@ Used to create TCP, TLS or UDP Socket Server to which Clients can bind or other 
 | variable | required | definition |
 |----------|----------|------------|
 | host     | optional | If not specified this defaults to the first address in os.networkInterfaces(). For TCP, TLS & UDP servers this is most likely going to be 127.0.0.1 or ::1 |
-| port     | optional | The port on wunich the TCP, UDP, or TLS Socket server will be bound, this defaults to 8000 if not specified |
-| UDPType  | optional | If set this will create the server as a UDP socket. 'udp4' or 'udp6' are valid values. This defaults to not being set.
+| port     | optional | The port on which the TCP, UDP, or TLS Socket server will be bound, this defaults to 8000 if not specified |
+| UDPType  | optional | If set this will create the server as a UDP socket. 'udp4' or 'udp6' are valid values. This defaults to not being set. When using udp6 make sure to specify a valid IPv6 host, like ` ::1 ` |
 | callback | optional | Function to be called when the server is created |
 
 ***examples*** arguments can be ommitted solong as they are still in order.
