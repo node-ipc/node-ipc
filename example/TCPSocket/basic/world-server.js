@@ -9,6 +9,7 @@ var ipc=require('../../../node-ipc');
 
 ipc.config.id   = 'world';
 ipc.config.retry= 1500;
+ipc.config.maxConnections=1;
 
 ipc.serveNet(
     function(){
@@ -32,5 +33,12 @@ ipc.serveNet(
         );
     }
 );
+
+ipc.server.on(
+    'error',
+    function(err){
+        ipc.log('Got an ERROR!'.warn,err)
+    }
+)
 
 ipc.server.start();

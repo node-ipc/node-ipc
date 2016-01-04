@@ -7,7 +7,8 @@ A great solution for **Neural Networking** in Node.JS
 
 
 npm info :  [See npm trends and stats for node-ipc](http://npm-stat.com/charts.html?package=node-ipc&author=&from=&to=)   
-[![NPM](https://nodei.co/npm/node-ipc.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/node-ipc/)  
+[![NPM](https://nodei.co/npm/node-ipc.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/node-ipc/)
+[![Package Quality](http://npm.packagequality.com/badge/node-ipc.png)](http://packagequality.com/#?package=node-ipc)  
 ![node-ipc npm version](https://img.shields.io/npm/v/node-ipc.svg) ![supported node version for node-ipc](https://img.shields.io/node/v/node-ipc.svg) ![total npm downloads for node-ipc](https://img.shields.io/npm/dt/node-ipc.svg) ![monthly npm downloads for node-ipc](https://img.shields.io/npm/dm/node-ipc.svg) ![npm licence for node-ipc](https://img.shields.io/npm/l/node-ipc.svg)
 
 [![RIAEvangelist](https://avatars3.githubusercontent.com/u/369041?v=3&s=100)](https://github.com/RIAEvangelist)
@@ -150,7 +151,7 @@ You can override any of these settings by requireing colors and setting the them
 
 `ipc.connectTo(id,path,callback);`  
 
-Used for connecting as a client to local Unix Sockets and Windows Sockets. ***This is the fastst way for processes on the same machine to communicate*** because it bypasses the network card which TCP and UDP must both use.
+Used for connecting as a client to local Unix Sockets and Windows Sockets. ***This is the fastest way for processes on the same machine to communicate*** because it bypasses the network card which TCP and UDP must both use.
 
 | variable | required | definition |
 |----------|----------|------------|
@@ -354,8 +355,8 @@ Used to create TCP, TLS or UDP Socket Server to which Clients can bind or other 
 | variable | required | definition |
 |----------|----------|------------|
 | host     | optional | If not specified this defaults to the first address in os.networkInterfaces(). For TCP, TLS & UDP servers this is most likely going to be 127.0.0.1 or ::1 |
-| port     | optional | The port on wunich the TCP, UDP, or TLS Socket server will be bound, this defaults to 8000 if not specified |
-| UDPType  | optional | If set this will create the server as a UDP socket. 'udp4' or 'udp6' are valid values. This defaults to not being set.
+| port     | optional | The port on which the TCP, UDP, or TLS Socket server will be bound, this defaults to 8000 if not specified |
+| UDPType  | optional | If set this will create the server as a UDP socket. 'udp4' or 'udp6' are valid values. This defaults to not being set. When using udp6 make sure to specify a valid IPv6 host, like ` ::1 ` |
 | callback | optional | Function to be called when the server is created |
 
 ***examples*** arguments can be ommitted solong as they are still in order.
@@ -439,6 +440,14 @@ or specifying everything UDP
 |-----------|------------|
 | ipc.of    | This is where socket connection refrences will be stored when connecting to them as a client via the `ipc.connectTo` or `iupc.connectToNet`. They will be stored based on the ID used to create them, eg : ipc.of.mySocket|
 | ipc.server| This is a refrence to the server created by `ipc.serve` or `ipc.serveNet`|
+
+----
+### IPC Server Methods  
+
+| method  | definition |
+|-----------|------------|
+|start| start serving need top call ` serve ` or ` serveNet ` first to set up the server |
+|stop| close the server and stop serving |
 
 ----
 
