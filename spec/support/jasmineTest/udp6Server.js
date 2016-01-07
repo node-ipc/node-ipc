@@ -15,11 +15,11 @@ var ipc=require('../../../node-ipc');
  * 
  ***************************************/
 
-ipc.config.id   = 'udpServer';
+ipc.config.id   = 'udp6Server';
 ipc.config.retry= 1500;
 
-
 ipc.serveNet(
+    '::1',
     'udp6',
     function(){
         
@@ -32,7 +32,7 @@ ipc.serveNet(
                     'message',
                     {
                         id      : ipc.config.id,
-                        message : 'I am UDP server!'
+                        message : 'I am UDP6 server!'
                         
                     }
                 );

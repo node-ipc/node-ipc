@@ -32,7 +32,7 @@ ipc.serveNet(
                     'message',
                     {
                         id      : ipc.config.id,
-                        message : 'I am UDP server!'
+                        message : 'I am UDP4 server!'
                         
                     }
                 );
@@ -40,7 +40,7 @@ ipc.serveNet(
             }
         );
         
-       // console.log(ipc.server);
+     
     }
 );
 
