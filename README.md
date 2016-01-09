@@ -28,7 +28,7 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
 
 ` npm test ` will run the jasmine tests with istanbul for node-ipc and generate a coverage report in the spec folder.
 
-You may want to install jasmine and node globally with ` sudo npm install -g jasmine istanbul `
+You may want to install jasmine and istanbul globally with ` sudo npm install -g jasmine istanbul `
 
 Tests are currently being re-written in Jasmine and Istanbul and as of the last commit the test servers do not yet auto close after completion so you may want to manually kill them after running the test suite.
 
