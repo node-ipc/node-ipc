@@ -6,14 +6,6 @@ A great solution for complex multiprocess **Neural Networking** in Node.JS
 
 **npm install node-ipc**
 
-### Testing
-
-` npm test ` will run the jasmine tests with istanbul for node-ipc and generate a coverage report in the spec folder.
-
-Tests are currently being re-written in Jasmine and Istanbul so you may want to install these globally with ` sudo npm install -g jasmine istanbul `
-
-As of the last commit the test servers do not auto close after completion so you may want to manually kill them after running the test suite.
-
 #### NPM Stats
 
 npm info :  [See npm trends and stats for node-ipc](http://npm-stat.com/charts.html?package=node-ipc&author=&from=&to=)   
@@ -31,6 +23,14 @@ Package details websites :
 * [NPM Module](https://www.npmjs.org/package/node-ipc "node-ipc npm module"). The npm page for the node-ipc module.
 
 This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/).
+
+#### Testing
+
+` npm test ` will run the jasmine tests with istanbul for node-ipc and generate a coverage report in the spec folder.
+
+You may want to install jasmine and node globally with ` sudo npm install -g jasmine istanbul `
+
+Tests are currently being re-written in Jasmine and Istanbul and as of the last commit the test servers do not yet auto close after completion so you may want to manually kill them after running the test suite.
 
 ----
 #### Contents
