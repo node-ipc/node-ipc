@@ -1,0 +1,989 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for node-ipc/node-ipc.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">node-ipc/</a> node-ipc.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">70.37% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>95/135</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">61.11% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>44/72</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">60% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>6/10</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">70.37% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>95/135</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">140×</span>
+<span class="cline-any cline-yes">69×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">71×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">71×</span>
+<span class="cline-any cline-yes">229×</span>
+<span class="cline-any cline-yes">210×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">71×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var os          = require('os'),
+    dns         = require('dns'),
+    util        = require('util'),
+    colors      = require('colors'),
+    pubsub      = require('event-pubsub'),
+    eventParser = require('./lib/eventParser.js'),
+    Client      = require('./lib/client.js'),
+    Server      = require('./lib/socketServer.js');
+&nbsp;
+colors.setTheme(
+    {
+        good    : 'green',
+        notice  : 'yellow',
+        warn    : 'red',
+        error   : 'redBG',
+        debug   : 'magenta',
+        variable: 'cyan',
+        data    : 'blue'
+    }
+);
+&nbsp;
+var IPType=os.networkInterfaces()[
+    Object.keys(os.networkInterfaces())[0]
+][0].family
+&nbsp;
+var defaults={
+    appspace        : 'app.',
+    socketRoot      : '/tmp/',
+    networkHost     : (IPType=='IPv6')? <span class="branch-0 cbranch-no" title="branch not covered" >'::1' </span>: '127.0.0.1',
+    networkPort     : 8000,
+    id              : os.hostname(),
+    encoding        : 'utf8',
+    rawBuffer       : false,
+    sync            : false,
+    silent          : false,
+    maxConnections  : 100,
+    retry           : 500,
+    maxRetries      : Infinity,
+    stopRetrying    : false,
+    IPType          : IPType,
+    tls             : false
+}
+&nbsp;
+var ipc = {
+    config      : defaults,
+    connectTo   : connect,
+    connectToNet: connectNet,
+    disconnect  : disconnect,
+    serve       : serve,
+    serveNet    : serveNet,
+    of          : {},
+    server      : false,
+    log         : log
+}
+&nbsp;
+function log(){
+    if(ipc.config.silent)
+        return;
+&nbsp;
+    var args=Array.prototype.slice.call(arguments);
+&nbsp;
+    for(var i=0, count=args.length; i&lt;count; i++){
+        if(typeof args[i] != 'object')
+            continue;
+&nbsp;
+        args[i]=util.inspect(args[i],{colors:true});
+    }
+&nbsp;
+    console.log(
+        args.join(' ')
+    );
+}
+&nbsp;
+function disconnect(id){
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(!ipc.of[id])
+<span class="cstat-no" title="statement not covered" >        return;</span>
+&nbsp;
+    ipc.of[id].config.stopRetrying=true;
+&nbsp;
+    ipc.of[id].off('*');
+    <span class="missing-if-branch" title="else path not taken" >E</span>if(ipc.of[id].socket){
+        <span class="missing-if-branch" title="else path not taken" >E</span>if(ipc.of[id].socket.destroy)
+            ipc.of[id].socket.destroy();
+    }
+&nbsp;
+    delete ipc.of[id];
+}
+&nbsp;
+function serve(path,callback){
+    <span class="missing-if-branch" title="else path not taken" >E</span>if(typeof path=='function'){
+        callback=path;
+        path=false;
+    }
+    <span class="missing-if-branch" title="else path not taken" >E</span>if(!path){
+        ipc.log(
+            'Server path not specified, so defaulting to'.notice,
+            'ipc.config.socketRoot + ipc.config.appspace + ipc.config.id'.variable,
+            (ipc.config.socketRoot+ipc.config.appspace+ipc.config.id).data
+        );
+        path=ipc.config.socketRoot+ipc.config.appspace+ipc.config.id;
+    }
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(!callback)
+<span class="cstat-no" title="statement not covered" >        callback=<span class="fstat-no" title="function not covered" >function(){</span>};</span>
+&nbsp;
+    ipc.server=new Server(
+        path,
+        ipc.config,
+        log
+    );
+&nbsp;
+    ipc.server.on(
+        'start',
+        callback
+    );
+}
+&nbsp;
+function serveNet(host,port,UDPType,callback){
+    if(typeof host=='number'){
+        callback=UDPType;
+        UDPType=port;
+        port=host;
+        host=false;
+    }
+    if(typeof host=='function'){
+        callback=host;
+        UDPType=false;
+        host=false;
+        port=false;
+    }
+    if(!host){
+        ipc.log(
+            'Server host not specified, so defaulting to'.notice,
+            'ipc.config.networkHost'.variable,
+            ipc.config.networkHost.data
+        );
+        host=ipc.config.networkHost;
+    }
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(host.toLowerCase()=='udp4' || host.toLowerCase()=='udp6'){
+<span class="cstat-no" title="statement not covered" >        callback=port;</span>
+<span class="cstat-no" title="statement not covered" >        UDPType=host.toLowerCase();</span>
+<span class="cstat-no" title="statement not covered" >        port=false;</span>
+<span class="cstat-no" title="statement not covered" >        host=ipc.config.networkHost;</span>
+    }
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(typeof port=='string'){
+<span class="cstat-no" title="statement not covered" >        callback=UDPType;</span>
+<span class="cstat-no" title="statement not covered" >        UDPType=port;</span>
+<span class="cstat-no" title="statement not covered" >        port=false;</span>
+    }
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(typeof port=='function'){
+<span class="cstat-no" title="statement not covered" >        callback=port;</span>
+<span class="cstat-no" title="statement not covered" >        UDPType=false;</span>
+<span class="cstat-no" title="statement not covered" >        port=false;</span>
+    }
+    if(!port){
+        ipc.log(
+            'Server port not specified, so defaulting to'.notice,
+            'ipc.config.networkPort'.variable,
+            ipc.config.networkPort
+        );
+        port=ipc.config.networkPort;
+    }
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(typeof UDPType=='function'){
+<span class="cstat-no" title="statement not covered" >        callback=UDPType;</span>
+<span class="cstat-no" title="statement not covered" >        UDPType=false;</span>
+    }
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(!callback)
+<span class="cstat-no" title="statement not covered" >        callback=<span class="fstat-no" title="function not covered" >function(){</span>};</span>
+&nbsp;
+&nbsp;
+    ipc.server=new Server(
+        host,
+        ipc.config,
+        log,
+        port
+    );
+&nbsp;
+    if(UDPType)
+        ipc.server[UDPType]=true;
+&nbsp;
+    ipc.server.on(
+        'start',
+        callback
+    );
+}
+&nbsp;
+function connect(id,path,callback){
+    if(typeof path == 'function'){
+        callback=path;
+        path=false;
+    }
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(!callback)
+<span class="cstat-no" title="statement not covered" >        callback=<span class="fstat-no" title="function not covered" >function(){</span>};</span>
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(!id){
+<span class="cstat-no" title="statement not covered" >        ipc.log(</span>
+            'Service id required'.warn,
+            'Requested service connection without specifying service id. Aborting connection attempt'.notice
+        );
+<span class="cstat-no" title="statement not covered" >        return;</span>
+    }
+&nbsp;
+    if(!path){
+        ipc.log(
+            'Service path not specified, so defaulting to'.notice,
+            'ipc.config.socketRoot + ipc.config.appspace + id'.variable,
+            (ipc.config.socketRoot+ipc.config.appspace+id).data
+        );
+        path=ipc.config.socketRoot+ipc.config.appspace+id;
+    }
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(ipc.of[id]){
+<span class="cstat-no" title="statement not covered" >        if(!ipc.of[id].socket.destroyed){</span>
+<span class="cstat-no" title="statement not covered" >            ipc.log(</span>
+                'Already Connected to'.notice,
+                id.variable,
+                '- So executing success without connection'.notice
+            );
+<span class="cstat-no" title="statement not covered" >            callback();</span>
+<span class="cstat-no" title="statement not covered" >            return;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        ipc.of[id].socket.destroy();</span>
+    }
+&nbsp;
+    ipc.of[id]       = new Client(ipc.config,ipc.log);
+    ipc.of[id].id    = id;
+    ipc.of[id].path  = path;
+&nbsp;
+    ipc.of[id].connect();
+&nbsp;
+    callback(ipc);
+}
+&nbsp;
+function connectNet(id,host,port,callback){
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(!id){
+<span class="cstat-no" title="statement not covered" >        ipc.log(</span>
+            'Service id required'.warn,
+            'Requested service connection without specifying service id. Aborting connection attempt'.notice
+        );
+<span class="cstat-no" title="statement not covered" >        return;</span>
+    }
+    <span class="missing-if-branch" title="else path not taken" >E</span>if(typeof host=='number'){
+        callback=port;
+        port=host;
+        host=false;
+    }
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(typeof host=='function'){
+<span class="cstat-no" title="statement not covered" >        callback=host;</span>
+<span class="cstat-no" title="statement not covered" >        host=false;</span>
+<span class="cstat-no" title="statement not covered" >        port=false;</span>
+    }
+    <span class="missing-if-branch" title="else path not taken" >E</span>if(!host){
+        ipc.log(
+            'Server host not specified, so defaulting to'.notice,
+            'ipc.config.networkHost'.variable,
+            ipc.config.networkHost.data
+        );
+        host=ipc.config.networkHost;
+    }
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(typeof port=='function'){
+<span class="cstat-no" title="statement not covered" >        callback=port;</span>
+<span class="cstat-no" title="statement not covered" >        port=false;</span>
+    }
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(!port){
+<span class="cstat-no" title="statement not covered" >        ipc.log(</span>
+            'Server port not specified, so defaulting to'.notice,
+            'ipc.config.networkPort'.variable,
+            ipc.config.networkPort
+        );
+<span class="cstat-no" title="statement not covered" >        port=ipc.config.networkPort;</span>
+    }
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(typeof callback == 'string'){
+<span class="cstat-no" title="statement not covered" >        UDPType=callback;</span>
+<span class="cstat-no" title="statement not covered" >        callback=false;</span>
+    }
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(!callback)
+<span class="cstat-no" title="statement not covered" >        callback=<span class="fstat-no" title="function not covered" >function(){</span>};</span>
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(ipc.of[id]){
+<span class="cstat-no" title="statement not covered" >        if(!ipc.of[id].socket.destroyed){</span>
+<span class="cstat-no" title="statement not covered" >            ipc.log(</span>
+                'Already Connected to'.notice,
+                id.variable,
+                '- So executing success without connection'.notice
+            );
+<span class="cstat-no" title="statement not covered" >            callback();</span>
+<span class="cstat-no" title="statement not covered" >            return;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        ipc.of[id].socket.destroy();</span>
+    }
+&nbsp;
+    ipc.of[id]       = new Client(ipc.config,ipc.log);
+    ipc.of[id].id    = id;
+    ipc.of[id].path  = host;
+    ipc.of[id].port  = port;
+&nbsp;
+    ipc.of[id].connect();
+&nbsp;
+    callback(ipc);
+}
+&nbsp;
+module.exports=ipc;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 08 2016 21:50:31 GMT-0800 (PST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

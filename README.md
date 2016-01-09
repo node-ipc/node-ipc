@@ -1,10 +1,20 @@
 node-ipc
 ================
-*a nodejs module for local and remote Inter Process Communication* with full support for Linux, Mac and Windows.  
-A great solution for **Neural Networking** in Node.JS
+*a nodejs module for local and remote Inter Process Communication* with full support for Linux, Mac and Windows. It also supports all forms of socket communication from low level unix and windows sockets to UDP and secure TLS and TCP sockets.
+
+A great solution for complex multiprocess **Neural Networking** in Node.JS
 
 **npm install node-ipc**
 
+### Testing
+
+` npm test ` will run the jasmine tests with istanbul for node-ipc and generate a coverage report in the spec folder.
+
+Tests are currently being re-written in Jasmine and Istanbul so you may want to install these globally with ` sudo npm install -g jasmine istanbul `
+
+As of the last commit the test servers do not auto close after completion so you may want to manually kill them after running the test suite.
+
+#### NPM Stats
 
 npm info :  [See npm trends and stats for node-ipc](http://npm-stat.com/charts.html?package=node-ipc&author=&from=&to=)   
 [![NPM](https://nodei.co/npm/node-ipc.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/node-ipc/)
