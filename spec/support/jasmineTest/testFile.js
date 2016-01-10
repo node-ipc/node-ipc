@@ -1,3 +1,4 @@
+'use strict';
 const cmd=require('node-cmd');
 
 cmd.run(`node ${__dirname}/unixServer.js`);

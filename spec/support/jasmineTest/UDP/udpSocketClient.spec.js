@@ -1,4 +1,6 @@
-var ipc = require('../../../../node-ipc');
+'use strict';
+
+const ipc = require('../../../../node-ipc');
 
 ipc.config.id ='testClient';
 ipc.config.retry = 600;
