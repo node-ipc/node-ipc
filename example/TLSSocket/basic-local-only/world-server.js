@@ -7,12 +7,12 @@ var ipc=require('../../../node-ipc');
  *
  * *************************************/
 
-ipc.config.id   = 'world';
+ipc.config.id = 'world';
 ipc.config.retry= 1500;
 //node-ipc will default to its local certs
 ipc.config.tls={
     rejectUnauthorized:false
-}
+};
 
 ipc.serveNet(
     function(){
@@ -31,7 +31,7 @@ ipc.serveNet(
         ipc.server.on(
             'socket.disconnected',
             function(data,socket){
-                console.log(arguments)
+                console.log(arguments);
             }
         );
     }

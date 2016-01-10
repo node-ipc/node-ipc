@@ -7,7 +7,7 @@ var ipc=require('../../../node-ipc');
  *
  * *************************************/
 
-ipc.config.id   = 'world';
+ipc.config.id = 'world';
 ipc.config.retry= 1500;
 ipc.config.rawBuffer=true;
 ipc.config.encoding='ascii';
@@ -22,7 +22,7 @@ ipc.config.tls={
     trustedConnections: [
         __dirname+'/../../../local-node-ipc-certs/client.pub'
     ]
-}
+};
 
 ipc.serveNet(
     function(){

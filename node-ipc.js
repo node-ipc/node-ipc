@@ -1,10 +1,12 @@
-var os          = require('os'),
-    dns         = require('dns'),
-    util        = require('util'),
-    colors      = require('colors'),
+'use strict';
+
+const os = require('os'),
+    dns = require('dns'),
+    util = require('util'),
+    colors = require('colors'),
     eventParser = require('./lib/eventParser.js'),
-    Client      = require('./lib/client.js'),
-    Server      = require('./lib/socketServer.js');
+    Client = require('./lib/client.js'),
+    Server = require('./lib/socketServer.js');
 
 colors.setTheme(
     {
@@ -18,11 +20,11 @@ colors.setTheme(
     }
 );
 
-var IPType=os.networkInterfaces()[
+const IPType=os.networkInterfaces()[
     Object.keys(os.networkInterfaces())[0]
-][0].family
+][0].family;
 
-var defaults={
+let defaults={
     appspace        : 'app.',
     socketRoot      : '/tmp/',
     networkHost     : (IPType=='IPv6')? '::1' : '127.0.0.1',
@@ -38,9 +40,9 @@ var defaults={
     stopRetrying    : false,
     IPType          : IPType,
     tls             : false
-}
+};
 
-var ipc = {
+let ipc = {
     config      : defaults,
     connectTo   : connect,
     connectToNet: connectNet,
@@ -50,16 +52,16 @@ var ipc = {
     of          : {},
     server      : false,
     log         : log
-}
+};
 
 function log(){
     if(ipc.config.silent){
         return;
     }
 
-    var args=Array.prototype.slice.call(arguments);
+    let args=Array.prototype.slice.call(arguments);
 
-    for(var i=0, count=args.length; i<count; i++){
+    for(let i=0, count=args.length; i<count; i++){
         if(typeof args[i] != 'object'){
             continue;
         }
@@ -87,7 +89,7 @@ function disconnect(id){
     }
 
     delete ipc.of[id];
-};
+}
 
 function serve(path,callback){
     if(typeof path=='function'){
@@ -232,9 +234,9 @@ function connect(id,path,callback){
         ipc.of[id].socket.destroy();
     }
 
-    ipc.of[id]       = new Client(ipc.config,ipc.log);
-    ipc.of[id].id    = id;
-    ipc.of[id].path  = path;
+    ipc.of[id] = new Client(ipc.config,ipc.log);
+    ipc.of[id].id = id;
+    ipc.of[id].path = path;
 
     ipc.of[id].connect();
 
@@ -302,10 +304,10 @@ function connectNet(id,host,port,callback){
         ipc.of[id].socket.destroy();
     }
 
-    ipc.of[id]       = new Client(ipc.config,ipc.log);
-    ipc.of[id].id    = id;
-    ipc.of[id].path  = host;
-    ipc.of[id].port  = port;
+    ipc.of[id] = new Client(ipc.config,ipc.log);
+    ipc.of[id].id = id;
+    ipc.of[id].path = host;
+    ipc.of[id].port = port;
 
     ipc.of[id].connect();
 

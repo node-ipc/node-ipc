@@ -7,7 +7,7 @@ var ipc=require('../../../node-ipc');
  *
  * *************************************/
 
-ipc.config.id   = 'hello';
+ipc.config.id = 'hello';
 ipc.config.retry= 1500;
 ipc.config.networkHost='localhost';
 ipc.config.tls={
@@ -29,7 +29,7 @@ ipc.connectToNet(
                 ipc.of.world.emit(
                     'message',
                     'hello'
-                )
+                );
             }
         );
         ipc.of.world.on(

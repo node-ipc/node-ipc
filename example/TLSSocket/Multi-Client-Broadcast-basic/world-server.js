@@ -7,17 +7,17 @@ var ipc=require('../../../node-ipc');
  *
  * *************************************/
 
-ipc.config.id   = 'world';
+ipc.config.id = 'world';
 ipc.config.retry= 1500;
 ipc.config.tls={
     public: __dirname+'/../../../local-node-ipc-certs/server.pub',
     private: __dirname+'/../../../local-node-ipc-certs/private/server.key'
-}
+};
 
 var messages={
     goodbye:false,
     hello:false
-}
+};
 
 ipc.serveNet(
     function(){

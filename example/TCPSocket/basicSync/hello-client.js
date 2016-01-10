@@ -7,7 +7,7 @@ var ipc=require('../../../node-ipc');
  *
  * *************************************/
 
-ipc.config.id   = 'hello';
+ipc.config.id = 'hello';
 ipc.config.retry= 1500;
 ipc.config.sync= true;
 
@@ -24,7 +24,7 @@ ipc.connectToNet(
                     ipc.of.world.emit(
                         'message',
                         'hello'+i
-                    )
+                    );
                 }
             }
         );
@@ -43,4 +43,4 @@ ipc.connectToNet(
     }
 );
 
-console.log(ipc)
+console.log(ipc);

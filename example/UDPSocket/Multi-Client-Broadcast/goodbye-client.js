@@ -15,7 +15,7 @@ var ipc=require('../../../node-ipc');
  * 
  * *************************************/
 
-ipc.config.id   = 'goodbye';
+ipc.config.id = 'goodbye';
 ipc.config.retry= 1500;
 
 ipc.serveNet(

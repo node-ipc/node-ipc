@@ -19,7 +19,7 @@ describe('TCP Socket verification of client',
                 ipc.connectToNet(
                     'tcpFakeServer',
                     8002,
-                    function(){
+                    function open(){
                         ipc.of.tcpFakeServer.on(
                             'error',
                             function gotError(err){

@@ -7,13 +7,13 @@ var ipc=require('../../../node-ipc');
  *
  * *************************************/
 
-ipc.config.id   = 'world';
+ipc.config.id = 'world';
 ipc.config.retry= 1500;
 ipc.config.sync= true;
 ipc.config.tls={
     public: __dirname+'/../../../local-node-ipc-certs/server.pub',
     private: __dirname+'/../../../local-node-ipc-certs/private/server.key'
-}
+};
 
 ipc.serveNet(
     function(){
@@ -37,7 +37,7 @@ ipc.serveNet(
         ipc.server.on(
             'socket.disconnected',
             function(data,socket){
-                console.log(arguments)
+                console.log(arguments);
             }
         );
     }

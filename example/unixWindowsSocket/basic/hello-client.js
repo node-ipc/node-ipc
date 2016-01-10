@@ -7,7 +7,7 @@ var ipc=require('../../../node-ipc');
  *
  * *************************************/
 
-ipc.config.id   = 'hello';
+ipc.config.id = 'hello';
 ipc.config.retry = 1000;
 
 ipc.connectTo(
@@ -23,7 +23,7 @@ ipc.connectTo(
                         id      : ipc.config.id,
                         message : 'hello'
                     }
-                )
+                );
             }
         );
         ipc.of.world.on(

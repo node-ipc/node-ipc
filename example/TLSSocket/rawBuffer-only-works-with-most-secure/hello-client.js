@@ -7,7 +7,7 @@ var ipc=require('../../../node-ipc');
  *
  * *************************************/
 
-ipc.config.id   = 'hello';
+ipc.config.id = 'hello';
 ipc.config.retry= 1500;
 ipc.config.rawBuffer=true;
 ipc.config.encoding='ascii';
@@ -31,7 +31,7 @@ ipc.connectToNet(
                 ipc.log('## connected to world ##'.rainbow, ipc.config.delay);
                 ipc.of.world.emit(
                     'hello'
-                )
+                );
             }
         );
 
