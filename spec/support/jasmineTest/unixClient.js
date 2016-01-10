@@ -1,38 +1,34 @@
-var ipc=require('../../../node-ipc');
+const ipc=require('../../../node-ipc');
+const process=require('process');
+const dieAfter=60000;
 
-ipc.config.id   = 'unixClient';
+//die after 60 seconds
+setTimeout(
+    function killServerProcess(){
+        process.exit(0);
+    },
+    dieAfter
+);
+
+ipc.config.id = 'unixClient';
 ipc.config.retry= 600;
-
+ipc.config.silent=true;
 
 ipc.connectTo(
     'testWorld',
     '/tmp/app.testWorld',
-    function(){
+    function opened(){
         ipc.of.testWorld.on(
             'connect',
-            function(){
-                
+            function connected(){
                 ipc.of.testWorld.emit(
                     'message',
                     {
                         id      : ipc.config.id,
                         message : 'I am unix client.'
                     }
-                )
+                );
             }
         );
-        ipc.of.testWorld.on(
-            'disconnect',
-            function(){
-                ipc.log('disconnected from testWorld'.notice);
-            }
-        );
-        ipc.of.testWorld.on(
-            'message',
-            function(data){
-                ipc.log('got a message from testWorld : '.debug, data);
-            }
-        );
-        
     }
 );

@@ -1,13 +1,13 @@
 var ipc = require('../../../../node-ipc');
     
-    ipc.config.id ='testClient';
-    ipc.config.retry = 600;
+ipc.config.id ='testClient';
+ipc.config.retry = 600;
     
 
 describe('Test Cases for Unix client: ',
          function(){
          
-            it(
+             it(
                 'Verify retry attempts by Unix client to connect to the Unix server as per the value set in "maxRetries" parameter.',
                 function(done){
                     
@@ -31,11 +31,11 @@ describe('Test Cases for Unix client: ',
                                     }
                                         else if(ipc.of.fakeworld.retriesRemaining < 0){
                                         
-                                        expect(retryAttempt).not.toBeLessThan(0);
-                                        expect(ipc.of.fakeworld.retriesRemaining).not.toBeLessThan(0);
+                                            expect(retryAttempt).not.toBeLessThan(0);
+                                            expect(ipc.of.fakeworld.retriesRemaining).not.toBeLessThan(0);
                                             
                                             
-                                        ipc.of.fakeworld.on(
+                                            ipc.of.fakeworld.on(
                                             'error',
                                             function(err){
                                                 console.log('Error is: ', err);
@@ -43,9 +43,9 @@ describe('Test Cases for Unix client: ',
                                             }
                                         ); 
                                             
-                                    }
+                                        }
                                         
-                                     retryAttempt--;   
+                                    retryAttempt--;   
                                 }
                             );
                          }
@@ -63,7 +63,7 @@ describe('Test Cases for Unix client: ',
                 }
             );
      
-        it(
+             it(
                 'Verify Unix client does not connect to the unix server when "stopRetrying" value is set to true.',
                 function(done){
                     
@@ -87,11 +87,11 @@ describe('Test Cases for Unix client: ',
                                     }
                                         else if(ipc.of.fakeworld.retriesRemaining < 3){
                                         
-                                        expect(retryAttempt).not.toBeLessThan(3);
-                                        expect(ipc.of.fakeworld.retriesRemaining).not.toBeLessThan(3);
+                                            expect(retryAttempt).not.toBeLessThan(3);
+                                            expect(ipc.of.fakeworld.retriesRemaining).not.toBeLessThan(3);
                                             
                                             
-                                        ipc.of.fakeworld.on(
+                                            ipc.of.fakeworld.on(
                                             'error',
                                             function(err){
                                                 console.log('Error is: ', err);
@@ -99,9 +99,9 @@ describe('Test Cases for Unix client: ',
                                             }
                                         ); 
                                             
-                                    }
+                                        }
                                         
-                                     retryAttempt--;   
+                                    retryAttempt--;   
                                 }
                             );
                          }
@@ -118,14 +118,14 @@ describe('Test Cases for Unix client: ',
             );
    
        
-        it(
+             it(
                 'Verify unix client connects to "unixServer" and receives message.',
                 function(done){
                     ipc.connectTo(
                         'unixServer',
                         '/tmp/app.unixServer',
                          function(){
-                            ipc.of.unixServer.on(
+                             ipc.of.unixServer.on(
                                 'connect',
                                 function(){
                                     ipc.of.unixServer.emit(
@@ -162,7 +162,7 @@ describe('Test Cases for Unix client: ',
                 }
         );
     
-        it(
+             it(
             'Verify unix client queues the requests being sent to the server synchronously until it receives the response from server.',
                 function(done){
             
@@ -173,7 +173,7 @@ describe('Test Cases for Unix client: ',
                         'unixServerSync',
                         '/tmp/app.unixServerSync',
                          function(){
-                            ipc.of.unixServerSync.on(
+                             ipc.of.unixServerSync.on(
                                 'connect',
                                 function(){
                                     
@@ -192,10 +192,10 @@ describe('Test Cases for Unix client: ',
                                     ipc.of.unixServerSync.on(
                                         'message',
                                         function(data){
-                                              if (data.message != null){
+                                            if (data.message != null){
                                                 responseCounter++; 
                                                 expect(data.message).toBe('Response from unix server');
-                                              }
+                                            }
                                             
                                             if (responseCounter == 5){
                                                 expect(responseCounter).toBe(5);
@@ -220,6 +220,6 @@ describe('Test Cases for Unix client: ',
                 }
         );
     // End of test cases for Unix
-    }
+         }
 );
 

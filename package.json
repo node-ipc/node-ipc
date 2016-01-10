@@ -22,7 +22,8 @@
     "jasmine": "^2.4.1"
   },
   "scripts": {
-    "test": "istanbul cover -x **/spec/** -dir ./spec/coverage jasmine"
+    "test": "istanbul cover -x **/spec/** -dir ./spec/coverage jasmine",
+    "cover": "istanbul cover -x **/spec/** -dir ./spec/coverage jasmine&& cat ./spec/coverage/lcov.info | codacy-coverage"
   },
   "keywords": [
     "IPC",

@@ -1,22 +1,27 @@
-var ipc=require('../../../node-ipc');
+const ipc=require('../../../node-ipc');
+const process=require('process');
+const dieAfter=60000;
+const messageDelay=900;
 
-/***************************************\
- * 
- * You should start both hello and world
- * then you will see them communicating.
- * 
- * *************************************/
+//die after 60 seconds
+setTimeout(
+    function killServerProcess(){
+        process.exit(0);
+    },
+    dieAfter
+);
 
-ipc.config.id   = 'unixServerSync';
+ipc.config.id = 'unixServerSync';
 ipc.config.retry= 1500;
+ipc.config.silent=true;
 
 ipc.serve(
-    function(){
+    function serverStarted(){
         ipc.server.on(
             'message',
-            function(data,socket){
+            function gotMessage(data,socket){
                 setTimeout(
-                    function(){
+                    function delayedMessage(){
                         ipc.server.emit(
                             socket,
                             'message',
@@ -25,7 +30,8 @@ ipc.serve(
                                 message : 'Response from unix server'
                             }
                         );
-                    },900
+                    },
+                    messageDelay
                 );
             }
         );

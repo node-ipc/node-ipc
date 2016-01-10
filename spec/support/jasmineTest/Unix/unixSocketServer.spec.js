@@ -1,13 +1,13 @@
 var ipc = require('../../../../node-ipc');
     
-    ipc.config.id ='testWorld';
-    ipc.config.retry = 1000;
+ipc.config.id ='testWorld';
+ipc.config.retry = 1000;
 
 
 describe('Test Cases for server: ',
          function(){
         // Unix server verification //    
-            it(
+             it(
                 'Verify unix server detects only 1 client out of 2 clients and receives message.',
                 function(done){
                     
@@ -42,6 +42,6 @@ describe('Test Cases for server: ',
                     
                 }
             );
-    }
+         }
 );
 

@@ -1,13 +1,13 @@
 var ipc = require('../../../../node-ipc');
     
-    ipc.config.id ='testWorld';
-    ipc.config.retry = 1000;
+ipc.config.id ='testWorld';
+ipc.config.retry = 1000;
 
 
 describe('TCP Socket verification of server',
          function(){
     
-    it(
+             it(
                 'Verify TCP server detects only 1 client out of 2 clients and receives message.',
                 function(done){
                     
@@ -43,6 +43,6 @@ describe('TCP Socket verification of server',
                     
                 }
             );
-        }
+         }
 );
 

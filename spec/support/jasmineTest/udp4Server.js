@@ -1,46 +1,35 @@
-var ipc=require('../../../node-ipc');
+const ipc=require('../../../node-ipc');
+const process=require('process');
+const dieAfter=60000;
 
-/***************************************\
- * 
- * Since there is no client relationship
- * with UDP sockets sockets are not kept 
- * open.
- * 
- * This means the order sockets are opened
- * is important.
- * 
- * Start World first. Then you can start 
- * hello or goodbye in any order you
- * choose.
- * 
- ***************************************/
+//die after 60 seconds
+setTimeout(
+    function killServerProcess(){
+        process.exit(0);
+    },
+    dieAfter
+);
 
-ipc.config.id   = 'udpServer';
+ipc.config.id = 'udpServer';
 ipc.config.retry= 1500;
-
+ipc.config.silent=true;
 
 ipc.serveNet(
     'udp4',
-    function(){
-        
+    function serverStarted(){
         ipc.server.on(
             'message',
-            function(data,socket){
-                
+            function gotMessage(data,socket){
                 ipc.server.emit(
                     socket,
                     'message',
                     {
                         id      : ipc.config.id,
                         message : 'I am UDP4 server!'
-                        
                     }
                 );
-
             }
         );
-        
-     
     }
 );
 

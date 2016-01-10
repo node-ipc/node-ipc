@@ -1,34 +1,38 @@
-var ipc=require('../../../node-ipc');
+const ipc=require('../../../node-ipc');
+const process=require('process');
+const dieAfter=60000;
+const messageDelay=900;
 
-/***************************************\
- * 
- * You should start both hello and world
- * then you will see them communicating.
- * 
- * *************************************/
+//die after 60 seconds
+setTimeout(
+    function killServerProcess(){
+        process.exit(0);
+    },
+    dieAfter
+);
 
-ipc.config.id   = 'tcpServerSync';
+ipc.config.id = 'tcpServerSync';
 ipc.config.retry= 1500;
 ipc.config.networkPort = 8400;
-
+ipc.config.silent=true;
 
 ipc.serveNet(
-    function(){
+    function serverStarted(){
         ipc.server.on(
             'message',
-            function(data,socket){
-               setTimeout(
-                   function(){
-                        ipc.server.emit(
+            function gotMessage(data,socket){
+                setTimeout(
+                   function delayedMessage(){
+                       ipc.server.emit(
                             socket,
                             'message',
-                            {
-                                id      : ipc.config.id,
-                                message : 'Response from TCP server'
-
-                            }
+                           {
+                               id      : ipc.config.id,
+                               message : 'Response from TCP server'
+                           }
                         );
-                    },900
+                   },
+                   messageDelay
                 );
             }
         );
