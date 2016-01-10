@@ -2,7 +2,6 @@ var os          = require('os'),
     dns         = require('dns'),
     util        = require('util'),
     colors      = require('colors'),
-    pubsub      = require('event-pubsub'),
     eventParser = require('./lib/eventParser.js'),
     Client      = require('./lib/client.js'),
     Server      = require('./lib/socketServer.js');
