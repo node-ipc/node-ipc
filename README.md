@@ -30,8 +30,6 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
 
 You may want to install jasmine and istanbul globally with ` sudo npm install -g jasmine istanbul `
 
-Tests are currently being re-written in Jasmine and Istanbul and as of the last commit the test servers do not yet auto close after completion so you may want to manually kill them after running the test suite.
-
 ----
 #### Contents
 
