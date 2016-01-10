@@ -54,14 +54,16 @@ var ipc = {
 }
 
 function log(){
-    if(ipc.config.silent)
+    if(ipc.config.silent){
         return;
+    }
 
     var args=Array.prototype.slice.call(arguments);
 
     for(var i=0, count=args.length; i<count; i++){
-        if(typeof args[i] != 'object')
+        if(typeof args[i] != 'object'){
             continue;
+        }
 
         args[i]=util.inspect(args[i],{colors:true});
     }
@@ -72,19 +74,21 @@ function log(){
 }
 
 function disconnect(id){
-    if(!ipc.of[id])
+    if(!ipc.of[id]){
         return;
+    }
 
     ipc.of[id].config.stopRetrying=true;
 
     ipc.of[id].off('*');
     if(ipc.of[id].socket){
-        if(ipc.of[id].socket.destroy)
+        if(ipc.of[id].socket.destroy){
             ipc.of[id].socket.destroy();
+        }
     }
 
     delete ipc.of[id];
-}
+};
 
 function serve(path,callback){
     if(typeof path=='function'){
@@ -100,8 +104,9 @@ function serve(path,callback){
         path=ipc.config.socketRoot+ipc.config.appspace+ipc.config.id;
     }
 
-    if(!callback)
+    if(!callback){
         callback=function(){};
+    }
 
     ipc.server=new Server(
         path,
@@ -167,9 +172,9 @@ function serveNet(host,port,UDPType,callback){
         UDPType=false;
     }
 
-    if(!callback)
+    if(!callback){
         callback=function(){};
-
+    }
 
     ipc.server=new Server(
         host,
@@ -178,8 +183,9 @@ function serveNet(host,port,UDPType,callback){
         port
     );
 
-    if(UDPType)
+    if(UDPType){
         ipc.server[UDPType]=true;
+    }
 
     ipc.server.on(
         'start',
@@ -193,8 +199,9 @@ function connect(id,path,callback){
         path=false;
     }
 
-    if(!callback)
+    if(!callback){
         callback=function(){};
+    }
 
     if(!id){
         ipc.log(
@@ -279,8 +286,9 @@ function connectNet(id,host,port,callback){
         UDPType=callback;
         callback=false;
     }
-    if(!callback)
+    if(!callback){
         callback=function(){};
+    }
 
     if(ipc.of[id]){
         if(!ipc.of[id].socket.destroyed){
