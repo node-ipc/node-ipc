@@ -15,6 +15,8 @@ setTimeout(
 ipc.config.id = 'udpServer';
 ipc.config.retry= 1500;
 ipc.config.silent=true;
+ipc.config.networkPort=8095;
+
 
 ipc.serveNet(
     'udp4',
