@@ -6,7 +6,7 @@ ipc.config.id ='testClient';
 ipc.config.retry = 600;
 
 describe('Test Cases for Unix client: ',
-    function describeTests(){
+    function UnixClientSpec(){
         it(
             'Verify retry attempts by Unix client to connect to the Unix server as per the value set in "maxRetries" parameter.',
             function testIt(done){
@@ -46,7 +46,7 @@ describe('Test Cases for Unix client: ',
 
         it(
             'Verify Unix client does not connect to the unix server when "stopRetrying" value is set to true.',
-            function(done){
+            function testIt(done){
 
                 ipc.config.maxRetries = 3;
                 ipc.config.stopRetrying = true;
@@ -104,7 +104,7 @@ describe('Test Cases for Unix client: ',
 
                                 ipc.of.unixServer.on(
                                     'error',
-                                    function(err){
+                                    function gotErr(err){
                                         expect(err).toBe(false);
                                         testDone();
                                     }
@@ -156,7 +156,7 @@ describe('Test Cases for Unix client: ',
 
                                 ipc.of.unixServerSync.on(
                                     'message',
-                                    function(data){
+                                    function gotMessage(data){
                                         expect(data.message).toBe('Response from unix server');
                                         responseCounter++;
 

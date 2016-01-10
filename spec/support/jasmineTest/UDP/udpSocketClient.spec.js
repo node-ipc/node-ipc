@@ -4,7 +4,7 @@ const ipc = require('../../../../node-ipc');
 
 describe(
     'UDP Socket verification.',
-     function testDescription(){
+     function UDPSocketSpec(){
          it(
             'Verify UDP server of type udp4 connects to UDP server named "udp4Server" and receives message.',
             function testIt(done){
@@ -29,7 +29,7 @@ describe(
 
                         ipc.server.on(
                             'error',
-                            function(err){
+                            function gotErr(err){
                                 expect(err).toBe(false);
                                 testDone();
                             }
@@ -71,7 +71,7 @@ describe(
                     '::1',
                     clientPort,
                     'udp6',
-                    function(){
+                    function serverStarted(){
                         ipc.server.on(
                             'message',
                             function(data,socket){
@@ -83,7 +83,7 @@ describe(
 
                         ipc.server.on(
                             'error',
-                            function(err){
+                            function gotErr(err){
                                 expect(err).toBe(false);
                                 testDone();
                             }
