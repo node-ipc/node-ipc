@@ -22,6 +22,7 @@ describe(
                         ipc.server.on(
                             'message',
                             function gotMessage(data,socket){
+                                expect(socket).toBeDefined();
                                 expect(data.id).toBe('udpServer');
                                 expect(data.message).toBe('I am UDP4 server!');
                                 testDone();

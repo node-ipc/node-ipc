@@ -19,7 +19,7 @@ describe('TCP Socket verification of server',
                     function serverStarted(){
                         ipc.server.on(
                             'connect',
-                            function connected(data,socket){
+                            function connected(){
                                 clientCounter++;
                             }
                         );

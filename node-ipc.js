@@ -1,10 +1,8 @@
 'use strict';
 
 const os = require('os'),
-    dns = require('dns'),
     util = require('util'),
     colors = require('colors'),
-    eventParser = require('./lib/eventParser.js'),
     Client = require('./lib/client.js'),
     Server = require('./lib/socketServer.js');
 

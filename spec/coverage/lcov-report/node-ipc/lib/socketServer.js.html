@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">63.16% </span>
+        <span class="strong">62.91% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>96/152</span>
+        <span class='fraction'>95/151</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">55.81% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>48/86</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">80% </span>
+        <span class="strong">78.95% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>16/20</span>
+        <span class='fraction'>15/19</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">63.16% </span>
+        <span class="strong">62.91% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>96/152</span>
+        <span class='fraction'>95/151</span>
       </div>
     </div>
   </div>
@@ -412,11 +412,7 @@
 367
 368
 369
-370
-371
-372
-373
-374</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+370</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -510,8 +506,6 @@
 <span class="cline-any cline-yes">4×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4×</span>
 <span class="cline-any cline-yes">4×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4×</span>
@@ -749,8 +743,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4×</span>
@@ -865,16 +857,16 @@ function init(path,config,log,port){
         sockets         : [],
         emit            : emit,
         broadcast       : broadcast,
-        onStart         : function(socket){
+        onStart         : function onStart(socket){
             this.trigger(
                 'start',
                 socket
             );
         },
-        stop:function(){
+        stop:function stop(){
             server.server.close();
         },
-        start           : function(){
+        start           : function start(){
             <span class="missing-if-branch" title="if path not taken" >I</span>if(!this.path){
 <span class="cstat-no" title="statement not covered" >                server.log('Socket Server Path not specified, refusing to start'.warn);</span>
 <span class="cstat-no" title="statement not covered" >                return;</span>
@@ -882,244 +874,240 @@ function init(path,config,log,port){
 &nbsp;
             fs.unlink(
                 this.path,
-                (
-                    function(server){
-                        return function () {
-                            server.log('starting server on '.debug,server.path.variable,((server.port)?':'+server.port:'').variable);
+                function () {
+                    server.log('starting server on '.debug,server.path.variable,((server.port)?':'+server.port:'').variable);
 &nbsp;
-                            if(!server.udp4 &amp;&amp; !server.udp6){
-                                <span class="missing-if-branch" title="else path not taken" >E</span>if(!server.config.tls){
-                                    server.server=net.createServer(
-                                        serverCreated
-                                    );
-                                }else{
-<span class="cstat-no" title="statement not covered" >                                    server.log('starting TLS server'.debug,server.config.tls);</span>
-<span class="cstat-no" title="statement not covered" >                                    if(server.config.tls.private){</span>
-<span class="cstat-no" title="statement not covered" >                                        server.config.tls.key=fs.readFileSync(server.config.tls.private);</span>
-                                    }else{
-<span class="cstat-no" title="statement not covered" >                                        server.config.tls.key=fs.readFileSync(__dirname+'/../local-node-ipc-certs/private/server.key');</span>
-                                    }
-<span class="cstat-no" title="statement not covered" >                                    if(server.config.tls.public){</span>
-<span class="cstat-no" title="statement not covered" >                                        server.config.tls.cert=fs.readFileSync(server.config.tls.public);</span>
-                                    }else{
-<span class="cstat-no" title="statement not covered" >                                        server.config.tls.cert=fs.readFileSync(__dirname+'/../local-node-ipc-certs/server.pub');</span>
-                                    }
-<span class="cstat-no" title="statement not covered" >                                    if(server.config.tls.dhparam){</span>
-<span class="cstat-no" title="statement not covered" >                                        server.config.tls.dhparam=fs.readFileSync(server.config.tls.dhparam);</span>
-                                    }
-<span class="cstat-no" title="statement not covered" >                                    if(server.config.tls.trustedConnections){</span>
-<span class="cstat-no" title="statement not covered" >                                        if(typeof server.config.tls.trustedConnections === 'string'){</span>
-<span class="cstat-no" title="statement not covered" >                                            server.config.tls.trustedConnections=[server.config.tls.trustedConnections];</span>
-                                        }
-<span class="cstat-no" title="statement not covered" >                                        server.config.tls.ca=[];</span>
-<span class="cstat-no" title="statement not covered" >                                        for(let i=0; i&lt;server.config.tls.trustedConnections.length; i++){</span>
-<span class="cstat-no" title="statement not covered" >                                            server.config.tls.ca.push(</span>
-                                                fs.readFileSync(server.config.tls.trustedConnections[i])
-                                            );
-                                        }
-                                    }
-<span class="cstat-no" title="statement not covered" >                                    server.server=tls.createServer(</span>
-                                        server.config.tls,
-                                        serverCreated
-                                    );
-                                }
-                            }else{
-                                function UDPWrite(message,socket){
-                                    let data=new Buffer(message, server.config.encoding);
-                                    server.server.send(
-                                        data,
-                                        0,
-                                        data.length,
-                                        socket.port,
-                                        socket.address,
-                                        function(err, bytes) {
-                                            <span class="missing-if-branch" title="if path not taken" >I</span>if(err){
-<span class="cstat-no" title="statement not covered" >                                                server.log('error writing data to socket'.warn,err);</span>
-<span class="cstat-no" title="statement not covered" >                                                server.trigger(</span>
-                                                    'error',
-<span class="fstat-no" title="function not covered" >                                                    function(err){</span>
-<span class="cstat-no" title="statement not covered" >                                                        server.trigger('error',err);</span>
-                                                    }
-                                                );
-                                            }
-                                        }
-                                    );
-                                }
-&nbsp;
-                                server.server=dgram.createSocket(
-                                    ((server.udp4)? 'udp4':'udp6')
-                                );
-                                server.server.write=UDPWrite;
-                                server.server.on(
-                                    'listening',
-                                    function () {
-                                        serverCreated(server.server);
-                                    }
-                                );
-                            }
-&nbsp;
-                            server.server.on(
-                                'error',
-<span class="fstat-no" title="function not covered" >                                function(err){</span>
-<span class="cstat-no" title="statement not covered" >                                    server.log('server error'.warn,err);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >                                    server.trigger(</span>
-                                        'error',
-                                        err
-                                    );
-                                }
+                    if(!server.udp4 &amp;&amp; !server.udp6){
+                        <span class="missing-if-branch" title="else path not taken" >E</span>if(!server.config.tls){
+                            server.server=net.createServer(
+                                serverCreated
                             );
-&nbsp;
-                            server.server.maxConnections=server.config.maxConnections;
-&nbsp;
-                            function serverCreated(socket) {
-                                server.sockets.push(socket);
-&nbsp;
-                                if(socket.setEncoding){
-                                    socket.setEncoding(server.config.encoding);
+                        }else{
+<span class="cstat-no" title="statement not covered" >                            server.log('starting TLS server'.debug,server.config.tls);</span>
+<span class="cstat-no" title="statement not covered" >                            if(server.config.tls.private){</span>
+<span class="cstat-no" title="statement not covered" >                                server.config.tls.key=fs.readFileSync(server.config.tls.private);</span>
+                            }else{
+<span class="cstat-no" title="statement not covered" >                                server.config.tls.key=fs.readFileSync(__dirname+'/../local-node-ipc-certs/private/server.key');</span>
+                            }
+<span class="cstat-no" title="statement not covered" >                            if(server.config.tls.public){</span>
+<span class="cstat-no" title="statement not covered" >                                server.config.tls.cert=fs.readFileSync(server.config.tls.public);</span>
+                            }else{
+<span class="cstat-no" title="statement not covered" >                                server.config.tls.cert=fs.readFileSync(__dirname+'/../local-node-ipc-certs/server.pub');</span>
+                            }
+<span class="cstat-no" title="statement not covered" >                            if(server.config.tls.dhparam){</span>
+<span class="cstat-no" title="statement not covered" >                                server.config.tls.dhparam=fs.readFileSync(server.config.tls.dhparam);</span>
+                            }
+<span class="cstat-no" title="statement not covered" >                            if(server.config.tls.trustedConnections){</span>
+<span class="cstat-no" title="statement not covered" >                                if(typeof server.config.tls.trustedConnections === 'string'){</span>
+<span class="cstat-no" title="statement not covered" >                                    server.config.tls.trustedConnections=[server.config.tls.trustedConnections];</span>
                                 }
-&nbsp;
-                                server.log('## socket connection to server detected ##'.rainbow);
-                                socket.on(
-                                    'close',
-                                    function(socket){
-                                        server.trigger(
-                                            'close',
-                                            socket
+<span class="cstat-no" title="statement not covered" >                                server.config.tls.ca=[];</span>
+<span class="cstat-no" title="statement not covered" >                                for(let i=0; i&lt;server.config.tls.trustedConnections.length; i++){</span>
+<span class="cstat-no" title="statement not covered" >                                    server.config.tls.ca.push(</span>
+                                        fs.readFileSync(server.config.tls.trustedConnections[i])
+                                    );
+                                }
+                            }
+<span class="cstat-no" title="statement not covered" >                            server.server=tls.createServer(</span>
+                                server.config.tls,
+                                serverCreated
+                            );
+                        }
+                    }else{
+                        function UDPWrite(message,socket){
+                            let data=new Buffer(message, server.config.encoding);
+                            server.server.send(
+                                data,
+                                0,
+                                data.length,
+                                socket.port,
+                                socket.address,
+                                function(err, bytes) {
+                                    <span class="missing-if-branch" title="if path not taken" >I</span>if(err){
+<span class="cstat-no" title="statement not covered" >                                        server.log('error writing data to socket'.warn,err);</span>
+<span class="cstat-no" title="statement not covered" >                                        server.trigger(</span>
+                                            'error',
+<span class="fstat-no" title="function not covered" >                                            function(err){</span>
+<span class="cstat-no" title="statement not covered" >                                                server.trigger('error',err);</span>
+                                            }
                                         );
                                     }
-                                );
+                                }
+                            );
+                        }
 &nbsp;
-                                socket.on(
-                                    'error',
-<span class="fstat-no" title="function not covered" >                                    function(err){</span>
-<span class="cstat-no" title="statement not covered" >                                        server.log('server socket error'.warn,err);</span>
+                        server.server=dgram.createSocket(
+                            ((server.udp4)? 'udp4':'udp6')
+                        );
+                        server.server.write=UDPWrite;
+                        server.server.on(
+                            'listening',
+                            function () {
+                                serverCreated(server.server);
+                            }
+                        );
+                    }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >                                        server.trigger('error',err);</span>
-                                    }
-                                );
+                    server.server.on(
+                        'error',
+<span class="fstat-no" title="function not covered" >                        function(err){</span>
+<span class="cstat-no" title="statement not covered" >                            server.log('server error'.warn,err);</span>
 &nbsp;
-                                socket.on(
-                                    'data',
-                                    function(data,UDPSocket){
-                                        let sock=((server.udp4 || server.udp6)? UDPSocket : <span class="branch-1 cbranch-no" title="branch not covered" >socket)</span>;
-                                        <span class="missing-if-branch" title="if path not taken" >I</span>if(server.config.rawBuffer){
-<span class="cstat-no" title="statement not covered" >                                            data=new Buffer(data,this.encoding);</span>
-<span class="cstat-no" title="statement not covered" >                                            server.trigger(</span>
-                                                'data',
-                                                data,
-                                                sock
-                                            );
-<span class="cstat-no" title="statement not covered" >                                            return;</span>
-                                        }
+<span class="cstat-no" title="statement not covered" >                            server.trigger(</span>
+                                'error',
+                                err
+                            );
+                        }
+                    );
 &nbsp;
-                                        <span class="missing-if-branch" title="else path not taken" >E</span>if(!this.ipcBuffer){
-                                            this.ipcBuffer='';
-                                        }
+                    server.server.maxConnections=server.config.maxConnections;
 &nbsp;
-                                        data=(this.ipcBuffer+=data);
+                    function serverCreated(socket) {
+                        server.sockets.push(socket);
 &nbsp;
-                                        <span class="missing-if-branch" title="if path not taken" >I</span>if(data.slice(-1)!=eventParser.delimiter || data.indexOf(eventParser.delimiter) == -1){
-<span class="cstat-no" title="statement not covered" >                                            server.log('Implementing larger buffer for this socket message. You may want to consider smaller messages'.notice);</span>
-<span class="cstat-no" title="statement not covered" >                                            return;</span>
-                                        }
+                        if(socket.setEncoding){
+                            socket.setEncoding(server.config.encoding);
+                        }
 &nbsp;
-                                        this.ipcBuffer='';
-&nbsp;
-                                        data=eventParser.parse(data);
-&nbsp;
-                                        while(data.length&gt;0){
-                                            let message=new Message;
-                                            message.load(data.shift());
-&nbsp;
-                                            server.log('received event of : '.debug,message.type.data,message.data);
-&nbsp;
-                                            <span class="missing-if-branch" title="else path not taken" >E</span>if(message.data.id)
-                                                sock.id=message.data.id;
-&nbsp;
-                                            server.trigger(
-                                                message.type,
-                                                message.data,
-                                                sock
-                                            );
-                                        }
-                                    }
-                                );
-&nbsp;
-                                socket.on(
-                                    'message',
-                                    function(msg,rinfo) {
-                                        <span class="missing-if-branch" title="if path not taken" >I</span>if (!rinfo){
-<span class="cstat-no" title="statement not covered" >                                            return;</span>
-                                        }
-&nbsp;
-                                        server.log('Received UDP message from '.debug, rinfo.address.variable, rinfo.port);
-                                        let data;
-&nbsp;
-                                        <span class="missing-if-branch" title="if path not taken" >I</span>if(server.config.rawSocket){
-<span class="cstat-no" title="statement not covered" >                                            data=new Buffer(msg,this.encoding);</span>
-                                        }else{
-                                            data=msg.toString();
-                                        }
-                                        socket.emit('data',data,rinfo);
-                                    }
-                                );
-&nbsp;
+                        server.log('## socket connection to server detected ##'.rainbow);
+                        socket.on(
+                            'close',
+                            function(socket){
                                 server.trigger(
-                                    'connect',
+                                    'close',
                                     socket
                                 );
+                            }
+                        );
 &nbsp;
+                        socket.on(
+                            'error',
+<span class="fstat-no" title="function not covered" >                            function(err){</span>
+<span class="cstat-no" title="statement not covered" >                                server.log('server socket error'.warn,err);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                                server.trigger('error',err);</span>
+                            }
+                        );
+&nbsp;
+                        socket.on(
+                            'data',
+                            function(data,UDPSocket){
+                                let sock=((server.udp4 || server.udp6)? UDPSocket : <span class="branch-1 cbranch-no" title="branch not covered" >socket)</span>;
                                 <span class="missing-if-branch" title="if path not taken" >I</span>if(server.config.rawBuffer){
+<span class="cstat-no" title="statement not covered" >                                    data=new Buffer(data,this.encoding);</span>
+<span class="cstat-no" title="statement not covered" >                                    server.trigger(</span>
+                                        'data',
+                                        data,
+                                        sock
+                                    );
 <span class="cstat-no" title="statement not covered" >                                    return;</span>
                                 }
-                            }
 &nbsp;
-                            function started(socket){
-                                server.onStart(socket);
-                            }
-&nbsp;
-                            if(!port){
-                                server.log('starting server as'.debug, 'Unix || Windows Socket'.variable);
-                                <span class="missing-if-branch" title="if path not taken" >I</span>if (process.platform ==='win32'){
-<span class="cstat-no" title="statement not covered" >            						                                                server.path = server.path.replace(/^\//, '');</span>
-<span class="cstat-no" title="statement not covered" >            						                                                server.path = server.path.replace(/\//g, '-');</span>
-<span class="cstat-no" title="statement not covered" >            						                                                server.path= '\\\\.\\pipe\\'+server.path;</span>
-        						                                                }
-&nbsp;
-                                server.server.listen(
-                                    server.path,
-                                    started
-                                );
-&nbsp;
-                                return;
-                            }
-&nbsp;
-                            if(!server.udp4 &amp;&amp; !server.udp6){
-                                server.log('starting server as'.debug, (server.config.tls?<span class="branch-0 cbranch-no" title="branch not covered" >'TLS':</span>'TCP').variable);
-                                server.server.listen(
-                                    server.port,
-                                    server.path,
-                                    started
-                                );
-                                return;
-                            }
-&nbsp;
-                            server.log('starting server as'.debug,((server.udp4)? 'udp4':'udp6').variable);
-                            server.server.bind(
-                                server.port,
-                                server.path
-                            );
-&nbsp;
-                            started(
-                                {
-                                    address : server.path,
-                                    port    : server.port
+                                <span class="missing-if-branch" title="else path not taken" >E</span>if(!this.ipcBuffer){
+                                    this.ipcBuffer='';
                                 }
-                            );
-                        };
+&nbsp;
+                                data=(this.ipcBuffer+=data);
+&nbsp;
+                                <span class="missing-if-branch" title="if path not taken" >I</span>if(data.slice(-1)!=eventParser.delimiter || data.indexOf(eventParser.delimiter) == -1){
+<span class="cstat-no" title="statement not covered" >                                    server.log('Implementing larger buffer for this socket message. You may want to consider smaller messages'.notice);</span>
+<span class="cstat-no" title="statement not covered" >                                    return;</span>
+                                }
+&nbsp;
+                                this.ipcBuffer='';
+&nbsp;
+                                data=eventParser.parse(data);
+&nbsp;
+                                while(data.length&gt;0){
+                                    let message=new Message;
+                                    message.load(data.shift());
+&nbsp;
+                                    server.log('received event of : '.debug,message.type.data,message.data);
+&nbsp;
+                                    <span class="missing-if-branch" title="else path not taken" >E</span>if(message.data.id)
+                                        sock.id=message.data.id;
+&nbsp;
+                                    server.trigger(
+                                        message.type,
+                                        message.data,
+                                        sock
+                                    );
+                                }
+                            }
+                        );
+&nbsp;
+                        socket.on(
+                            'message',
+                            function(msg,rinfo) {
+                                <span class="missing-if-branch" title="if path not taken" >I</span>if (!rinfo){
+<span class="cstat-no" title="statement not covered" >                                    return;</span>
+                                }
+&nbsp;
+                                server.log('Received UDP message from '.debug, rinfo.address.variable, rinfo.port);
+                                let data;
+&nbsp;
+                                <span class="missing-if-branch" title="if path not taken" >I</span>if(server.config.rawSocket){
+<span class="cstat-no" title="statement not covered" >                                    data=new Buffer(msg,this.encoding);</span>
+                                }else{
+                                    data=msg.toString();
+                                }
+                                socket.emit('data',data,rinfo);
+                            }
+                        );
+&nbsp;
+                        server.trigger(
+                            'connect',
+                            socket
+                        );
+&nbsp;
+                        <span class="missing-if-branch" title="if path not taken" >I</span>if(server.config.rawBuffer){
+<span class="cstat-no" title="statement not covered" >                            return;</span>
+                        }
                     }
-                )(this)
+&nbsp;
+                    function started(socket){
+                        server.onStart(socket);
+                    }
+&nbsp;
+                    if(!port){
+                        server.log('starting server as'.debug, 'Unix || Windows Socket'.variable);
+                        <span class="missing-if-branch" title="if path not taken" >I</span>if (process.platform ==='win32'){
+<span class="cstat-no" title="statement not covered" >    						                                                server.path = server.path.replace(/^\//, '');</span>
+<span class="cstat-no" title="statement not covered" >    						                                                server.path = server.path.replace(/\//g, '-');</span>
+<span class="cstat-no" title="statement not covered" >    						                                                server.path= '\\\\.\\pipe\\'+server.path;</span>
+						                                                }
+&nbsp;
+                        server.server.listen(
+                            server.path,
+                            started
+                        );
+&nbsp;
+                        return;
+                    }
+&nbsp;
+                    if(!server.udp4 &amp;&amp; !server.udp6){
+                        server.log('starting server as'.debug, (server.config.tls?<span class="branch-0 cbranch-no" title="branch not covered" >'TLS':</span>'TCP').variable);
+                        server.server.listen(
+                            server.port,
+                            server.path,
+                            started
+                        );
+                        return;
+                    }
+&nbsp;
+                    server.log('starting server as'.debug,((server.udp4)? 'udp4':'udp6').variable);
+                    server.server.bind(
+                        server.port,
+                        server.path
+                    );
+&nbsp;
+                    started(
+                        {
+                            address : server.path,
+                            port    : server.port
+                        }
+                    );
+                }
             );
         }
     };
@@ -1168,7 +1156,7 @@ module.exports=init;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Jan 10 2016 04:44:52 GMT-0800 (PST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Jan 10 2016 04:57:21 GMT-0800 (PST)
 </div>
 </div>
 <script src="../../prettify.js"></script>
