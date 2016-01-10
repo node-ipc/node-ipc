@@ -1,8 +1,10 @@
 {
   "spec_dir": "spec",
   "spec_files": [
-
       "/support/jasmineTest/testFile.js",
+
+      "/support/jasmineTest/Unix/unixSocketClient.spec.js",
+      "/support/jasmineTest/UDP/udpSocketClient.spec.js",
       "/support/jasmineTest/TCP/tcpSocketClient.spec.js"
 
   ]
