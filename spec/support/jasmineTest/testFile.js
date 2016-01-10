@@ -1,4 +1,6 @@
 'use strict';
+
+const ipc = require('../../../../node-ipc');
 const cmd=require('node-cmd');
 
 cmd.run(`node ${__dirname}/unixServer.js`);

@@ -2,14 +2,13 @@
 
 const ipc = require('../../../../node-ipc');
 
-ipc.config.id ='testClient';
-ipc.config.retry = 600;
-
 describe('TCP Socket verification of client',
     function TCPClientSpec(){
         it(
             'Verify retry attempts by TCP client to connect to the server as per the value set in "maxRetries" parameter.',
             function(done){
+                ipc.config.id ='testClient';
+                ipc.config.retry = 600;
                 ipc.config.maxRetries = 3;
                 ipc.config.stopRetrying = false;
 

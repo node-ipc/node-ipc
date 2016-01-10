@@ -18,19 +18,10 @@ ipc.config.silent=true;
 
 ipc.connectTo(
     'testWorld',
-    '/tmp/app.testWorld',
-    function opened(){
-        ipc.of.testWorld.on(
-            'connect',
-            function connected(){
-                ipc.of.testWorld.emit(
-                    'message',
-                    {
-                        id      : ipc.config.id,
-                        message : 'I am unix client.'
-                    }
-                );
-            }
-        );
-    }
+    '/tmp/app.testWorld'
+);
+
+ipc.connectTo(
+    'testWorld2',
+    '/tmp/app.testWorld'
 );

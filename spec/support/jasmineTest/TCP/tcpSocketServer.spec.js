@@ -2,46 +2,40 @@
 
 const ipc = require('../../../../node-ipc');
 
-ipc.config.id ='testWorld';
-ipc.config.retry = 1000;
-
 describe('TCP Socket verification of server',
-        function TCPSocketSpec(){
-            it(
-                'Verify TCP server detects only 1 client out of 2 clients and receives message.',
-                function(done){
+    function TCPSocketSpec(){
+        it(
+            'Verify TCP server detects only 1 client out of 2 clients and receives message.',
+            function(done){
+                ipc.config.id ='testWorld';
+                ipc.config.retry = 1000;
+                
+                let clientCounter=0;
+                ipc.config.maxConnections=1;
+                ipc.config.networkPort=8500;
 
-                    let clientCounter =0;
-                    ipc.config.maxConnections=1;
-                    ipc.config.networkPort=8500;
+                ipc.serveNet(
+                    function(){
+                        ipc.server.on(
+                            'connect',
+                            function(data,socket){
+                                clientCounter++;
+                            }
+                        );
+                    }
+                );
 
-                    ipc.serveNet(
-                        function(){
-                            ipc.server.on(
-                                'app.message',
-                                function(data,socket){
+                setTimeout(
+                     function(){
+                         expect(clientCounter).toBe(ipc.config.maxConnections);
+                         ipc.server.stop();
+                         done();
+                     },
+                     ipc.config.retry+ipc.config.retry
+                );
 
-                                    clientCounter++;
-
-                                    expect(data.id).toBe('tcpClient');
-                                    expect(data.message).toBe('I am TCP client.');
-
-                                }
-                            );
-
-                            setTimeout(
-                                 function(){
-                                     expect(clientCounter).toBe(1);
-
-                                     done();
-                                 },2000
-                            );
-                        }
-                    );
-
-                    ipc.server.start();
-
-                }
-            );
-        }
+                ipc.server.start();
+            }
+        );
+    }
 );

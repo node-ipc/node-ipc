@@ -18,20 +18,6 @@ ipc.config.silent=true;
 ipc.config.networkPort=8500;
 
 
-ipc.connectToNet(
-    'tcpClient',
-    function opened(){
-        ipc.of.tcpClient.on(
-            'connect',
-            function connected(){
-                ipc.of.tcpClient.emit(
-                    'app.message',
-                    {
-                        id      : ipc.config.id,
-                        message : 'I am TCP client.'
-                    }
-                );
-            }
-        );
-    }
-);
+ipc.connectToNet('tcpClient');
+
+ipc.connectToNet('tcpClient2');

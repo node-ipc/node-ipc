@@ -27,7 +27,6 @@ ipc.serve(
                     {
                         id      : ipc.config.id,
                         message : 'I am unix server!'
-
                     }
                 );
             }
