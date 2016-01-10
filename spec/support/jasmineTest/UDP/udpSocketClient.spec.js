@@ -15,13 +15,13 @@ describe(
                 ipc.serveNet(
                     8001,
                     'udp4',
-                     function serverStarted(){
-                         ipc.server.on(
+                    function serverStarted(){
+                        ipc.server.on(
                             'message',
                             function gotMessage(data,socket){
                                 expect(data.id).toBe('udpServer');
                                 expect(data.message).toBe('I am UDP4 server!');
-                                done();
+                                testDone();
                             }
                         );
 
@@ -40,11 +40,18 @@ describe(
                         ipc.server.on(
                             'error',
                             function(err){
-                                console.log('Error is: ', err);
+                                expect(err).toBe(false);
+                                testDone();
                             }
                         );
                      }
                 );
+
+                function testDone(){
+                    ipc.server.stop();
+                    done();
+                }
+
                 ipc.server.start();
             }
         );
@@ -52,6 +59,7 @@ describe(
         it(
             'Verify UDP server of type udp6 connects to UDP server named "udp6Server" and receives message.',
             function(done){
+                ipc.config.networkPort=8099;
 
                 ipc.serveNet(
                     '::1',
@@ -63,14 +71,14 @@ describe(
                             function(data,socket){
                                 expect(data.id).toBe('udp6Server');
                                 expect(data.message).toBe('I am UDP6 server!');
-                                done();
+                                testDone();
                             }
                         );
 
                         ipc.server.emit(
                             {
                                 address : '::1',
-                                port    : 8099
+                                port    : ipc.config.networkPort
                             },
                             'message',
                             {
@@ -82,11 +90,17 @@ describe(
                         ipc.server.on(
                             'error',
                             function(err){
-                                console.log('Error is: ', err);
+                                expect(err).toBe(false);
+                                testDone();
                             }
                         );
                     }
                 );
+
+                function testDone(){
+                    ipc.server.stop();
+                }
+
                 ipc.server.start();
             }
         );
