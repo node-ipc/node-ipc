@@ -29,7 +29,7 @@ describe('Test Cases for Unix client: ',
                                 );
                             }
                         );
-                     }
+                    }
                 );
 
                 setTimeout(
@@ -67,7 +67,7 @@ describe('Test Cases for Unix client: ',
                                 errorCount++;
                             }
                         );
-                     }
+                    }
                 );
 
                 setTimeout(

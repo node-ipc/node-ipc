@@ -33,11 +33,11 @@ describe('TCP Socket verification of client',
 
                                     }else if(ipc.of.tcpFakeServer.retriesRemaining < 0){
 
-                                            expect(tcpRetryAttempt).not.toBeLessThan(0);
-                                            expect(ipc.of.tcpFakeServer.retriesRemaining).not.toBeLessThan(0);
+                                        expect(tcpRetryAttempt).not.toBeLessThan(0);
+                                        expect(ipc.of.tcpFakeServer.retriesRemaining).not.toBeLessThan(0);
 
 
-                                            ipc.of.tcpFakeServer.on(
+                                        ipc.of.tcpFakeServer.on(
                                                 'error',
                                                 function(err){
                                                     console.log('Error is: ', err);
@@ -45,7 +45,7 @@ describe('TCP Socket verification of client',
                                                 }
                                             );
 
-                                        }
+                                    }
 
                                     tcpRetryAttempt--;
                                 }
