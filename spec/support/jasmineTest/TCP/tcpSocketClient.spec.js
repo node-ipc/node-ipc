@@ -28,6 +28,7 @@ describe('TCP Socket verification of client',
                                 expect(ipc.of.tcpFakeServer.retriesRemaining).toBe(
                                     ipc.config.maxRetries-errorCount
                                 );
+                                expect(err).toBeDefined();
                             }
                         );
                     }
@@ -65,6 +66,7 @@ describe('TCP Socket verification of client',
                             'error',
                             function gotError(err){
                                 expect(ipc.of.tcpFakeServer.retriesRemaining).toBe(ipc.config.maxRetries);
+                                expect(err).toBeDefined();
                                 errorCount++;
                             }
                         );

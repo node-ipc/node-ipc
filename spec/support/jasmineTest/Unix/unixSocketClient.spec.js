@@ -28,6 +28,7 @@ describe('Test Cases for Unix client: ',
                                 expect(ipc.of.fakeworld.retriesRemaining).toBe(
                                     ipc.config.maxRetries-errorCount
                                 );
+                                expect(err).toBeDefined();
                             }
                         );
                     }
@@ -66,6 +67,7 @@ describe('Test Cases for Unix client: ',
                             function gotError(err){
                                 expect(ipc.of.fakeworld.retriesRemaining).toBe(ipc.config.maxRetries);
                                 errorCount++;
+                                expect(err).toBeDefined();
                             }
                         );
                     }
