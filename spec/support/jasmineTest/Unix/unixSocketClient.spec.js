@@ -1,3 +1,4 @@
+/*global describe, expect, it*/
 'use strict';
 
 const ipc = require('../../../../node-ipc');

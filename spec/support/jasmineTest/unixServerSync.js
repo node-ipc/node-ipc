@@ -20,7 +20,6 @@ ipc.config.silent=true;
 ipc.serve(
     function serverStarted(){
         let ready=false;
-        let messageDelay=500;
 
         ipc.server.on(
             'message',
