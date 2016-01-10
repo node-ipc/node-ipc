@@ -98,7 +98,7 @@ describe('Test Cases for Unix client: ',
                             function connected(){
                                 ipc.of.unixServer.on(
                                     'message',
-                                    function(data){
+                                    function gotMessage(data){
                                         expect(data.id).toBe('unixServer');
                                         expect(data.message).toBe('I am unix server!');
                                         testDone();

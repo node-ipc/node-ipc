@@ -106,7 +106,7 @@ function serve(path,callback){
     }
 
     if(!callback){
-        callback=function(){};
+        callback=emptyCallback;
     }
 
     ipc.server=new Server(
@@ -119,6 +119,10 @@ function serve(path,callback){
         'start',
         callback
     );
+}
+
+function emptyCallback(){
+    //Do Nothing
 }
 
 function serveNet(host,port,UDPType,callback){
@@ -174,7 +178,7 @@ function serveNet(host,port,UDPType,callback){
     }
 
     if(!callback){
-        callback=function(){};
+        callback=emptyCallback;
     }
 
     ipc.server=new Server(
@@ -201,7 +205,7 @@ function connect(id,path,callback){
     }
 
     if(!callback){
-        callback=function(){};
+        callback=emptyCallback;
     }
 
     if(!id){
@@ -288,7 +292,7 @@ function connectNet(id,host,port,callback){
         callback=false;
     }
     if(!callback){
-        callback=function(){};
+        callback=emptyCallback;
     }
 
     if(ipc.of[id]){

@@ -23,7 +23,7 @@ describe(
                     function serverStarted(){
                         ipc.server.on(
                             'connect',
-                            function(data,socket){
+                            function connected(){
                                 clientCounter++;
                             }
                         );
@@ -31,7 +31,7 @@ describe(
                 );
 
                 setTimeout(
-                     function(){
+                     function clientCountDelay(){
                          expect(clientCounter).toBe(ipc.config.maxConnections);
                          ipc.server.stop();
                          done();

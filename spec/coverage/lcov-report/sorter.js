@@ -1,5 +1,5 @@
 var addSorting = (function () {
-    'use strict';
+    "use strict";
     var cols,
         currentSort = {
             index: 0,

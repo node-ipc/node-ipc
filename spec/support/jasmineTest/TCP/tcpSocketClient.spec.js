@@ -7,7 +7,7 @@ describe('TCP Socket verification of client',
     function TCPClientSpec(){
         it(
             'Verify retry attempts by TCP client to connect to the server as per the value set in "maxRetries" parameter.',
-            function(done){
+            function testIt(done){
                 ipc.config.id ='testClient';
                 ipc.config.retry = 600;
                 ipc.config.maxRetries = 3;
@@ -97,7 +97,7 @@ describe('TCP Socket verification of client',
                             function connected(){
                                 ipc.of.tcpServer.on(
                                     'message',
-                                    function(data,socket){
+                                    function gotMessage(data){
                                         expect(data.id).toBe('tcpServer');
                                         expect(data.message).toBe('I am TCP server!');
                                         testDone();

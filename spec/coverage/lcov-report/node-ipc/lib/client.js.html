@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">73.08% </span>
+        <span class="strong">72.82% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>76/104</span>
+        <span class='fraction'>75/103</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">52.38% </span>
@@ -32,12 +32,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>11/11</span>
+        <span class='fraction'>10/10</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">73.08% </span>
+        <span class="strong">72.82% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>76/104</span>
+        <span class='fraction'>75/103</span>
       </div>
     </div>
   </div>
@@ -278,7 +278,10 @@
 233
 234
 235
-236</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+236
+237</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -288,6 +291,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -439,8 +443,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6×</span>
 <span class="cline-any cline-yes">6×</span>
 <span class="cline-any cline-yes">6×</span>
 <span class="cline-any cline-yes">6×</span>
@@ -456,7 +458,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -480,6 +481,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7×</span>
 <span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -513,16 +515,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var net         = require('net'),
-    tls         = require('tls'),
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+&nbsp;
+const net = require('net'),
+    tls = require('tls'),
     eventParser = require('../lib/eventParser.js'),
-    pubsub      = require('event-pubsub'),
-    Message     = require('js-message'),
-    fs          = require('fs'),
-    Queue       = require('js-queue');
+    Pubsub = require('event-pubsub'),
+    Message = require('js-message'),
+    fs = require('fs'),
+    Queue = require('js-queue');
 &nbsp;
 function init(config,log){
-    var client={
+    let client={
         config  : config,
         queue   : new Queue,
         socket  : false,
@@ -530,8 +534,9 @@ function init(config,log){
         emit    : emit,
         log     : log,
         retriesRemaining:config.maxRetries||<span class="branch-1 cbranch-no" title="branch not covered" >0</span>
-    }
-    new pubsub(client);
+    };
+&nbsp;
+    new Pubsub(client);
 &nbsp;
     return client;
 }
@@ -539,7 +544,7 @@ function init(config,log){
 function emit(type,data){
     this.log('dispatching event to '.debug, this.id.variable, this.path.variable,' : ', type.data,',', data);
 &nbsp;
-    var message=new Message;
+    let message=new Message;
     message.type=type;
     message.data=data;
 &nbsp;
@@ -557,7 +562,7 @@ function emit(type,data){
     this.queue.add(
         syncEmit.bind(this,message)
     );
-};
+}
 &nbsp;
 function syncEmit(message){
     this.log('dispatching event to '.debug, this.id.variable, this.path.variable,' : ', message.data);
@@ -566,7 +571,7 @@ function syncEmit(message){
 &nbsp;
 function connect(){
     //init client object for scope persistance especially inside of socket events.
-    var client=this;
+    let client=this;
 &nbsp;
     client.log('requested connection to '.debug, client.id.variable, client.path.variable);
     <span class="missing-if-branch" title="if path not taken" >I</span>if(!this.path){
@@ -577,7 +582,7 @@ function connect(){
     if(!client.port){
         client.log('Connecting client on Unix Socket :'.debug, client.path.variable);
 &nbsp;
-        var path = client.path;
+        let path = client.path;
 &nbsp;
         <span class="missing-if-branch" title="if path not taken" >I</span>if (process.platform ==='win32' &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!client.path.startsWith('\\\\.\\pipe\\'))</span>{
 <span class="cstat-no" title="statement not covered" >            path = path.replace(/^\//, '');</span>
@@ -611,7 +616,7 @@ function connect(){
 <span class="cstat-no" title="statement not covered" >                    client.config.tls.trustedConnections=[client.config.tls.trustedConnections];</span>
                 }
 <span class="cstat-no" title="statement not covered" >                client.config.tls.ca=[];</span>
-<span class="cstat-no" title="statement not covered" >                for(var i=0; i&lt;client.config.tls.trustedConnections.length; i++){</span>
+<span class="cstat-no" title="statement not covered" >                for(let i=0; i&lt;client.config.tls.trustedConnections.length; i++){</span>
 <span class="cstat-no" title="statement not covered" >                    client.config.tls.ca.push(</span>
                         fs.readFileSync(client.config.tls.trustedConnections[i])
                     );
@@ -640,7 +645,7 @@ function connect(){
 &nbsp;
     client.socket.on(
         'connect',
-        function(){
+        function connectionMade(){
             client.trigger('connect');
             client.retriesRemaining=client.config.maxRetries;
             client.log('retrying reset');
@@ -649,7 +654,7 @@ function connect(){
 &nbsp;
     client.socket.on(
         'close',
-        function(){
+        function connectionClosed(){
             client.log('connection closed'.notice ,client.id.variable , client.path.variable, client.retriesRemaining+' tries remaining of '+client.config.maxRetries);
 &nbsp;
             if(
@@ -660,7 +665,7 @@ function connect(){
                 client.log(
                     client.config.id.variable,
                     'exceeded connection rety amount of'.warn,
-                    " or stopRetrying flag set."
+                    ' or stopRetrying flag set.'
                 );
 &nbsp;
                 client.socket.destroy();
@@ -673,22 +678,19 @@ function connect(){
             client.isRetrying=true;
 &nbsp;
             setTimeout(
-                (
-                    function(client){
-                        return function(){
-                            client.retriesRemaining--;
-                            client.isRetrying=false;
-                            client.connect();
-                            setTimeout(
-                                function(){
-                                    if(!client.isRetrying)
-                                        client.retriesRemaining=client.config.maxRetries;
-                                },
-                                100
-                            )
-                        }
-                    }
-                )(client),
+                function retryTimeout(){
+                    client.retriesRemaining--;
+                    client.isRetrying=false;
+                    client.connect();
+                    setTimeout(
+                        function resetRetriesCheck(){
+                            if(!client.isRetrying){
+                                client.retriesRemaining=client.config.maxRetries;
+                            }
+                        },
+                        100
+                    );
+                }.bind(null,client),
                 client.config.retry
             );
 &nbsp;
@@ -713,8 +715,9 @@ function connect(){
 <span class="cstat-no" title="statement not covered" >                return;</span>
             }
 &nbsp;
-            <span class="missing-if-branch" title="else path not taken" >E</span>if(!this.ipcBuffer)
+            <span class="missing-if-branch" title="else path not taken" >E</span>if(!this.ipcBuffer){
                 this.ipcBuffer='';
+            }
 &nbsp;
             data=(this.ipcBuffer+=data);
 &nbsp;
@@ -725,13 +728,13 @@ function connect(){
 &nbsp;
             this.ipcBuffer='';
 &nbsp;
-            var events = eventParser.parse(data);
-            var eCount = events.length;
-            for(var i=0; i&lt;eCount; i++){
-                var message=new Message;
+            const events = eventParser.parse(data);
+            const eCount = events.length;
+            for(let i=0; i&lt;eCount; i++){
+                let message=new Message;
                 message.load(events[i]);
 &nbsp;
-                client.log('detected event of type '.debug, message.type.data,  message.data);
+                client.log('detected event of type '.debug, message.type.data, message.data);
                 client.trigger(
                    message.type,
                    message.data
@@ -754,7 +757,7 @@ module.exports=init;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Jan 10 2016 03:37:27 GMT-0800 (PST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Jan 10 2016 04:44:52 GMT-0800 (PST)
 </div>
 </div>
 <script src="../../prettify.js"></script>

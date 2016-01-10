@@ -61,7 +61,7 @@ describe(
 
          it(
             'Verify UDP server of type udp6 connects to UDP server named "udp6Server" and receives message.',
-            function(done){
+            function testIt(done){
                 ipc.config.networkPort=8099;
                 ipc.config.id ='testClient';
                 ipc.config.retry = 600;
@@ -75,7 +75,8 @@ describe(
                     function serverStarted(){
                         ipc.server.on(
                             'message',
-                            function(data,socket){
+                            function gotMessage(data,socket){
+                                expect(socket).toBeDefined();
                                 expect(data.id).toBe('udp6Server');
                                 expect(data.message).toBe('I am UDP6 server!');
                                 testDone();
