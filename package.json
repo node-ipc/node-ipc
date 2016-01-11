@@ -23,7 +23,8 @@
   },
   "scripts": {
     "test": "istanbul cover -x **/spec/** -dir ./spec/coverage jasmine",
-    "cover": "istanbul cover -x **/spec/** -dir ./spec/coverage jasmine&& cat ./spec/coverage/lcov.info | codacy-coverage"
+    "cover": "istanbul cover -x **/spec/** -dir ./spec/coverage jasmine",
+    "coverup": "cat ./spec/coverage/lcov.info | codacy-coverage"
   },
   "keywords": [
     "IPC",

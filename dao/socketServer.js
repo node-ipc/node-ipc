@@ -4,7 +4,7 @@ const net = require('net'),
     tls = require('tls'),
     fs = require('fs'),
     dgram = require('dgram'),
-    eventParser = require('../lib/eventParser.js'),
+    eventParser = require('./eventParser.js'),
     Pubsub = require('event-pubsub'),
     Message = require('js-message');
 
