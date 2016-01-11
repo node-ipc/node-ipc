@@ -70,7 +70,7 @@ function connect(){
         if (process.platform ==='win32' && !client.path.startsWith('\\\\.\\pipe\\')){
             path = path.replace(/^\//, '');
             path = path.replace(/\//g, '-');
-            path= '\\\\.\\pipe\\'+path;
+            path= `\\\\.\\pipe\\${path}`;
         }
         client.socket = net.connect(
             {
@@ -138,7 +138,9 @@ function connect(){
     client.socket.on(
         'close',
         function connectionClosed(){
-            client.log('connection closed'.notice ,client.id.variable , client.path.variable, client.retriesRemaining+' tries remaining of '+client.config.maxRetries);
+            client.log('connection closed'.notice ,client.id.variable , client.path.variable,
+            `${client.retriesRemaining} tries remaining of ${client.config.maxRetries}`
+        );
 
             if(
                 client.config.stopRetrying || client.retriesRemaining<1

@@ -4,7 +4,7 @@ const net = require('net'),
     tls = require('tls'),
     fs = require('fs'),
     dgram = require('dgram'),
-    eventParser = require('./eventParser.js'),
+    eventParser = require('../lib/eventParser.js'),
     Pubsub = require('event-pubsub'),
     Message = require('js-message');
 
@@ -92,7 +92,10 @@ function init(path,config,log,port){
             fs.unlink(
                 this.path,
                 function () {
-                    server.log('starting server on '.debug,server.path.variable,((server.port)?':'+server.port:'').variable);
+                    server.log(
+                        'starting server on '.debug,server.path.variable,
+                        ((server.port)?`:${server.port}`:'').variable
+                    );
 
                     if(!server.udp4 && !server.udp6){
                         if(!server.config.tls){
@@ -104,12 +107,12 @@ function init(path,config,log,port){
                             if(server.config.tls.private){
                                 server.config.tls.key=fs.readFileSync(server.config.tls.private);
                             }else{
-                                server.config.tls.key=fs.readFileSync(__dirname+'/../local-node-ipc-certs/private/server.key');
+                                server.config.tls.key=fs.readFileSync(`${__dirname}/../local-node-ipc-certs/private/server.key`);
                             }
                             if(server.config.tls.public){
                                 server.config.tls.cert=fs.readFileSync(server.config.tls.public);
                             }else{
-                                server.config.tls.cert=fs.readFileSync(__dirname+'/../local-node-ipc-certs/server.pub');
+                                server.config.tls.cert=fs.readFileSync(`${__dirname}/../local-node-ipc-certs/server.pub`);
                             }
                             if(server.config.tls.dhparam){
                                 server.config.tls.dhparam=fs.readFileSync(server.config.tls.dhparam);
@@ -289,10 +292,10 @@ function init(path,config,log,port){
                     if(!port){
                         server.log('starting server as'.debug, 'Unix || Windows Socket'.variable);
                         if (process.platform ==='win32'){
-    						                                                server.path = server.path.replace(/^\//, '');
-    						                                                server.path = server.path.replace(/\//g, '-');
-    						                                                server.path= '\\\\.\\pipe\\'+server.path;
-						                                                }
+                            server.path = server.path.replace(/^\//, '');
+                            server.path = server.path.replace(/\//g, '-');
+                            server.path= `\\\\.\\pipe\\${server.path}`;
+                        }
 
                         server.server.listen(
                             server.path,
@@ -348,7 +351,7 @@ function init(path,config,log,port){
                     destroyedSocketId=socket.id;
                 }
 
-                server.log('socket disconnected'.notice,' '+destroyedSocketId.variable);
+                server.log('socket disconnected'.notice,destroyedSocketId.toString().variable);
 
                 if(socket && socket.destroy){
                     socket.destroy();

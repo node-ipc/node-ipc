@@ -7,6 +7,7 @@ const colors = require('colors'),
 class IPCModule extends IPC{
     constructor(){
         super();
+        //include IPC to make extensible
         Object.defineProperty(
             this,
             'IPC',
