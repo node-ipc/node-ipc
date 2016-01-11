@@ -25,7 +25,7 @@ function init(config,log){
 }
 
 function emit(type,data){
-    this.log('dispatching event to '.debug, this.id.variable, this.path.variable,' : ', type.data,',', data);
+    this.log('dispatching event to '.debug, (this.id).variable, this.path.variable,' : ', type.data,',', data);
 
     let message=new Message;
     message.type=type;
@@ -48,7 +48,7 @@ function emit(type,data){
 }
 
 function syncEmit(message){
-    this.log('dispatching event to '.debug, this.id.variable, this.path.variable,' : ', message.data);
+    this.log('dispatching event to '.debug, (this.id).variable, this.path.variable,' : ', message.data);
     this.socket.write(message);
 }
 
@@ -148,7 +148,7 @@ function connect(){
             ){
                 client.trigger('disconnect');
                 client.log(
-                    client.config.id.variable,
+                    (client.config.id).variable,
                     'exceeded connection rety amount of'.warn,
                     ' or stopRetrying flag set.'
                 );
