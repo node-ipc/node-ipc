@@ -4,7 +4,7 @@ const net = require('net'),
     tls = require('tls'),
     fs = require('fs'),
     dgram = require('dgram'),
-    eventParser = require('../lib/eventParser.js'),
+    eventParser = require('./eventParser.js'),
     Pubsub = require('event-pubsub'),
     Message = require('js-message');
 
@@ -244,9 +244,10 @@ function init(path,config,log,port){
 
                                     server.log('received event of : '.debug,message.type.data,message.data);
 
-                                    if(message.data.id)
+                                    if(message.data.id){
                                         sock.id=message.data.id;
-
+                                    }
+                                    
                                     server.trigger(
                                         message.type,
                                         message.data,

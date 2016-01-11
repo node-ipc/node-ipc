@@ -412,7 +412,10 @@
 367
 368
 369
-370</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+370
+371
+372
+373</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -507,6 +510,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4×</span>
 <span class="cline-any cline-yes">2×</span>
@@ -875,7 +881,10 @@ function init(path,config,log,port){
             fs.unlink(
                 this.path,
                 function () {
-                    server.log('starting server on '.debug,server.path.variable,((server.port)?':'+server.port:'').variable);
+                    server.log(
+                        'starting server on '.debug,server.path.variable,
+                        ((server.port)?`:${server.port}`:'').variable
+                    );
 &nbsp;
                     if(!server.udp4 &amp;&amp; !server.udp6){
                         <span class="missing-if-branch" title="else path not taken" >E</span>if(!server.config.tls){
@@ -887,12 +896,12 @@ function init(path,config,log,port){
 <span class="cstat-no" title="statement not covered" >                            if(server.config.tls.private){</span>
 <span class="cstat-no" title="statement not covered" >                                server.config.tls.key=fs.readFileSync(server.config.tls.private);</span>
                             }else{
-<span class="cstat-no" title="statement not covered" >                                server.config.tls.key=fs.readFileSync(__dirname+'/../local-node-ipc-certs/private/server.key');</span>
+<span class="cstat-no" title="statement not covered" >                                server.config.tls.key=fs.readFileSync(`${__dirname}/../local-node-ipc-certs/private/server.key`);</span>
                             }
 <span class="cstat-no" title="statement not covered" >                            if(server.config.tls.public){</span>
 <span class="cstat-no" title="statement not covered" >                                server.config.tls.cert=fs.readFileSync(server.config.tls.public);</span>
                             }else{
-<span class="cstat-no" title="statement not covered" >                                server.config.tls.cert=fs.readFileSync(__dirname+'/../local-node-ipc-certs/server.pub');</span>
+<span class="cstat-no" title="statement not covered" >                                server.config.tls.cert=fs.readFileSync(`${__dirname}/../local-node-ipc-certs/server.pub`);</span>
                             }
 <span class="cstat-no" title="statement not covered" >                            if(server.config.tls.dhparam){</span>
 <span class="cstat-no" title="statement not covered" >                                server.config.tls.dhparam=fs.readFileSync(server.config.tls.dhparam);</span>
@@ -1072,10 +1081,10 @@ function init(path,config,log,port){
                     if(!port){
                         server.log('starting server as'.debug, 'Unix || Windows Socket'.variable);
                         <span class="missing-if-branch" title="if path not taken" >I</span>if (process.platform ==='win32'){
-<span class="cstat-no" title="statement not covered" >    						                                                server.path = server.path.replace(/^\//, '');</span>
-<span class="cstat-no" title="statement not covered" >    						                                                server.path = server.path.replace(/\//g, '-');</span>
-<span class="cstat-no" title="statement not covered" >    						                                                server.path= '\\\\.\\pipe\\'+server.path;</span>
-						                                                }
+<span class="cstat-no" title="statement not covered" >                            server.path = server.path.replace(/^\//, '');</span>
+<span class="cstat-no" title="statement not covered" >                            server.path = server.path.replace(/\//g, '-');</span>
+<span class="cstat-no" title="statement not covered" >                            server.path= `\\\\.\\pipe\\${server.path}`;</span>
+                        }
 &nbsp;
                         server.server.listen(
                             server.path,
@@ -1131,7 +1140,7 @@ function init(path,config,log,port){
 <span class="cstat-no" title="statement not covered" >                    destroyedSocketId=socket.id;</span>
                 }
 &nbsp;
-                server.log('socket disconnected'.notice,' '+destroyedSocketId.variable);
+                server.log('socket disconnected'.notice,destroyedSocketId.toString().variable);
 &nbsp;
                 <span class="missing-if-branch" title="if path not taken" >I</span>if(socket &amp;&amp; socket.destroy){
 <span class="cstat-no" title="statement not covered" >                    socket.destroy();</span>
@@ -1156,7 +1165,7 @@ module.exports=init;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Jan 10 2016 20:57:31 GMT-0800 (PST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Jan 10 2016 21:12:33 GMT-0800 (PST)
 </div>
 </div>
 <script src="../../prettify.js"></script>
