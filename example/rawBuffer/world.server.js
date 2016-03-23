@@ -9,34 +9,32 @@ const ipc=require('../../../node-ipc');
 
 ipc.config.id = 'world';
 ipc.config.retry= 1500;
-//node-ipc will default to its local certs
-ipc.config.tls={
-    rejectUnauthorized:false
-};
+ipc.config.rawBuffer=true;
+ipc.config.encoding='hex';
 
-ipc.serveNet(
+ipc.serve(
     function(){
         ipc.server.on(
-            'message',
-            function(data,socket){
-                ipc.log('got a message : ', data);
+            'connect',
+            function(socket){
                 ipc.server.emit(
                     socket,
-                    'message',
-                    data+' world!'
+                    [0xaa]
                 );
             }
         );
 
         ipc.server.on(
-            'socket.disconnected',
+            'data',
             function(data,socket){
-                console.log(arguments);
+                ipc.log('got a message', data);
+                ipc.server.emit(
+                    socket,
+                    [0x0d,0xee]
+                );
             }
         );
     }
 );
-
-
 
 ipc.server.start();

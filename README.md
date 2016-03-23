@@ -37,6 +37,7 @@ You may want to install jasmine and istanbul globally with ` sudo npm install -g
 #### Contents
 
 1. [Types of IPC Sockets and Supporting OS](#types-of-ipc-sockets)
+1. [IPC Config](#ipc-config)
 2. [IPC Methods](#ipc-methods)
     1. [log](#log)
     2. [connectTo](#connectto)
@@ -46,13 +47,14 @@ You may want to install jasmine and istanbul globally with ` sudo npm install -g
     6. [serveNet](#servenet)
 3. [IPC Stores and Default Variables](#ipc-stores-and-default-variables)
 4. [IPC Events](#ipc-events)
-5. [Basic Examples](#basic-examples)
+5. [Multiple IPC instances](#multiple-ipc-instances)
+6. [Basic Examples](#basic-examples)
     1. [Server for Unix||Windows Sockets & TCP Sockets](#server-for-unix-sockets--tcp-sockets)
     2. [Client for Unix||Windows Sockets & TCP Sockets](#client-for-unix-sockets--tcp-sockets)
     4. [Server & Client for UDP Sockets](#server--client-for-udp-sockets)
-    5. [Raw Buffers or Binary Sockets](#raw-buffer-or-binary-sockets)
-6. [Working with TLS/SSL Socket Servers & Clients](https://github.com/RIAEvangelist/node-ipc/tree/master/example/TLSSocket)
-7. [Advanced Examples](https://github.com/RIAEvangelist/node-ipc/tree/master/example)
+    5. [Raw Buffers, Real Time and / or Binary Sockets](#raw-buffer-or-binary-sockets)
+7. [Working with TLS/SSL Socket Servers & Clients](https://github.com/RIAEvangelist/node-ipc/tree/master/example/TLSSocket)
+8. [Node Code Examples](https://github.com/RIAEvangelist/node-ipc/tree/master/example)
 
 
 ----
@@ -73,6 +75,8 @@ You may want to install jasmine and istanbul globally with ` sudo npm install -g
 
 ----
 
+#### IPC Config
+
 `ipc.config`  
 
 Set these variables in the `ipc.config` scope to overwrite or set default values.
@@ -89,6 +93,8 @@ Set these variables in the `ipc.config` scope to overwrite or set default values
         rawBuffer       : false,
         sync            : false,
         silent          : false,
+        logInColor      : true,
+        logDepth        : 5,
         maxConnections  : 100,
         retry           : 500,
         maxRetries      : false,
@@ -104,10 +110,12 @@ Set these variables in the `ipc.config` scope to overwrite or set default values
 | id       | the id of this socket or service |
 | networkHost| the local or remote host on which TCP, TLS or UDP Sockets should connect |
 | networkPort| the default port on which TCP, TLS, or UDP sockets should connect |
-| encoding | the default encoding for data sent on sockets. Mostly used if rawBuffer is set to true. Valid values are : ` ascii` ` utf8 ` ` utf16le` ` ucs2` ` base64` ` hex ` .
+| encoding | the default encoding for data sent on sockets. Mostly used if rawBuffer is set to true. Valid values are : ` ascii` ` utf8 ` ` utf16le` ` ucs2` ` base64` ` hex ` . |
 | rawBuffer| if true, data will be sent and received as a raw node ` Buffer ` __NOT__ an ` Object ` as JSON. This is great for Binary or hex IPC, and communicating with other processes in languages like C and C++  |
 | sync     | synchronous requests. Clients will not send new requests until the server answers. |
 | silent   | turn on/off logging default is false which means logging is on |
+| logInColor   | turn on/off util.inspect colors for ipc.log |
+| logDepth   | set the depth for util.inspect during ipc.log |
 | maxConnections| this is the max number of connections allowed to a socket. It is currently only being set on Unix Sockets. Other Socket types are using the system defaults. |
 | retry    | this is the time in milliseconds a client will wait before trying to reconnect to a server if the connection is lost. This does not effect UDP sockets since they do not have a client server relationship like Unix Sockets and TCP Sockets. |
 | maxRetries    | if set, it represents the maximum number of retries after each disconnect before giving up and completely killing a specific connection |
@@ -123,37 +131,14 @@ These methods are available in the IPC Scope.
 
 `ipc.log(a,b,c,d,e...);`  
 
-ipc.log will accept any number of arguments and if `ipc.config.silent` is not set, it will concat them all with a sincle space ' ' between them and then log them to the console. This is fast because it prevents any concatenation from happening if the ipc is set to silent. That way if you leave your logging in place it should not effect performance.
+ipc.log will accept any number of arguments and if `ipc.config.silent` is not set, it will concat them all with a single space ' ' between them and then log them to the console. This is fast because it prevents any concatenation from happening if the ipc.config.silent is set ` true `. That way if you leave your logging in place it should have almost no effect on performance.
 
-The log also supports [colors](https://github.com/Marak/colors.js) implementation. All of the available styles are supported and the theme styles are as follows :
-
-```javascript
-
-    {
-        good    : 'green',
-        notice  : 'yellow',
-        warn    : 'red',
-        error   : 'redBG',
-        debug   : 'magenta',
-        variable: 'cyan',
-        data    : 'blue'
-    }    
-
-```
-
-You can override any of these settings by requireing colors and setting the theme as follows :
+The log also uses util.inspect You can control if it should log in color as well as the log depth via ` ipc.config `
 
 ```javascript
 
-    var colors=require('colors');
-
-    colors.setTheme(
-        {
-            good    : 'zebra',
-            notice  : 'redBG',
-            ...
-        }    
-    );
+    ipc.config.logInColor=true; //default
+    ipc.config.logDepth=5; //default    
 
 ```
 
@@ -474,6 +459,38 @@ or specifying everything UDP
 |***your event type***|***your event data***|triggered when a JSON message is received. The event name will be the type string from your message and the param will be the data object from your message eg : ` { type:'myEvent',data:{a:1}} ` |
 ||||
 
+### Multiple IPC Instances
+
+Sometimes you might need explicit and independent instances of node-ipc. Just for such scenarios we have exposed the core IPC class on the IPC singleton.
+
+```javascript
+
+    const RawIPC=require('node-ipc').IPC;
+    const ipc=new RawIPC;
+    const someOtherExplicitIPC=new RawIPC;
+
+
+    //OR
+
+    const ipc=require('node-ipc');
+    const someOtherExplicitIPC=new ipc.IPC;
+
+
+    //setting explicit configs
+
+    //keep one silent and the other verbose
+    ipc.config.silent=true;
+    someOtherExplicitIPC.config.silent=true;
+
+    //make one a raw binary and the other json based ipc
+    ipc.config.rawBuffer=false;
+
+    someOtherExplicitIPC.config.rawBuffer=true;
+    someOtherExplicitIPC.config.encoding='hex';
+
+```
+
+
 ----
 ### Basic Examples
 You can find [Advanced Examples](https://github.com/RIAEvangelist/node-ipc/tree/master/example) in the examples folder. In the examples you will find more complex demos including multi client examples.
@@ -630,7 +647,7 @@ This is the most basic example which will work for both local and remote UDP Soc
 ```
 
 #### Raw Buffer or Binary Sockets
-Binary or Buffer sockets can be used with any of the above socket types, however the way data events are emit is ***slightly*** different.
+Binary or Buffer sockets can be used with any of the above socket types, however the way data events are emit is ***slightly*** different. These may come in handy if working with embedded systems or C / C++ processes. You can even make sure to match C or C++ string typing.
 
 When setting up a rawBuffer socket you must specify it as such :
 
@@ -669,6 +686,9 @@ emit byte array buffer :
 
 ```javascript
 
+    //hex encoding may work best for this.
+    ipc.config.encoding='hex';
+
     //server
     ipc.server.emit(
         socket,
@@ -682,9 +702,11 @@ emit byte array buffer :
 
 ```
 
-emit hex array buffer :
+emit binary or hex array buffer, this is best for real time data transfer, especially whan connecting to C or C++ processes, or embedded systems :
 
 ```javascript
+
+    ipc.config.encoding='hex';
 
     //server
     ipc.server.emit(
@@ -695,6 +717,50 @@ emit hex array buffer :
     //client
     ipc.server.emit(
         [0x05,0x6d,0x5c]
+    );
+
+```
+
+Writing explicit buffers, int types, doubles, floats etc. as well as big endian and little endian data to raw buffer nostly valuable when connecting to C or C++ processes, or embedded systems (see more detailed info on buffers as well as UInt, Int, double etc. here)[https://nodejs.org/api/buffer.html]:
+
+```javascript
+
+    ipc.config.encoding='hex';
+
+    //make a 6 byte buffer for example
+    const myBuffer=new Buffer(6).fill(0);
+
+    //fill the first 2 bytes with a 16 bit (2 byte) short unsigned int
+
+    //write a UInt16 (2 byte or short) as Big Endian
+    myBuffer.writeUInt16BE(
+        2, //value to write
+        0 //offset in bytes
+    );
+    //OR
+    myBuffer.writeUInt16LE(0x2,0);
+    //OR
+    myBuffer.writeUInt16LE(0x02,0);
+
+    //fill the remaining 4 bytes with a 32 bit (4 byte) long unsigned int
+
+    //write a UInt32 (4 byte or long) as Big Endian
+    myBuffer.writeUInt32BE(
+        16772812, //value to write
+        2 //offset in bytes
+    );
+    //OR
+    myBuffer.writeUInt32BE(0xffeecc,0)
+
+    //server
+    ipc.server.emit(
+        socket,
+        myBuffer
+    );
+
+    //client
+    ipc.server.emit(
+        myBuffer
     );
 
 ```

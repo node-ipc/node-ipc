@@ -1,10 +1,10 @@
-var ipc=require('../../../node-ipc');
+const ipc=require('../../../node-ipc');
 
 /***************************************\
- * 
+ *
  * You should start both hello and world
  * then you will see them communicating.
- * 
+ *
  * *************************************/
 
 ipc.config.id = 'world';
@@ -20,7 +20,7 @@ ipc.serve(
         ipc.server.on(
             'app.message',
             function(data,socket){
-                ipc.log('got a message from'.debug, (data.id).variable, (data.message).data);
+                ipc.log('got a message from', (data.id), (data.message));
                 messages[data.id]=true;
                 ipc.server.emit(
                     socket,
@@ -30,9 +30,9 @@ ipc.serve(
                         message : data.message+' world!'
                     }
                 );
-                
+
                 if(messages.hello && messages.goodbye){
-                    ipc.log('got all required events, telling clients to kill connection'.good);
+                    ipc.log('got all required events, telling clients to kill connection');
                     ipc.server.broadcast(
                         'kill.connection',
                         {

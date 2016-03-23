@@ -56,6 +56,16 @@ class Defaults{
                     writable:true,
                     value:false
                 },
+                logDepth:{
+                    enumerable:true,
+                    writable:true,
+                    value:5
+                },
+                logInColor:{
+                    enumerable:true,
+                    writable:true,
+                    value:true
+                },
                 maxConnections  : {
                     enumerable:true,
                     writable:true,

@@ -1,4 +1,4 @@
-var ipc=require('../../../node-ipc');
+const ipc=require('../../../node-ipc');
 
 /***************************************\
  * 
@@ -16,7 +16,7 @@ ipc.connectTo(
         ipc.of.world.on(
             'connect',
             function(){
-                ipc.log('## connected to world ##'.rainbow, ipc.config.delay);
+                ipc.log('## connected to world ##', ipc.config.delay);
                 ipc.of.world.emit(
                     'app.message',
                     {
@@ -29,13 +29,13 @@ ipc.connectTo(
         ipc.of.world.on(
             'disconnect',
             function(){
-                ipc.log('disconnected from world'.notice);
+                ipc.log('disconnected from world');
             }
         );
         ipc.of.world.on(
             'kill.connection',
             function(data){
-                ipc.log('world requested kill.connection'.notice);
+                ipc.log('world requested kill.connection');
                 ipc.disconnect('world');
             }
         );

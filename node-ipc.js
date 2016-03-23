@@ -1,8 +1,6 @@
 'use strict';
 
-const colors = require('colors'),
-    LogColors = require('./entities/LogColors.js'),
-    IPC = require('./services/IPC.js');
+const IPC = require('./services/IPC.js');
 
 class IPCModule extends IPC{
     constructor(){
@@ -19,8 +17,5 @@ class IPCModule extends IPC{
         )
     }
 }
-
-
-colors.setTheme(new LogColors);
 
 module.exports=new IPCModule;

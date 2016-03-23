@@ -25,14 +25,14 @@ function init(config,log){
 }
 
 function emit(type,data){
-    this.log('dispatching event to '.debug, (this.id).variable, this.path.variable,' : ', type.data,',', data);
+    this.log('dispatching event to ', this.id, this.path, ' : ', type, ',', data);
 
     let message=new Message;
     message.type=type;
     message.data=data;
 
     if(this.config.rawBuffer){
-        message=new Buffer(type,this.encoding);
+        message=new Buffer(type,this.config.encoding);
     }else{
         message=eventParser.format(message);
     }
@@ -48,7 +48,7 @@ function emit(type,data){
 }
 
 function syncEmit(message){
-    this.log('dispatching event to '.debug, (this.id).variable, this.path.variable,' : ', message.data);
+    this.log('dispatching event to ', this.id, this.path, ' : ', message);
     this.socket.write(message);
 }
 
@@ -56,14 +56,14 @@ function connect(){
     //init client object for scope persistance especially inside of socket events.
     let client=this;
 
-    client.log('requested connection to '.debug, client.id.variable, client.path.variable);
+    client.log('requested connection to ', client.id, client.path);
     if(!this.path){
-        client.log('\n\n######\nerror: '.error, client.id .info,' client has not specified socket path it wishes to connect to.'.error);
+        client.log('\n\n######\nerror: ', client.id ,' client has not specified socket path it wishes to connect to.');
         return;
     }
 
     if(!client.port){
-        client.log('Connecting client on Unix Socket :'.debug, client.path.variable);
+        client.log('Connecting client on Unix Socket :', client.path);
 
         let path = client.path;
 
@@ -79,7 +79,7 @@ function connect(){
         );
     }else{
         if(!client.config.tls){
-            client.log('Connecting client via TCP to'.debug, client.path.variable ,client.port);
+            client.log('Connecting client via TCP to', client.path ,client.port);
             client.socket = net.connect(
                 {
                     port:client.port,
@@ -87,7 +87,7 @@ function connect(){
                 }
             );
         }else{
-            client.log('Connecting client via TLS to'.debug, client.path.variable ,client.port,client.config.tls);
+            client.log('Connecting client via TLS to', client.path ,client.port,client.config.tls);
             if(client.config.tls.private){
                 client.config.tls.key=fs.readFileSync(client.config.tls.private);
             }
@@ -120,7 +120,7 @@ function connect(){
     client.socket.on(
         'error',
         function(err){
-            client.log('\n\n######\nerror: '.error, err);
+            client.log('\n\n######\nerror: ', err);
             client.trigger('error', err);
 
         }
@@ -138,8 +138,8 @@ function connect(){
     client.socket.on(
         'close',
         function connectionClosed(){
-            client.log('connection closed'.notice ,client.id.variable , client.path.variable,
-            `${client.retriesRemaining} tries remaining of ${client.config.maxRetries}`
+            client.log('connection closed' ,client.id , client.path,
+            client.retriesRemaining, 'tries remaining of', client.config.maxRetries
         );
 
             if(
@@ -148,8 +148,8 @@ function connect(){
             ){
                 client.trigger('disconnect');
                 client.log(
-                    (client.config.id).variable,
-                    'exceeded connection rety amount of'.warn,
+                    (client.config.id),
+                    'exceeded connection rety amount of',
                     ' or stopRetrying flag set.'
                 );
 
@@ -186,11 +186,11 @@ function connect(){
     client.socket.on(
         'data',
         function(data) {
-            client.log('## recieved events ##'.rainbow);
+            client.log('## recieved events ##');
             if(client.config.rawBuffer){
                 client.trigger(
                    'data',
-                   new Buffer(data,this.encoding)
+                   new Buffer(data,client.config.encoding)
                 );
                 if(!client.config.sync){
                     return;
@@ -207,7 +207,7 @@ function connect(){
             data=(this.ipcBuffer+=data);
 
             if(data.slice(-1)!=eventParser.delimiter || data.indexOf(eventParser.delimiter) == -1){
-                client.log('Implementing larger buffer for this socket message. You may want to consider smaller messages'.notice);
+                client.log('Messages are large, You may want to consider smaller messages.');
                 return;
             }
 
@@ -219,7 +219,7 @@ function connect(){
                 let message=new Message;
                 message.load(events[i]);
 
-                client.log('detected event of type '.debug, message.type.data, message.data);
+                client.log('detected event', message.type, message.data);
                 client.trigger(
                    message.type,
                    message.data

@@ -66,14 +66,20 @@ function log(){
         return;
     }
 
-    let args=Array.prototype.slice.call(arguments);
+    const args=Array.prototype.slice.call(arguments);
 
     for(let i=0, count=args.length; i<count; i++){
         if(typeof args[i] != 'object'){
             continue;
         }
 
-        args[i]=util.inspect(args[i],{colors:true});
+        args[i]=util.inspect(
+            args[i],
+            {
+                depth:this.config.logDepth,
+                colors:this.config.logInColor
+            }
+        );
     }
 
     console.log(

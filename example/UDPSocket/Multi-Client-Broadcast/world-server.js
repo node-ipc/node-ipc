@@ -1,18 +1,18 @@
-var ipc=require('../../../node-ipc');
+const ipc=require('../../../node-ipc');
 
 /***************************************\
- * 
+ *
  * Since there is no client relationship
- * with UDP sockets sockets are not kept 
+ * with UDP sockets sockets are not kept
  * open.
- * 
+ *
  * This means the order sockets are opened
  * is important.
- * 
- * Start World first. Then you can start 
+ *
+ * Start World first. Then you can start
  * hello or goodbye in any order you
  * choose.
- * 
+ *
  ***************************************/
 
 ipc.config.id = 'world';
@@ -30,7 +30,7 @@ ipc.serveNet(
         ipc.server.on(
             'message',
             function(data,socket){
-                ipc.log('got a message from '.debug, data.id.variable ,' : '.debug, data.message.data);
+                ipc.log('got a message from ', data.id ,' : ', data.message);
                 messages[data.id]=true;
                 ipc.server.emit(
                     socket,
@@ -40,9 +40,9 @@ ipc.serveNet(
                         message : data.message+' world!'
                     }
                 );
-                
+
                 if(messages.hello && messages.goodbye){
-                    ipc.log('got all required events, telling evryone how muchg I am loved!'.good);
+                    ipc.log('got all required events, telling evryone how muchg I am loved!');
                     ipc.server.broadcast(
                         'message',
                         {
@@ -53,7 +53,7 @@ ipc.serveNet(
                 }
             }
         );
-        
+
         console.log(ipc.server);
     }
 );

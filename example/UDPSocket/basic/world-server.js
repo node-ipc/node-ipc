@@ -1,4 +1,4 @@
-var ipc=require('../../../node-ipc');
+const ipc=require('../../../node-ipc');
 
 /***************************************\
  *
@@ -25,11 +25,10 @@ ipc.config.retry= 1500;
 ipc.serveNet(
     'udp4',
     function(){
-        console.log(123);
         ipc.server.on(
             'message',
             function(data,socket){
-                ipc.log('got a message from '.debug, data.id.variable ,' : '.debug, data.message.data);
+                ipc.log('got a message from ', data.id ,' : ', data.message);
                 ipc.server.emit(
                     socket,
                     'message',

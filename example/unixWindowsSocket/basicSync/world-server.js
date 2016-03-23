@@ -1,4 +1,4 @@
-var ipc=require('../../../node-ipc');
+const ipc=require('../../../node-ipc');
 
 /***************************************\
  *
@@ -16,8 +16,6 @@ ipc.serve(
         ipc.server.on(
             'app.message',
             function(data,socket){
-                //ipc.log('got a message from'.debug, (data.id).variable, (data.message).data);
-
                 setTimeout(
                     function(){
                         ipc.server.emit(

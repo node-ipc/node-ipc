@@ -1,4 +1,4 @@
-var ipc=require('../../../node-ipc');
+const ipc=require('../../../node-ipc');
 
 /***************************************\
  *
@@ -24,7 +24,7 @@ ipc.serveNet(
         ipc.server.on(
             'app.message',
             function(data,socket){
-                ipc.log('got a message from'.debug, (data.id).variable, (data.message).data);
+                ipc.log('got a message from', (data.id), (data.message));
                 messages[data.id]=true;
                 ipc.server.emit(
                     socket,
@@ -36,7 +36,7 @@ ipc.serveNet(
                 );
 
                 if(messages.hello && messages.goodbye){
-                    ipc.log('got all required events, telling clients to kill connection'.good);
+                    ipc.log('got all required events, telling clients to kill connection');
                     ipc.server.broadcast(
                         'kill.connection',
                         {

@@ -9,14 +9,15 @@ const net = require('net'),
     Message = require('js-message');
 
 function emit(socket, type, data){
-    this.log('dispatching event to socket'.debug, ' : ', type.data, data);
+    this.log('dispatching event to socket', ' : ', type, data);
 
     let message=new Message;
     message.type=type;
     message.data=data;
 
     if(this.config.rawBuffer){
-        message=new Buffer(type,this.encoding);
+        console.log(this.config.encoding)
+        message=new Buffer(type,this.config.encoding);
     }else{
         message=eventParser.format(message);
     }
@@ -40,13 +41,13 @@ function emit(socket, type, data){
 }
 
 function broadcast(type,data){
-    this.log('broadcasting event to all known sockets listening to '.debug, this.path.variable,' : ', ((this.port)?this.port:''), type, data);
+    this.log('broadcasting event to all known sockets listening to ', this.path,' : ', ((this.port)?this.port:''), type, data);
     let message=new Message;
     message.type=type;
     message.data=data;
 
     if(this.config.rawBuffer){
-        message=new Buffer(type,this.encoding);
+        message=new Buffer(type,this.config.encoding);
     }else{
         message=eventParser.format(message);
     }
@@ -85,7 +86,7 @@ function init(path,config,log,port){
         },
         start           : function start(){
             if(!this.path){
-                server.log('Socket Server Path not specified, refusing to start'.warn);
+                server.log('Socket Server Path not specified, refusing to start');
                 return;
             }
 
@@ -93,8 +94,8 @@ function init(path,config,log,port){
                 this.path,
                 function () {
                     server.log(
-                        'starting server on '.debug,server.path.variable,
-                        ((server.port)?`:${server.port}`:'').variable
+                        'starting server on ',server.path,
+                        ((server.port)?`:${server.port}`:'')
                     );
 
                     if(!server.udp4 && !server.udp6){
@@ -103,7 +104,7 @@ function init(path,config,log,port){
                                 serverCreated
                             );
                         }else{
-                            server.log('starting TLS server'.debug,server.config.tls);
+                            server.log('starting TLS server',server.config.tls);
                             if(server.config.tls.private){
                                 server.config.tls.key=fs.readFileSync(server.config.tls.private);
                             }else{
@@ -144,7 +145,7 @@ function init(path,config,log,port){
                                 socket.address,
                                 function(err, bytes) {
                                     if(err){
-                                        server.log('error writing data to socket'.warn,err);
+                                        server.log('error writing data to socket',err);
                                         server.trigger(
                                             'error',
                                             function(err){
@@ -171,7 +172,7 @@ function init(path,config,log,port){
                     server.server.on(
                         'error',
                         function(err){
-                            server.log('server error'.warn,err);
+                            server.log('server error',err);
 
                             server.trigger(
                                 'error',
@@ -189,7 +190,7 @@ function init(path,config,log,port){
                             socket.setEncoding(server.config.encoding);
                         }
 
-                        server.log('## socket connection to server detected ##'.rainbow);
+                        server.log('## socket connection to server detected ##');
                         socket.on(
                             'close',
                             function(socket){
@@ -203,7 +204,7 @@ function init(path,config,log,port){
                         socket.on(
                             'error',
                             function(err){
-                                server.log('server socket error'.warn,err);
+                                server.log('server socket error',err);
 
                                 server.trigger('error',err);
                             }
@@ -214,7 +215,7 @@ function init(path,config,log,port){
                             function(data,UDPSocket){
                                 let sock=((server.udp4 || server.udp6)? UDPSocket : socket);
                                 if(server.config.rawBuffer){
-                                    data=new Buffer(data,this.encoding);
+                                    data=new Buffer(data,server.config.encoding);
                                     server.trigger(
                                         'data',
                                         data,
@@ -230,7 +231,7 @@ function init(path,config,log,port){
                                 data=(this.ipcBuffer+=data);
 
                                 if(data.slice(-1)!=eventParser.delimiter || data.indexOf(eventParser.delimiter) == -1){
-                                    server.log('Implementing larger buffer for this socket message. You may want to consider smaller messages'.notice);
+                                    server.log('Messages are large, You may want to consider smaller messages.');
                                     return;
                                 }
 
@@ -242,12 +243,12 @@ function init(path,config,log,port){
                                     let message=new Message;
                                     message.load(data.shift());
 
-                                    server.log('received event of : '.debug,message.type.data,message.data);
+                                    server.log('received event of : ',message.type,message.data);
 
                                     if(message.data.id){
                                         sock.id=message.data.id;
                                     }
-                                    
+
                                     server.trigger(
                                         message.type,
                                         message.data,
@@ -264,11 +265,11 @@ function init(path,config,log,port){
                                     return;
                                 }
 
-                                server.log('Received UDP message from '.debug, rinfo.address.variable, rinfo.port);
+                                server.log('Received UDP message from ', rinfo.address, rinfo.port);
                                 let data;
 
                                 if(server.config.rawSocket){
-                                    data=new Buffer(msg,this.encoding);
+                                    data=new Buffer(msg,server.config.encoding);
                                 }else{
                                     data=msg.toString();
                                 }
@@ -291,7 +292,7 @@ function init(path,config,log,port){
                     }
 
                     if(!port){
-                        server.log('starting server as'.debug, 'Unix || Windows Socket'.variable);
+                        server.log('starting server as', 'Unix || Windows Socket');
                         if (process.platform ==='win32'){
                             server.path = server.path.replace(/^\//, '');
                             server.path = server.path.replace(/\//g, '-');
@@ -307,7 +308,7 @@ function init(path,config,log,port){
                     }
 
                     if(!server.udp4 && !server.udp6){
-                        server.log('starting server as'.debug, (server.config.tls?'TLS':'TCP').variable);
+                        server.log('starting server as', (server.config.tls?'TLS':'TCP'));
                         server.server.listen(
                             server.port,
                             server.path,
@@ -316,7 +317,7 @@ function init(path,config,log,port){
                         return;
                     }
 
-                    server.log('starting server as'.debug,((server.udp4)? 'udp4':'udp6').variable);
+                    server.log('starting server as',((server.udp4)? 'udp4':'udp6'));
                     server.server.bind(
                         server.port,
                         server.path
@@ -352,7 +353,7 @@ function init(path,config,log,port){
                     destroyedSocketId=socket.id;
                 }
 
-                server.log('socket disconnected'.notice,destroyedSocketId.toString().variable);
+                server.log('socket disconnected',destroyedSocketId.toString());
 
                 if(socket && socket.destroy){
                     socket.destroy();
