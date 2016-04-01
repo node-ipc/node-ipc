@@ -24,6 +24,7 @@
     "codacy-coverage": "^1.1.3"
   },
   "scripts": {
+    "test-windows": "istanbul cover -x **/spec/** -dir ./spec/coverage ./node_modules/jasmine/bin/jasmine.js",
     "test": "istanbul cover -x **/spec/** -dir ./spec/coverage jasmine",
     "cover": "istanbul cover -x **/spec/** -dir ./spec/coverage jasmine",
     "coverup": "cat ./spec/coverage/lcov.info | codacy-coverage"
