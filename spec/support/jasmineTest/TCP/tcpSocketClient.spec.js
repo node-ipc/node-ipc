@@ -2,9 +2,18 @@
 'use strict';
 
 const ipc = require('../../../../node-ipc');
+const os = require('os').platform();
 
 describe('TCP Socket verification of client',
     function TCPClientSpec(){
+
+        var windows_delay = 0;
+
+        if(os === "win32") {
+            windows_delay = 4000;
+            jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+        }
+
         it(
             'Verify retry attempts by TCP client to connect to the server as per the value set in "maxRetries" parameter.',
             function testIt(done){
@@ -41,7 +50,7 @@ describe('TCP Socket verification of client',
                         done();
                     },
                     ipc.config.retry*ipc.config.maxRetries +
-                    ipc.config.retry+ipc.config.retry
+                    ipc.config.retry+ipc.config.retry + windows_delay
                 );
 
             }
@@ -80,7 +89,7 @@ describe('TCP Socket verification of client',
                         ipc.disconnect('tcpFakeServer');
                         done();
                     },
-                    ipc.config.retry*ipc.config.maxRetries
+                    ipc.config.retry*ipc.config.maxRetries + windows_delay
                 );
             }
         );
