@@ -204,7 +204,7 @@ function serveNet(host,port,UDPType,callback){
     if(UDPType){
         this.server[UDPType]=true;
         if(UDPType === "udp4" && host === "::1") {
-            // bind udp4 socket to an ipv4 address to avoid failing on windows
+            // bind udp4 socket to an ipv4 address
             this.server.path = "127.0.0.1";
         }
     }
