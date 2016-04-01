@@ -160,21 +160,10 @@ function connect(){
                 return;
             }
 
-            client.isRetrying=true;
-
             setTimeout(
                 function retryTimeout(){
                     client.retriesRemaining--;
-                    client.isRetrying=false;
                     client.connect();
-                    setTimeout(
-                        function resetRetriesCheck(){
-                            if(!client.isRetrying){
-                                client.retriesRemaining=client.config.maxRetries;
-                            }
-                        },
-                        100
-                    );
                 }.bind(null,client),
                 client.config.retry
             );
