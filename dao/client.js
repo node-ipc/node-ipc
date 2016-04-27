@@ -186,7 +186,7 @@ function connect(){
     client.socket.on(
         'data',
         function(data) {
-            client.log('## recieved events ##');
+            client.log('## received events ##');
             if(client.config.rawBuffer){
                 client.trigger(
                    'data',
