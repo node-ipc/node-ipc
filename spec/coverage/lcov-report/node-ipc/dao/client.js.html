@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for node-ipc\dao\client.js</title>
+    <title>Code coverage report for node-ipc/dao/client.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">74.49% </span>
+        <span class="strong">71.43% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>73/98</span>
+        <span class='fraction'>70/98</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">52.5% </span>
+        <span class="strong">51.22% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>21/40</span>
+        <span class='fraction'>21/41</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>9/9</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">74.49% </span>
+        <span class="strong">71.43% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>73/98</span>
+        <span class='fraction'>70/98</span>
       </div>
     </div>
   </div>
@@ -270,7 +270,10 @@
 225
 226
 227
-228</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+228
+229
+230
+231</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -282,6 +285,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -340,9 +344,9 @@
 <span class="cline-any cline-yes">7×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7×</span>
-<span class="cline-any cline-yes">7×</span>
-<span class="cline-any cline-yes">7×</span>
-<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -415,6 +419,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -515,7 +521,8 @@ function init(config,log){
         connect : connect,
         emit    : emit,
         log     : log,
-        retriesRemaining:config.maxRetries||<span class="branch-1 cbranch-no" title="branch not covered" >0</span>
+        retriesRemaining:config.maxRetries||<span class="branch-1 cbranch-no" title="branch not covered" >0,</span>
+        explicitlyDisconnected: false
     };
 &nbsp;
     new Pubsub(client);
@@ -566,10 +573,10 @@ function connect(){
 &nbsp;
         let path = client.path;
 &nbsp;
-        <span class="missing-if-branch" title="else path not taken" >E</span>if (process.platform ==='win32' &amp;&amp; !client.path.startsWith('\\\\.\\pipe\\')){
-            path = path.replace(/^\//, '');
-            path = path.replace(/\//g, '-');
-            path= `\\\\.\\pipe\\${path}`;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (process.platform ==='win32' &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!client.path.startsWith('\\\\.\\pipe\\'))</span>{
+<span class="cstat-no" title="statement not covered" >            path = path.replace(/^\//, '');</span>
+<span class="cstat-no" title="statement not covered" >            path = path.replace(/\//g, '-');</span>
+<span class="cstat-no" title="statement not covered" >            path= `\\\\.\\pipe\\${path}`;</span>
         }
         client.socket = net.connect(
             {
@@ -642,7 +649,9 @@ function connect(){
         );
 &nbsp;
             if(
-                client.config.stopRetrying || client.retriesRemaining&lt;1
+                client.config.stopRetrying ||
+                client.retriesRemaining&lt;1 ||
+                client.explicitlyDisconnected
 &nbsp;
             ){
                 client.trigger('disconnect');
@@ -674,7 +683,7 @@ function connect(){
     client.socket.on(
         'data',
         function(data) {
-            client.log('## recieved events ##');
+            client.log('## received events ##');
             <span class="missing-if-branch" title="if path not taken" >I</span>if(client.config.rawBuffer){
 <span class="cstat-no" title="statement not covered" >                client.trigger(</span>
                    'data',
@@ -730,7 +739,7 @@ module.exports=init;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Apr 01 2016 20:14:41 GMT+0200 (Egypt Standard Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Jul 14 2016 16:03:57 GMT-0700 (PDT)
 </div>
 </div>
 <script src="../../prettify.js"></script>
