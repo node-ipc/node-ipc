@@ -92,7 +92,7 @@ function disconnect(id){
         return;
     }
 
-    this.of[id].config.stopRetrying=true;
+    this.of[id].explicitlyDisconnected=true;
 
     this.of[id].off('*');
     if(this.of[id].socket){

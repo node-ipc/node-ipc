@@ -16,7 +16,8 @@ function init(config,log){
         connect : connect,
         emit    : emit,
         log     : log,
-        retriesRemaining:config.maxRetries||0
+        retriesRemaining:config.maxRetries||0,
+        explicitlyDisconnected: false
     };
 
     new Pubsub(client);
@@ -143,7 +144,9 @@ function connect(){
         );
 
             if(
-                client.config.stopRetrying || client.retriesRemaining<1
+                client.config.stopRetrying ||
+                client.retriesRemaining<1 ||
+                client.explicitlyDisconnected
 
             ){
                 client.trigger('disconnect');
