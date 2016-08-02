@@ -1,12 +1,25 @@
 'use strict';
 
+/*eslint no-magic-numbers: ["error", { "ignore": [ 0] }]*/
+
+/**
+ * @module entities
+ */
+
 const os = require('os');
 
+/**
+ * @class Defaults
+ * @description Defaults Entity
+ */
 class Defaults{
+
+    /**
+     * @constructor
+     * @method constructor
+     * @return {void}
+     */
     constructor(){
-        const IPType=os.networkInterfaces()[
-            Object.keys(os.networkInterfaces())[0]
-        ][0].family;
 
         Object.defineProperties(
             this,
@@ -24,7 +37,7 @@ class Defaults{
                 networkHost     : {
                     enumerable:true,
                     writable:true,
-                    value:(IPType=='IPv6')? '::1' : '127.0.0.1'
+                    value: ''
                 },
                 networkPort     : {
                     enumerable:true,
@@ -89,7 +102,7 @@ class Defaults{
                 IPType          : {
                     enumerable:true,
                     writable:true,
-                    value:IPType
+                    value: getIPType()
                 },
                 tls             : {
                     enumerable:true,
@@ -98,7 +111,29 @@ class Defaults{
                 }
             }
         );
+
+        this.networkHost = (this.IPType == 'IPv6') ? '::1' : '127.0.0.1';
     }
+}
+
+/**
+ * method to get ip type
+ *
+ * @method getIPType
+ * @return {string} ip type
+ */
+function getIPType() {
+    const networkInterfaces = os.networkInterfaces();
+    let IPType = '';
+    if (networkInterfaces
+        && Array.isArray(networkInterfaces)
+        && networkInterfaces.length > 0) {
+        // getting the family of first network interface available
+        IPType = networkInterfaces [
+            Object.keys( networkInterfaces )[0]
+        ][0].family;
+    }
+    return IPType;
 }
 
 module.exports=Defaults;
