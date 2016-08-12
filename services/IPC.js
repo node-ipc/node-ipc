@@ -94,7 +94,7 @@ function disconnect(id){
 
     this.of[id].explicitlyDisconnected=true;
 
-    this.of[id].off('*');
+    this.of[id].off('*','*');
     if(this.of[id].socket){
         if(this.of[id].socket.destroy){
             this.of[id].socket.destroy();
