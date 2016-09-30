@@ -18,7 +18,7 @@ describe('TCP Socket verification of client',
             'Verify retry attempts by TCP client to connect to the server as per the value set in "maxRetries" parameter.',
             function testIt(done){
                 ipc.config.id ='testClient';
-                ipc.config.retry = 600;
+                ipc.config.retry = 60;
                 ipc.config.maxRetries = 3;
                 ipc.config.stopRetrying = false;
 

@@ -2,7 +2,7 @@
 
 const ipc=require('../../../node-ipc');
 const process=require('process');
-const dieAfter=30000;
+const dieAfter=60000;
 
 //die after 60 seconds
 setTimeout(
@@ -21,10 +21,22 @@ ipc.config.networkPort=8095;
 ipc.serveNet(
     'udp4',
     function serverStarted(){
+        console.log(`
+
+                     UP
+
+
+                     `);
         ipc.server.on(
             'message',
             function gotMessage(data,socket){
-                ipc.server.emit(
+                console.log(`
+
+                             MESSAGE                           
+
+
+                             `);
+                             ipc.server.emit(
                     socket,
                     'message',
                     {

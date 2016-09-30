@@ -11,7 +11,7 @@ describe(
             function testIt(done){
                 ipc.config.networkPort=8095;
                 ipc.config.id ='testClient';
-                ipc.config.retry = 600;
+                ipc.config.retry = 60;
 
                 let clientPort=8001;
 
@@ -65,7 +65,7 @@ describe(
             function testIt(done){
                 ipc.config.networkPort=8099;
                 ipc.config.id ='testClient';
-                ipc.config.retry = 600;
+                ipc.config.retry = 60;
 
                 let clientPort=8010;
 

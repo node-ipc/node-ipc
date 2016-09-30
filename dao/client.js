@@ -3,26 +3,29 @@
 const net = require('net'),
     tls = require('tls'),
     eventParser = require('./eventParser.js'),
-    Pubsub = require('event-pubsub'),
+    Events = require('event-pubsub'),
     Message = require('js-message'),
     fs = require('fs'),
     Queue = require('js-queue');
 
-function init(config,log){
-    let client={
-        config  : config,
-        queue   : new Queue,
-        socket  : false,
-        connect : connect,
-        emit    : emit,
-        log     : log,
-        retriesRemaining:config.maxRetries||0,
-        explicitlyDisconnected: false
-    };
-
-    new Pubsub(client);
-
-    return client;
+class Client extends Events{
+    constructor(config,log){
+        super();
+        Object.assign(
+            this,
+            {
+                Client  : Client,
+                config  : config,
+                queue   : new Queue,
+                socket  : false,
+                connect : connect,
+                emit    : emit,
+                log     : log,
+                retriesRemaining:config.maxRetries||0,
+                explicitlyDisconnected: false
+            }
+        );
+    }
 }
 
 function emit(type,data){
@@ -122,7 +125,7 @@ function connect(){
         'error',
         function(err){
             client.log('\n\n######\nerror: ', err);
-            client.trigger('error', err);
+            client.publish('error', err);
 
         }
     );
@@ -130,7 +133,7 @@ function connect(){
     client.socket.on(
         'connect',
         function connectionMade(){
-            client.trigger('connect');
+            client.publish('connect');
             client.retriesRemaining=client.config.maxRetries;
             client.log('retrying reset');
         }
@@ -149,7 +152,7 @@ function connect(){
                 client.explicitlyDisconnected
 
             ){
-                client.trigger('disconnect');
+                client.publish('disconnect');
                 client.log(
                     (client.config.id),
                     'exceeded connection rety amount of',
@@ -157,7 +160,7 @@ function connect(){
                 );
 
                 client.socket.destroy();
-                client.trigger('destroy');
+                client.publish('destroy');
                 client=undefined;
 
                 return;
@@ -171,7 +174,7 @@ function connect(){
                 client.config.retry
             );
 
-            client.trigger('disconnect');
+            client.publish('disconnect');
         }
     );
 
@@ -180,7 +183,7 @@ function connect(){
         function(data) {
             client.log('## received events ##');
             if(client.config.rawBuffer){
-                client.trigger(
+                client.publish(
                    'data',
                    new Buffer(data,client.config.encoding)
                 );
@@ -212,7 +215,7 @@ function connect(){
                 message.load(events[i]);
 
                 client.log('detected event', message.type, message.data);
-                client.trigger(
+                client.publish(
                    message.type,
                    message.data
                 );
@@ -227,4 +230,4 @@ function connect(){
     );
 }
 
-module.exports=init;
+module.exports=Client;

@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">71.43% </span>
+        <span class="strong">70.83% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>70/98</span>
+        <span class='fraction'>68/96</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">51.22% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>9/9</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">71.43% </span>
+        <span class="strong">70.83% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>70/98</span>
+        <span class='fraction'>68/96</span>
       </div>
     </div>
   </div>
@@ -273,7 +273,10 @@
 228
 229
 230
-231</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+231
+232
+233
+234</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -283,7 +286,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
 <span class="cline-any cline-yes">7×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -295,9 +300,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -508,26 +514,29 @@
 const net = require('net'),
     tls = require('tls'),
     eventParser = require('./eventParser.js'),
-    Pubsub = require('event-pubsub'),
+    Events = require('event-pubsub'),
     Message = require('js-message'),
     fs = require('fs'),
     Queue = require('js-queue');
 &nbsp;
-function init(config,log){
-    let client={
-        config  : config,
-        queue   : new Queue,
-        socket  : false,
-        connect : connect,
-        emit    : emit,
-        log     : log,
-        retriesRemaining:config.maxRetries||<span class="branch-1 cbranch-no" title="branch not covered" >0,</span>
-        explicitlyDisconnected: false
-    };
-&nbsp;
-    new Pubsub(client);
-&nbsp;
-    return client;
+class Client extends Events{
+    constructor(config,log){
+        super();
+        Object.assign(
+            this,
+            {
+                Client  : Client,
+                config  : config,
+                queue   : new Queue,
+                socket  : false,
+                connect : connect,
+                emit    : emit,
+                log     : log,
+                retriesRemaining:config.maxRetries||<span class="branch-1 cbranch-no" title="branch not covered" >0,</span>
+                explicitlyDisconnected: false
+            }
+        );
+    }
 }
 &nbsp;
 function emit(type,data){
@@ -627,7 +636,7 @@ function connect(){
         'error',
         function(err){
             client.log('\n\n######\nerror: ', err);
-            client.trigger('error', err);
+            client.publish('error', err);
 &nbsp;
         }
     );
@@ -635,7 +644,7 @@ function connect(){
     client.socket.on(
         'connect',
         function connectionMade(){
-            client.trigger('connect');
+            client.publish('connect');
             client.retriesRemaining=client.config.maxRetries;
             client.log('retrying reset');
         }
@@ -654,7 +663,7 @@ function connect(){
                 client.explicitlyDisconnected
 &nbsp;
             ){
-                client.trigger('disconnect');
+                client.publish('disconnect');
                 client.log(
                     (client.config.id),
                     'exceeded connection rety amount of',
@@ -662,7 +671,7 @@ function connect(){
                 );
 &nbsp;
                 client.socket.destroy();
-                client.trigger('destroy');
+                client.publish('destroy');
                 client=undefined;
 &nbsp;
                 return;
@@ -676,7 +685,7 @@ function connect(){
                 client.config.retry
             );
 &nbsp;
-            client.trigger('disconnect');
+            client.publish('disconnect');
         }
     );
 &nbsp;
@@ -685,7 +694,7 @@ function connect(){
         function(data) {
             client.log('## received events ##');
             <span class="missing-if-branch" title="if path not taken" >I</span>if(client.config.rawBuffer){
-<span class="cstat-no" title="statement not covered" >                client.trigger(</span>
+<span class="cstat-no" title="statement not covered" >                client.publish(</span>
                    'data',
                    new Buffer(data,client.config.encoding)
                 );
@@ -717,7 +726,7 @@ function connect(){
                 message.load(events[i]);
 &nbsp;
                 client.log('detected event', message.type, message.data);
-                client.trigger(
+                client.publish(
                    message.type,
                    message.data
                 );
@@ -732,14 +741,14 @@ function connect(){
     );
 }
 &nbsp;
-module.exports=init;
+module.exports=Client;
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Aug 12 2016 15:23:14 GMT-0700 (PDT)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Sep 30 2016 05:59:50 GMT-0700 (PDT)
 </div>
 </div>
 <script src="../../prettify.js"></script>

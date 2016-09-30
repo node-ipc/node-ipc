@@ -5,8 +5,57 @@ const net = require('net'),
     fs = require('fs'),
     dgram = require('dgram'),
     eventParser = require('./eventParser.js'),
-    Pubsub = require('event-pubsub'),
+    Events = require('event-pubsub'),
     Message = require('js-message');
+
+class Server extends Events{
+    constructor(path,config,log,port){
+        super();
+        Object.assign(
+            this,
+            {
+                config          : config,
+                path            : path,
+                port            : port,
+                udp4            : false,
+                udp6            : false,
+                log             : log,
+                server          : false,
+                sockets         : [],
+                emit            : emit,
+                broadcast       : broadcast
+            }
+        );
+
+        this.on(
+            'close',
+            serverClosed.bind(this)
+        );
+    }
+
+    onStart(socket){
+        this.trigger(
+            'start',
+            socket
+        );
+    }
+
+    stop(){
+        this.server.close();
+    }
+
+    start(){
+        if(!this.path){
+            this.log('Socket Server Path not specified, refusing to start');
+            return;
+        }
+
+        fs.unlink(
+            this.path,
+            startServer.bind(this)
+        );
+    }
+}
 
 function emit(socket, type, data){
     this.log('dispatching event to socket', ' : ', type, data);
@@ -63,312 +112,278 @@ function broadcast(type,data){
     }
 }
 
-function init(path,config,log,port){
-    let server={
-        config          : config,
-        path            : path,
-        port            : port,
-        udp4            : false,
-        udp6            : false,
-        log             : log,
-        server          : false,
-        sockets         : [],
-        emit            : emit,
-        broadcast       : broadcast,
-        onStart         : function onStart(socket){
-            this.trigger(
-                'start',
-                socket
-            );
-        },
-        stop:function stop(){
-            server.server.close();
-        },
-        start           : function start(){
-            if(!this.path){
-                server.log('Socket Server Path not specified, refusing to start');
-                return;
+function serverClosed(){
+    for(let i=0, count=this.sockets.length; i<count; i++){
+        let socket=this.sockets[i];
+        let destroyedSocketId=false;
+
+        if(socket){
+            if(socket.readable){
+                continue;
             }
-
-            fs.unlink(
-                this.path,
-                function () {
-                    server.log(
-                        'starting server on ',server.path,
-                        ((server.port)?`:${server.port}`:'')
-                    );
-
-                    if(!server.udp4 && !server.udp6){
-                        if(!server.config.tls){
-                            server.server=net.createServer(
-                                serverCreated
-                            );
-                        }else{
-                            server.log('starting TLS server',server.config.tls);
-                            if(server.config.tls.private){
-                                server.config.tls.key=fs.readFileSync(server.config.tls.private);
-                            }else{
-                                server.config.tls.key=fs.readFileSync(`${__dirname}/../local-node-ipc-certs/private/server.key`);
-                            }
-                            if(server.config.tls.public){
-                                server.config.tls.cert=fs.readFileSync(server.config.tls.public);
-                            }else{
-                                server.config.tls.cert=fs.readFileSync(`${__dirname}/../local-node-ipc-certs/server.pub`);
-                            }
-                            if(server.config.tls.dhparam){
-                                server.config.tls.dhparam=fs.readFileSync(server.config.tls.dhparam);
-                            }
-                            if(server.config.tls.trustedConnections){
-                                if(typeof server.config.tls.trustedConnections === 'string'){
-                                    server.config.tls.trustedConnections=[server.config.tls.trustedConnections];
-                                }
-                                server.config.tls.ca=[];
-                                for(let i=0; i<server.config.tls.trustedConnections.length; i++){
-                                    server.config.tls.ca.push(
-                                        fs.readFileSync(server.config.tls.trustedConnections[i])
-                                    );
-                                }
-                            }
-                            server.server=tls.createServer(
-                                server.config.tls,
-                                serverCreated
-                            );
-                        }
-                    }else{
-                        function UDPWrite(message,socket){
-                            let data=new Buffer(message, server.config.encoding);
-                            server.server.send(
-                                data,
-                                0,
-                                data.length,
-                                socket.port,
-                                socket.address,
-                                function(err, bytes) {
-                                    if(err){
-                                        server.log('error writing data to socket',err);
-                                        server.trigger(
-                                            'error',
-                                            function(err){
-                                                server.trigger('error',err);
-                                            }
-                                        );
-                                    }
-                                }
-                            );
-                        }
-
-                        server.server=dgram.createSocket(
-                            ((server.udp4)? 'udp4':'udp6')
-                        );
-                        server.server.write=UDPWrite;
-                        server.server.on(
-                            'listening',
-                            function () {
-                                serverCreated(server.server);
-                            }
-                        );
-                    }
-
-                    server.server.on(
-                        'error',
-                        function(err){
-                            server.log('server error',err);
-
-                            server.trigger(
-                                'error',
-                                err
-                            );
-                        }
-                    );
-
-                    server.server.maxConnections=server.config.maxConnections;
-
-                    function serverCreated(socket) {
-                        server.sockets.push(socket);
-
-                        if(socket.setEncoding){
-                            socket.setEncoding(server.config.encoding);
-                        }
-
-                        server.log('## socket connection to server detected ##');
-                        socket.on(
-                            'close',
-                            function(socket){
-                                server.trigger(
-                                    'close',
-                                    socket
-                                );
-                            }
-                        );
-
-                        socket.on(
-                            'error',
-                            function(err){
-                                server.log('server socket error',err);
-
-                                server.trigger('error',err);
-                            }
-                        );
-
-                        socket.on(
-                            'data',
-                            function(data,UDPSocket){
-                                let sock=((server.udp4 || server.udp6)? UDPSocket : socket);
-                                if(server.config.rawBuffer){
-                                    data=new Buffer(data,server.config.encoding);
-                                    server.trigger(
-                                        'data',
-                                        data,
-                                        sock
-                                    );
-                                    return;
-                                }
-
-                                if(!this.ipcBuffer){
-                                    this.ipcBuffer='';
-                                }
-
-                                data=(this.ipcBuffer+=data);
-
-                                if(data.slice(-1)!=eventParser.delimiter || data.indexOf(eventParser.delimiter) == -1){
-                                    server.log('Messages are large, You may want to consider smaller messages.');
-                                    return;
-                                }
-
-                                this.ipcBuffer='';
-
-                                data=eventParser.parse(data);
-
-                                while(data.length>0){
-                                    let message=new Message;
-                                    message.load(data.shift());
-
-                                    server.log('received event of : ',message.type,message.data);
-
-                                    if(message.data.id){
-                                        sock.id=message.data.id;
-                                    }
-
-                                    server.trigger(
-                                        message.type,
-                                        message.data,
-                                        sock
-                                    );
-                                }
-                            }
-                        );
-
-                        socket.on(
-                            'message',
-                            function(msg,rinfo) {
-                                if (!rinfo){
-                                    return;
-                                }
-
-                                server.log('Received UDP message from ', rinfo.address, rinfo.port);
-                                let data;
-
-                                if(server.config.rawSocket){
-                                    data=new Buffer(msg,server.config.encoding);
-                                }else{
-                                    data=msg.toString();
-                                }
-                                socket.emit('data',data,rinfo);
-                            }
-                        );
-
-                        server.trigger(
-                            'connect',
-                            socket
-                        );
-
-                        if(server.config.rawBuffer){
-                            return;
-                        }
-                    }
-
-                    function started(socket){
-                        server.onStart(socket);
-                    }
-
-                    if(!port){
-                        server.log('starting server as', 'Unix || Windows Socket');
-                        if (process.platform ==='win32'){
-                            server.path = server.path.replace(/^\//, '');
-                            server.path = server.path.replace(/\//g, '-');
-                            server.path= `\\\\.\\pipe\\${server.path}`;
-                        }
-
-                        server.server.listen(
-                            server.path,
-                            started
-                        );
-
-                        return;
-                    }
-
-                    if(!server.udp4 && !server.udp6){
-                        server.log('starting server as', (server.config.tls?'TLS':'TCP'));
-                        server.server.listen(
-                            server.port,
-                            server.path,
-                            started
-                        );
-                        return;
-                    }
-
-                    server.log('starting server as',((server.udp4)? 'udp4':'udp6'));
-                    server.server.bind(
-                        server.port,
-                        server.path
-                    );
-
-                    started(
-                        {
-                            address : server.path,
-                            port    : server.port
-                        }
-                    );
-                }
-            );
         }
-    };
 
-    new Pubsub(server);
+        if(socket.id){
+            destroyedSocketId=socket.id;
+        }
 
-    server.on(
+        this.log('socket disconnected',destroyedSocketId.toString());
+
+        if(socket && socket.destroy){
+            socket.destroy();
+        }
+
+        this.sockets.splice(i,1);
+
+        this.publish('socket.disconnected', socket, destroyedSocketId);
+
+        return;
+    }
+}
+
+function gotData(socket,data,UDPSocket){
+    let sock=((this.udp4 || this.udp6)? UDPSocket : socket);
+    if(this.config.rawBuffer){
+        data=new Buffer(data,this.config.encoding);
+        this.publish(
+            'data',
+            data,
+            sock
+        );
+        return;
+    }
+
+    if(!this.ipcBuffer){
+        this.ipcBuffer='';
+    }
+
+    data=(this.ipcBuffer+=data);
+
+    if(data.slice(-1)!=eventParser.delimiter || data.indexOf(eventParser.delimiter) == -1){
+        this.log('Messages are large, You may want to consider smaller messages.');
+        return;
+    }
+
+    this.ipcBuffer='';
+
+    data=eventParser.parse(data);
+
+    while(data.length>0){
+        let message=new Message;
+        message.load(data.shift());
+
+        this.log('received event of : ',message.type,message.data);
+
+        if(message.data.id){
+            sock.id=message.data.id;
+        }
+
+        this.publish(
+            message.type,
+            message.data,
+            sock
+        );
+    }
+}
+
+function socketClosed(socket){
+    this.publish(
         'close',
-        function(){
-            for(let i=0, count=server.sockets.length; i<count; i++){
-                let socket=server.sockets[i];
-                let destroyedSocketId=false;
+        socket
+    );
+}
 
-                if(socket){
-                    if(socket.readable){
-                        continue;
-                    }
-                }
+function serverCreated(socket) {
+    this.sockets.push(socket);
 
-                if(socket.id){
-                    destroyedSocketId=socket.id;
-                }
+    if(socket.setEncoding){
+        socket.setEncoding(this.config.encoding);
+    }
 
-                server.log('socket disconnected',destroyedSocketId.toString());
+    this.log('## socket connection to server detected ##');
+    socket.on(
+        'close',
+        socketClosed.bind(this)
+    );
 
-                if(socket && socket.destroy){
-                    socket.destroy();
-                }
+    socket.on(
+        'error',
+        function(err){
+            this.log('server socket error',err);
 
-                server.sockets.splice(i,1);
+            this.publish('error',err);
+        }.bind(this)
+    );
 
-                server.trigger('socket.disconnected', socket, destroyedSocketId);
+    socket.on(
+        'data',
+        gotData.bind(this,socket)
+    );
 
+    socket.on(
+        'message',
+        function(msg,rinfo) {
+            if (!rinfo){
                 return;
             }
+
+            this.log('Received UDP message from ', rinfo.address, rinfo.port);
+            let data;
+
+            if(this.config.rawSocket){
+                data=new Buffer(msg,this.config.encoding);
+            }else{
+                data=msg.toString();
+            }
+            socket.emit('data',data,rinfo);
+        }.bind(this)
+    );
+
+    this.publish(
+        'connect',
+        socket
+    );
+
+    if(this.config.rawBuffer){
+        return;
+    }
+}
+
+function startServer() {
+    this.log(
+        'starting server on ',this.path,
+        ((this.port)?`:${this.port}`:'')
+    );
+
+    if(!this.udp4 && !this.udp6){
+        if(!this.config.tls){
+            this.log('starting TCP server',this.config.tls);
+            this.server=net.createServer(
+                serverCreated.bind(this)
+            );
+        }else{
+            startTLSServer.bind(this);
+        }
+    }else{
+        this.server=dgram.createSocket(
+            ((this.udp4)? 'udp4':'udp6')
+        );
+        this.server.write=UDPWrite.bind(this);
+        this.server.on(
+            'listening',
+            function UDPServerStarted() {
+                serverCreated.bind(this)(this.server);
+            }.bind(this)
+        );
+    }
+
+    this.server.on(
+        'error',
+        function(err){
+            this.log('server error',err);
+
+            this.publish(
+                'error',
+                err
+            );
         }
     );
 
-    return server;
+    this.server.maxConnections=this.config.maxConnections;
+
+    if(!this.port){
+        this.log('starting server as', 'Unix || Windows Socket');
+        if (process.platform ==='win32'){
+            this.path = this.path.replace(/^\//, '');
+            this.path = this.path.replace(/\//g, '-');
+            this.path= `\\\\.\\pipe\\${this.path}`;
+        }
+
+        this.server.listen(
+            this.path,
+            this.onStart.bind(this)
+        );
+
+        return;
+    }
+
+    if(!this.udp4 && !this.udp6){
+        this.log('starting server as', (this.config.tls?'TLS':'TCP'));
+        this.server.listen(
+            this.port,
+            this.path,
+            this.onStart.bind(this)
+        );
+        return;
+    }
+
+    this.log('starting server as',((this.udp4)? 'udp4':'udp6'));
+
+    this.server.bind(
+        this.port,
+        this.path
+    );
+
+    this.onStart(
+        {
+            address : this.path,
+            port    : this.port
+        }
+    );
 }
 
-module.exports=init;
+function startTLSServer(){
+    this.log('starting TLS server',this.config.tls);
+    if(this.config.tls.private){
+        this.config.tls.key=fs.readFileSync(this.config.tls.private);
+    }else{
+        this.config.tls.key=fs.readFileSync(`${__dirname}/../local-node-ipc-certs/private/server.key`);
+    }
+    if(this.config.tls.public){
+        this.config.tls.cert=fs.readFileSync(this.config.tls.public);
+    }else{
+        this.config.tls.cert=fs.readFileSync(`${__dirname}/../local-node-ipc-certs/server.pub`);
+    }
+    if(this.config.tls.dhparam){
+        this.config.tls.dhparam=fs.readFileSync(this.config.tls.dhparam);
+    }
+    if(this.config.tls.trustedConnections){
+        if(typeof this.config.tls.trustedConnections === 'string'){
+            this.config.tls.trustedConnections=[this.config.tls.trustedConnections];
+        }
+        this.config.tls.ca=[];
+        for(let i=0; i<this.config.tls.trustedConnections.length; i++){
+            this.config.tls.ca.push(
+                fs.readFileSync(this.config.tls.trustedConnections[i])
+            );
+        }
+    }
+    this.server=tls.createServer(
+        this.config.tls,
+        serverCreated.bind(this)
+    );
+}
+
+function UDPWrite(message,socket){
+    let data=new Buffer(message, this.config.encoding);
+    this.server.send(
+        data,
+        0,
+        data.length,
+        socket.port,
+        socket.address,
+        function(err, bytes) {
+            if(err){
+                this.log('error writing data to socket',err);
+                this.publish(
+                    'error',
+                    function(err){
+                        this.publish('error',err);
+                    }
+                );
+            }
+        }
+    );
+}
+
+module.exports=Server;
