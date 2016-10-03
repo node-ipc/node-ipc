@@ -5,8 +5,12 @@ const net = require('net'),
     fs = require('fs'),
     dgram = require('dgram'),
     eventParser = require('./eventParser.js'),
-    Events = require('event-pubsub'),
     Message = require('js-message');
+
+let Events = require('event-pubsub/es5');
+if(process.version[1]>4){
+    Events = require('event-pubsub');
+}
 
 class Server extends Events{
     constructor(path,config,log,port){

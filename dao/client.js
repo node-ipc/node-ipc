@@ -3,10 +3,14 @@
 const net = require('net'),
     tls = require('tls'),
     eventParser = require('./eventParser.js'),
-    Events = require('event-pubsub'),
     Message = require('js-message'),
     fs = require('fs'),
     Queue = require('js-queue');
+
+let Events = require('event-pubsub/es5');
+if(process.version[1]>4){
+    Events = require('event-pubsub');
+}
 
 class Client extends Events{
     constructor(config,log){
