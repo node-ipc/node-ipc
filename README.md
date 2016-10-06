@@ -27,6 +27,10 @@ Package details websites :
 
 This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/).
 
+#### Older versions of node
+
+the latest versions of `node-ipc` may work with the --harmony flag. Officially though, we support node v4 and newer with es5 and es6
+
 #### Testing
 
 ` npm test ` will run the jasmine tests with istanbul for node-ipc and generate a coverage report in the spec folder.
