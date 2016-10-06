@@ -22,7 +22,7 @@ Codacy info :
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/8e0294dff55f4ac1985c07b16f39d0a9)](https://www.codacy.com/app/RIAEvangelist/node-ipc) [![Codacy Badge](https://api.codacy.com/project/badge/coverage/8e0294dff55f4ac1985c07b16f39d0a9)](https://www.codacy.com/app/RIAEvangelist/node-ipc)
 
 Build Info :  
-Windows Build : [![node-ipc windows build status](https://ci.appveyor.com/api/projects/status/github/riaevangelist/node-ipc?branch=master&svg=true)](https://ci.appveyor.com/project/RIAEvangelist/node-ipc/history)
+Travis : [![Build Status](https://travis-ci.org/RIAEvangelist/node-ipc.svg?branch=master)](https://travis-ci.org/RIAEvangelist/node-ipc) Windows Specific Build : [![node-ipc windows build status](https://ci.appveyor.com/api/projects/status/github/riaevangelist/node-ipc?branch=master&svg=true)](https://ci.appveyor.com/project/RIAEvangelist/node-ipc/history)
 
 Package details websites :
 * [GitHub.io site](http://riaevangelist.github.io/node-ipc/ "node-ipc documentation"). A prettier version of this site.
