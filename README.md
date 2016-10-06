@@ -21,11 +21,18 @@ GitHub info :
 Codacy info :  
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/8e0294dff55f4ac1985c07b16f39d0a9)](https://www.codacy.com/app/RIAEvangelist/node-ipc) [![Codacy Badge](https://api.codacy.com/project/badge/coverage/8e0294dff55f4ac1985c07b16f39d0a9)](https://www.codacy.com/app/RIAEvangelist/node-ipc)
 
+Build Info :  
+Mac & Linux : [![Build Status](https://travis-ci.org/RIAEvangelist/node-ipc.svg?branch=master)](https://travis-ci.org/RIAEvangelist/node-ipc) Windows : [![node-ipc windows build status](https://ci.appveyor.com/api/projects/status/github/riaevangelist/node-ipc?branch=master&svg=true)](https://ci.appveyor.com/project/RIAEvangelist/node-ipc/history)
+
 Package details websites :
 * [GitHub.io site](http://riaevangelist.github.io/node-ipc/ "node-ipc documentation"). A prettier version of this site.
 * [NPM Module](https://www.npmjs.org/package/node-ipc "node-ipc npm module"). The npm page for the node-ipc module.
 
 This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/).
+
+#### Older versions of node
+
+the latest versions of `node-ipc` may work with the --harmony flag. Officially though, we support node v4 and newer with es5 and es6
 
 #### Testing
 
