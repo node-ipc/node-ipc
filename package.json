@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "colors": "*",
-    "event-pubsub": ">=4.0.0",
+    "event-pubsub": "4.2.2",
     "js-message": ">=1.0.5",
     "js-queue": ">=1.0.0",
     "node-cmd": ">=1.1.1"
