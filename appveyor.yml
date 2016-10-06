@@ -1,5 +1,8 @@
 # http://www.appveyor.com/docs/appveyor-yml
 
+# version format
+version: 8.9.{build}
+
 # Test against these versions of Io.js and Node.js.
 environment:
   matrix:
