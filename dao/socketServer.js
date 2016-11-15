@@ -175,7 +175,12 @@ function gotData(socket,data,UDPSocket){
     while(data.length>0){
         let message=new Message;
         message.load(data.shift());
-
+            
+        // In case either `type` or `data` is missing we won't process this message.
+        if (!message.type || !message.data) {
+            continue;
+        }
+        
         this.log('received event of : ',message.type,message.data);
 
         if(message.data.id){
