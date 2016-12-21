@@ -1,5 +1,5 @@
 TN:
-SF:/home/ssmp/git/node-ipc/node-ipc.js
+SF:/home/dignow/git/node-ipc/node-ipc.js
 FN:6,(anonymous_1)
 FNF:1
 FNH:1
@@ -14,7 +14,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:/home/ssmp/git/node-ipc/services/IPC.js
+SF:/home/dignow/git/node-ipc/services/IPC.js
 FN:9,(anonymous_1)
 FN:64,log
 FN:90,disconnect
@@ -248,7 +248,7 @@ BRF:74
 BRH:45
 end_of_record
 TN:
-SF:/home/ssmp/git/node-ipc/entities/Defaults.js
+SF:/home/dignow/git/node-ipc/entities/Defaults.js
 FN:22,(anonymous_1)
 FN:125,getIPType
 FNF:2
@@ -278,7 +278,7 @@ BRF:7
 BRH:4
 end_of_record
 TN:
-SF:/home/ssmp/git/node-ipc/dao/client.js
+SF:/home/dignow/git/node-ipc/dao/client.js
 FN:16,(anonymous_1)
 FN:35,emit
 FN:58,syncEmit
@@ -447,7 +447,7 @@ BRF:43
 BRH:22
 end_of_record
 TN:
-SF:/home/ssmp/git/node-ipc/dao/eventParser.js
+SF:/home/dignow/git/node-ipc/dao/eventParser.js
 FN:9,formatData
 FN:21,parseDataEvents
 FNF:2
@@ -480,7 +480,7 @@ BRF:7
 BRH:3
 end_of_record
 TN:
-SF:/home/ssmp/git/node-ipc/dao/socketServer.js
+SF:/home/dignow/git/node-ipc/dao/socketServer.js
 FN:16,(anonymous_1)
 FN:40,(anonymous_2)
 FN:47,(anonymous_3)

@@ -271,7 +271,7 @@ function startServer() {
                 serverCreated.bind(this)
             );
         }else{
-            startTLSServer.bind(this);
+            startTLSServer.bind(this)();
         }
     }else{
         this.server=dgram.createSocket(
