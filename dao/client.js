@@ -80,7 +80,7 @@ function connect(){
         if (process.platform ==='win32' && !client.path.startsWith('\\\\.\\pipe\\')){
             options.path = options.path.replace(/^\//, '');
             options.path = options.path.replace(/\//g, '-');
-            options.path= `\\\\.\\pipe\\${path}`;
+            options.path= `\\\\.\\pipe\\${options.path}`;
         }
 
         client.socket = net.connect(options);
