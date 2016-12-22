@@ -69,7 +69,7 @@ function emit(socket, type, data){
     message.data=data;
 
     if(this.config.rawBuffer){
-        console.log(this.config.encoding)
+        this.log(this.config.encoding)
         message=new Buffer(type,this.config.encoding);
     }else{
         message=eventParser.format(message);
@@ -260,8 +260,8 @@ function startServer() {
     );
 
     if(!this.udp4 && !this.udp6){
+        this.log('starting TLS server',this.config.tls);
         if(!this.config.tls){
-            this.log('starting TCP server',this.config.tls);
             this.server=net.createServer(
                 serverCreated.bind(this)
             );
