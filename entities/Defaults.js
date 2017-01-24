@@ -21,98 +21,35 @@ class Defaults{
      */
     constructor(){
 
-        Object.defineProperties(
-            this,
-            {
-                appspace        : {
-                    enumerable:true,
-                    writable:true,
-                    value:'app.'
-                },
-                socketRoot      : {
-                    enumerable:true,
-                    writable:true,
-                    value:'/tmp/'
-                },
-                networkHost     : {
-                    enumerable:true,
-                    writable:true,
-                    value: ''
-                },
-                networkPort     : {
-                    enumerable:true,
-                    writable:true,
-                    value:8000
-                },
-                id              : {
-                    enumerable:true,
-                    writable:true,
-                    value:os.hostname()
-                },
-                encoding        : {
-                    enumerable:true,
-                    writable:true,
-                    value:'utf8'
-                },
-                rawBuffer       : {
-                    enumerable:true,
-                    writable:true,
-                    value:false
-                },
-                sync            : {
-                    enumerable:true,
-                    writable:true,
-                    value:false
-                },
-                silent          : {
-                    enumerable:true,
-                    writable:true,
-                    value:false
-                },
-                logDepth:{
-                    enumerable:true,
-                    writable:true,
-                    value:5
-                },
-                logInColor:{
-                    enumerable:true,
-                    writable:true,
-                    value:true
-                },
-                maxConnections  : {
-                    enumerable:true,
-                    writable:true,
-                    value:100
-                },
-                retry           : {
-                    enumerable:true,
-                    writable:true,
-                    value:500
-                },
-                maxRetries      : {
-                    enumerable:true,
-                    writable:true,
-                    value:Infinity
-                },
-                stopRetrying    : {
-                    enumerable:true,
-                    writable:true,
-                    value:false
-                },
-                IPType          : {
-                    enumerable:true,
-                    writable:true,
-                    value: getIPType()
-                },
-                tls             : {
-                    enumerable:true,
-                    writable:true,
-                    value:false
-                }
-            }
-        );
+        this.appspace='app.';
+        this.socketRoot='/tmp/';
+        this.id=os.hostname();
 
+        this.encoding='utf8';
+        this.rawBuffer=false;
+        this.sync=false;
+
+        this.silent=false;
+        this.logDepth=5;
+        this.logInColor=true;
+
+        this.maxConnections=100;
+        this.retry=500;
+        this.maxRetries=Infinity;
+        this.stopRetrying=false;
+
+        this.IPType=getIPType();
+        this.tls=false;
         this.networkHost = (this.IPType == 'IPv6') ? '::1' : '127.0.0.1';
+        this.networkPort = 8000;
+
+        this.interface={
+            localAddress:false,
+            localPort:false,
+            family:false,
+            hints:false,
+            lookup:false
+        }
     }
 }
 

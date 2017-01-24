@@ -70,30 +70,47 @@ function connect(){
         return;
     }
 
+    const options={};
+
     if(!client.port){
         client.log('Connecting client on Unix Socket :', client.path);
 
-        let path = client.path;
+        options.path=client.path;
 
         if (process.platform ==='win32' && !client.path.startsWith('\\\\.\\pipe\\')){
-            path = path.replace(/^\//, '');
-            path = path.replace(/\//g, '-');
-            path= `\\\\.\\pipe\\${path}`;
+            options.path = options.path.replace(/^\//, '');
+            options.path = options.path.replace(/\//g, '-');
+            options.path= `\\\\.\\pipe\\${options.path}`;
         }
-        client.socket = net.connect(
-            {
-                path: path
-            }
-        );
+
+        client.socket = net.connect(options);
     }else{
+        options.host=client.path;
+        options.port=client.port;
+
+        if(client.config.interface.localAddress){
+          options.localAddress=client.config.interface.localAddress;
+        }
+
+        if(client.config.interface.localPort){
+          options.localPort=client.config.interface.localPort;
+        }
+
+        if(client.config.interface.family){
+          options.family=client.config.interface.family;
+        }
+
+        if(client.config.interface.hints){
+          options.hints=client.config.interface.hints;
+        }
+
+        if(client.config.interface.lookup){
+          options.lookup=client.config.interface.lookup;
+        }
+
         if(!client.config.tls){
-            client.log('Connecting client via TCP to', client.path ,client.port);
-            client.socket = net.connect(
-                {
-                    port:client.port,
-                    host:client.path
-                }
-            );
+            client.log('Connecting client via TCP to', options);
+            client.socket = net.connect(options);
         }else{
             client.log('Connecting client via TLS to', client.path ,client.port,client.config.tls);
             if(client.config.tls.private){
@@ -114,8 +131,7 @@ function connect(){
                 }
             }
 
-            client.config.tls.host=client.path;
-            client.config.tls.port=client.port;
+            Object.assign(client.config.tls,options);
 
             client.socket = tls.connect(
                 client.config.tls

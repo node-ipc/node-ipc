@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">71.72% </span>
+        <span class="strong">71.17% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>71/99</span>
+        <span class='fraction'>79/111</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">51.16% </span>
+        <span class="strong">50.94% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>22/43</span>
+        <span class='fraction'>27/53</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>9/9</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">71.72% </span>
+        <span class="strong">71.17% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>71/99</span>
+        <span class='fraction'>79/111</span>
       </div>
     </div>
   </div>
@@ -280,7 +280,23 @@
 235
 236
 237
-238</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -353,6 +369,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
 <span class="cline-any cline-yes">7×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7×</span>
@@ -362,21 +380,36 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6×</span>
 <span class="cline-any cline-yes">6×</span>
 <span class="cline-any cline-yes">6×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -396,7 +429,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -589,30 +621,47 @@ function connect(){
 <span class="cstat-no" title="statement not covered" >        return;</span>
     }
 &nbsp;
+    const options={};
+&nbsp;
     if(!client.port){
         client.log('Connecting client on Unix Socket :', client.path);
 &nbsp;
-        let path = client.path;
+        options.path=client.path;
 &nbsp;
         <span class="missing-if-branch" title="if path not taken" >I</span>if (process.platform ==='win32' &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!client.path.startsWith('\\\\.\\pipe\\'))</span>{
-<span class="cstat-no" title="statement not covered" >            path = path.replace(/^\//, '');</span>
-<span class="cstat-no" title="statement not covered" >            path = path.replace(/\//g, '-');</span>
-<span class="cstat-no" title="statement not covered" >            path= `\\\\.\\pipe\\${path}`;</span>
+<span class="cstat-no" title="statement not covered" >            options.path = options.path.replace(/^\//, '');</span>
+<span class="cstat-no" title="statement not covered" >            options.path = options.path.replace(/\//g, '-');</span>
+<span class="cstat-no" title="statement not covered" >            options.path= `\\\\.\\pipe\\${options.path}`;</span>
         }
-        client.socket = net.connect(
-            {
-                path: path
-            }
-        );
+&nbsp;
+        client.socket = net.connect(options);
     }else{
+        options.host=client.path;
+        options.port=client.port;
+&nbsp;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if(client.config.interface.localAddress){
+<span class="cstat-no" title="statement not covered" >          options.localAddress=client.config.interface.localAddress;</span>
+        }
+&nbsp;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if(client.config.interface.localPort){
+<span class="cstat-no" title="statement not covered" >          options.localPort=client.config.interface.localPort;</span>
+        }
+&nbsp;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if(client.config.interface.family){
+<span class="cstat-no" title="statement not covered" >          options.family=client.config.interface.family;</span>
+        }
+&nbsp;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if(client.config.interface.hints){
+<span class="cstat-no" title="statement not covered" >          options.hints=client.config.interface.hints;</span>
+        }
+&nbsp;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if(client.config.interface.lookup){
+<span class="cstat-no" title="statement not covered" >          options.lookup=client.config.interface.lookup;</span>
+        }
+&nbsp;
         <span class="missing-if-branch" title="else path not taken" >E</span>if(!client.config.tls){
-            client.log('Connecting client via TCP to', client.path ,client.port);
-            client.socket = net.connect(
-                {
-                    port:client.port,
-                    host:client.path
-                }
-            );
+            client.log('Connecting client via TCP to', options);
+            client.socket = net.connect(options);
         }else{
 <span class="cstat-no" title="statement not covered" >            client.log('Connecting client via TLS to', client.path ,client.port,client.config.tls);</span>
 <span class="cstat-no" title="statement not covered" >            if(client.config.tls.private){</span>
@@ -633,8 +682,7 @@ function connect(){
                 }
             }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            client.config.tls.host=client.path;</span>
-<span class="cstat-no" title="statement not covered" >            client.config.tls.port=client.port;</span>
+<span class="cstat-no" title="statement not covered" >            Object.assign(client.config.tls,options);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >            client.socket = tls.connect(</span>
                 client.config.tls
@@ -760,7 +808,7 @@ module.exports=Client;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 19 2016 17:10:46 GMT-0800 (PST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Dec 22 2016 11:36:12 GMT-0800 (PST)
 </div>
 </div>
 <script src="../../prettify.js"></script>
