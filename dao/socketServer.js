@@ -62,36 +62,42 @@ class Server extends Events{
     }
 }
 
-function emit(socket, type, data){
-    this.log('dispatching event to socket', ' : ', type, data);
-
-    let message=new Message;
-    message.type=type;
-    message.data=data;
-
-    if(this.config.rawBuffer){
-        this.log(this.config.encoding)
-        message=new Buffer(type,this.config.encoding);
-    }else{
-        message=eventParser.format(message);
+function emit(sockets, type, data){
+    if(! (sockets instanceof Array)){
+      sockets=[sockets];
     }
 
-    if(this.udp4 || this.udp6){
+    for(const socket of sockets){
+      this.log('dispatching event to socket', ' : ', type, data);
 
-        if(!socket.address || !socket.port){
-            this.log('Attempting to emit to a single UDP socket without supplying socket address or port. Redispatching event as broadcast to all connected sockets');
-            this.broadcast(type,data);
-            return;
-        }
+      let message=new Message;
+      message.type=type;
+      message.data=data;
 
-        this.server.write(
-            message,
-            socket
-        );
-        return;
+      if(this.config.rawBuffer){
+          this.log(this.config.encoding)
+          message=new Buffer(type,this.config.encoding);
+      }else{
+          message=eventParser.format(message);
+      }
+
+      if(this.udp4 || this.udp6){
+
+          if(!socket.address || !socket.port){
+              this.log('Attempting to emit to a single UDP socket without supplying socket address or port. Redispatching event as broadcast to all connected sockets');
+              this.broadcast(type,data);
+              return;
+          }
+
+          this.server.write(
+              message,
+              socket
+          );
+          return;
+      }
+
+      socket.write(message);
     }
-
-    socket.write(message);
 }
 
 function broadcast(type,data){
