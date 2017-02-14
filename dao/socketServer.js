@@ -176,17 +176,12 @@ function gotData(socket,data,UDPSocket){
         let message=new Message;
         message.load(data.shift());
 
-        // In case either `type` or `data` is missing we won't process this message.
-        if (message.type === undefined || message.data === undefined) {
-            this.log('Message is missing either `type` or `data` property, skipping message.');
-            continue;
+        // Only set the sock id if it is specified.
+        if (message.data && message.data.id){
+            sock.id=message.data.id;
         }
 
         this.log('received event of : ',message.type,message.data);
-
-        if(message.data.id){
-            sock.id=message.data.id;
-        }
 
         this.publish(
             message.type,
