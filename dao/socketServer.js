@@ -176,11 +176,12 @@ function gotData(socket,data,UDPSocket){
         let message=new Message;
         message.load(data.shift());
 
-        this.log('received event of : ',message.type,message.data);
-
-        if(message.data.id){
+        // Only set the sock id if it is specified.
+        if (message.data && message.data.id){
             sock.id=message.data.id;
         }
+
+        this.log('received event of : ',message.type,message.data);
 
         this.publish(
             message.type,
