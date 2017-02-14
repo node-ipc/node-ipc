@@ -153,6 +153,14 @@ function connect(){
     client.socket.on(
         'connect',
         function connectionMade(){
+            if(!client.config.rawBuffer){
+              client.emit(
+                '__IPC__REGISTER__',
+                {
+                  id:client.config.id
+                }
+              );
+            }
             client.publish('connect');
             client.retriesRemaining=client.config.maxRetries;
             client.log('retrying reset');

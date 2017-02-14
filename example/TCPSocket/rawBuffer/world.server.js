@@ -17,6 +17,14 @@ ipc.serveNet(
         ipc.server.on(
             'connect',
             function(socket){
+
+                //manually assign id to group clients if desired
+                if(!ipc.server.of.rawBufferClient){
+                  ipc.server.of.rawBufferClient=[];
+                }
+                socket.id='rawBufferClient';
+                ipc.server.of.rawBufferClient.push(socket);
+
                 ipc.server.emit(
                     socket,
                     'hello'
@@ -32,6 +40,13 @@ ipc.serveNet(
                     socket,
                     'goodbye'
                 );
+            }
+        );
+
+        ipc.server.on(
+            'socket.disconnected',
+            function(socket,id){
+                ipc.log('DISCONNECTED from ',id,'\n\n');
             }
         );
     }

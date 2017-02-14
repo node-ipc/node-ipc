@@ -42,5 +42,3 @@ ipc.connectToNet(
         );
     }
 );
-
-console.log(ipc);

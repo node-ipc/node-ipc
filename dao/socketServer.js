@@ -27,7 +27,8 @@ class Server extends Events{
                 server          : false,
                 sockets         : [],
                 emit            : emit,
-                broadcast       : broadcast
+                broadcast       : broadcast,
+                of              : {}
             }
         );
 
@@ -129,6 +130,16 @@ function serverClosed(){
 
         if(socket.id){
             destroyedSocketId=socket.id;
+            if(this.of[socket.id]){
+              const group=this.of[socket.id];
+              let index=group.indexOf(socket);
+              if(index>-1){
+                group.splice(index,1);
+                if(group.length<1){
+                  delete this.of[socket.id]
+                }
+              }
+            }
         }
 
         this.log('socket disconnected',destroyedSocketId.toString());
@@ -176,9 +187,12 @@ function gotData(socket,data,UDPSocket){
         let message=new Message;
         message.load(data.shift());
 
-        // Only set the sock id if it is specified.
-        if (message.data && message.data.id){
+        if (!sock.id && message.data && message.data.id){
             sock.id=message.data.id;
+            if(!this.of[sock.id]){
+              this.of[sock.id]=[];
+            }
+            this.of[sock.id].push(sock);
         }
 
         this.log('received event of : ',message.type,message.data);
@@ -255,6 +269,9 @@ function serverCreated(socket) {
 }
 
 function startServer() {
+    //persist scope through event bindings
+    const server=this;
+
     this.log(
         'starting server on ',this.path,
         ((this.port)?`:${this.port}`:'')
@@ -285,9 +302,9 @@ function startServer() {
     this.server.on(
         'error',
         function(err){
-            this.log('server error',err);
-
-            this.publish(
+            server.log('server error',err);
+            console.log(server)
+            server.publish(
                 'error',
                 err
             );

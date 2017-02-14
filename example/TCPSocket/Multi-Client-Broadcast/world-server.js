@@ -10,7 +10,7 @@ const ipc=require('../../../node-ipc');
 ipc.config.id = 'world';
 ipc.config.retry= 1500;
 
-var messages={
+const messages={
     goodbye:false,
     hello:false
 };
@@ -20,13 +20,12 @@ ipc.serveNet(
         ipc.server.on(
             'app.message',
             function(data,socket){
-                ipc.log('got a message from', (data.id), (data.message));
-                messages[data.id]=true;
+                ipc.log('got a message from', socket.id, data);
+                messages[socket.id]=true;
                 ipc.server.emit(
                     socket,
                     'app.message',
                     {
-                        id      : ipc.config.id,
                         message : data.message+' world!'
                     }
                 );
@@ -34,12 +33,16 @@ ipc.serveNet(
                 if(messages.hello && messages.goodbye){
                     ipc.log('got all required events, telling clients to kill connection');
                     ipc.server.broadcast(
-                        'kill.connection',
-                        {
-                            id:ipc.config.id
-                        }
+                        'kill.connection'
                     );
                 }
+            }
+        );
+
+        ipc.server.on(
+            'socket.disconnected',
+            function(socket,id){
+                ipc.log('DISCONNECTED from ',id,'\n\n');
             }
         );
     }

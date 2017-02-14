@@ -40,7 +40,7 @@ ipc.connectToNet(
         ipc.of.world.on(
             'message',
             function(data){
-                ipc.log('got a message from world : ', data);
+                ipc.log('got a message from world : ', data,'\n\n');
             }
         );
     }

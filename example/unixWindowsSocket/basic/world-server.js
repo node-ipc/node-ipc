@@ -12,19 +12,24 @@ ipc.config.retry= 1500;
 
 ipc.serve(
     function(){
-        ipc.server.on(
-            'app.message',
-            function(data,socket){
-                ipc.server.emit(
-                    socket,
-                    'app.message',
-                    {
-                        id      : ipc.config.id,
-                        message : data.message+' world!'
-                    }
-                );
-            }
-        );
+      ipc.server.on(
+          'message',
+          function(data,socket){
+              ipc.log('got a message from ', socket.id, data);
+              ipc.server.emit(
+                  socket,
+                  'message',
+                  data+' world!'
+              );
+          }
+      );
+
+      ipc.server.on(
+          'socket.disconnected',
+          function(socket,id){
+              ipc.log('DISCONNECTED from ',id,'\n\n');
+          }
+      );
     }
 );
 

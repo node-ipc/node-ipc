@@ -13,24 +13,30 @@ ipc.config.sync= true;
 
 ipc.serve(
     function(){
-        ipc.server.on(
-            'app.message',
-            function(data,socket){
-                setTimeout(
-                    function(){
-                        ipc.server.emit(
-                            socket,
-                            'app.message',
-                            {
-                                id      : ipc.config.id,
-                                message : data.message+' world!'
-                            }
-                        );
-                    },
-                    2000
-                );
-            }
-        );
+      ipc.server.on(
+          'message',
+          function(data,socket){
+              ipc.log('got a message from ',socket.id, data);
+              //fake some synch procedural code
+              setTimeout(
+                  function(){
+                      ipc.server.emit(
+                          socket,
+                          'message',
+                          data+' world!'
+                      );
+                  },
+                  3000
+              );
+          }
+      );
+
+      ipc.server.on(
+          'socket.disconnected',
+          function(socket,id){
+              ipc.log('DISCONNECTED from ',id,'\n\n');
+          }
+      );
     }
 );
 

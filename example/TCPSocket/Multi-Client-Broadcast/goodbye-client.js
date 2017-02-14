@@ -21,7 +21,6 @@ ipc.connectToNet(
                 ipc.of.world.emit(
                     'app.message',
                     {
-                        id      : ipc.config.id,
                         message : 'goodbye'
                     }
                 );

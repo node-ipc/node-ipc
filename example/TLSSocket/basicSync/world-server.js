@@ -20,7 +20,8 @@ ipc.serveNet(
         ipc.server.on(
             'message',
             function(data,socket){
-                ipc.log('got a message : ', data);
+                ipc.log('got a message from ',socket.id, data);
+                //fake some synch procedural code
                 setTimeout(
                     function(){
                         ipc.server.emit(
@@ -36,8 +37,8 @@ ipc.serveNet(
 
         ipc.server.on(
             'socket.disconnected',
-            function(data,socket){
-                console.log(arguments);
+            function(socket,id){
+                ipc.log('DISCONNECTED from ',id,'\n\n');
             }
         );
     }
