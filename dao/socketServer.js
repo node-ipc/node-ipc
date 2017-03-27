@@ -291,7 +291,7 @@ function startServer() {
                 'error',
                 err
             );
-        }
+        }.bind(this)
     );
 
     this.server.maxConnections=this.config.maxConnections;
