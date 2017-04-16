@@ -29,6 +29,8 @@ class Defaults{
         this.rawBuffer=false;
         this.sync=false;
 
+        this.delimiter='\f';
+
         this.silent=false;
         this.logDepth=5;
         this.logInColor=true;

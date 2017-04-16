@@ -4,7 +4,7 @@ const net = require('net'),
     tls = require('tls'),
     fs = require('fs'),
     dgram = require('dgram'),
-    eventParser = require('./eventParser.js'),
+    EventParser = require('../entities/EventParser.js'),
     Message = require('js-message');
 
 let Events = require('event-pubsub/es5');
@@ -14,7 +14,7 @@ if(process.version[1]>4){
 
 class Server extends Events{
     constructor(path,config,log,port){
-        super();
+        super(config);
         Object.assign(
             this,
             {

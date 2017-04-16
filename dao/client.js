@@ -2,7 +2,7 @@
 
 const net = require('net'),
     tls = require('tls'),
-    eventParser = require('./eventParser.js'),
+    EventParser = new require('../entities/EventParser.js'),
     Message = require('js-message'),
     fs = require('fs'),
     Queue = require('js-queue');
@@ -14,7 +14,7 @@ if(process.version[1]>4){
 
 class Client extends Events{
     constructor(config,log){
-        super();
+        super(config);
         Object.assign(
             this,
             {
@@ -42,7 +42,7 @@ function emit(type,data){
     if(this.config.rawBuffer){
         message=new Buffer(type,this.config.encoding);
     }else{
-        message=eventParser.format(message);
+        message=client.format(message);
     }
 
     if(!this.config.sync){
@@ -221,14 +221,14 @@ function connect(){
 
             data=(this.ipcBuffer+=data);
 
-            if(data.slice(-1)!=eventParser.delimiter || data.indexOf(eventParser.delimiter) == -1){
+            if(data.slice(-1)!=client.delimiter || data.indexOf(client.delimiter) == -1){
                 client.log('Messages are large, You may want to consider smaller messages.');
                 return;
             }
 
             this.ipcBuffer='';
 
-            const events = eventParser.parse(data);
+            const events = client.parse(data);
             const eCount = events.length;
             for(let i=0; i<eCount; i++){
                 let message=new Message;
