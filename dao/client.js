@@ -12,9 +12,11 @@ if(process.version[1]>4){
     Events = require('event-pubsub');
 }
 
+let eventParser = new EventParser();
+
 class Client extends Events{
     constructor(config,log){
-        super(config);
+        super();
         Object.assign(
             this,
             {
@@ -29,6 +31,8 @@ class Client extends Events{
                 explicitlyDisconnected: false
             }
         );
+
+        eventParser=new EventParser(this.config);
     }
 }
 
@@ -42,7 +46,7 @@ function emit(type,data){
     if(this.config.rawBuffer){
         message=new Buffer(type,this.config.encoding);
     }else{
-        message=client.format(message);
+        message=eventParser.format(message);
     }
 
     if(!this.config.sync){
@@ -221,14 +225,14 @@ function connect(){
 
             data=(this.ipcBuffer+=data);
 
-            if(data.slice(-1)!=client.delimiter || data.indexOf(client.delimiter) == -1){
+            if(data.slice(-1)!=eventParser.delimiter || data.indexOf(eventParser.delimiter) == -1){
                 client.log('Messages are large, You may want to consider smaller messages.');
                 return;
             }
 
             this.ipcBuffer='';
 
-            const events = client.parse(data);
+            const events = eventParser.parse(data);
             const eCount = events.length;
             for(let i=0; i<eCount; i++){
                 let message=new Message;

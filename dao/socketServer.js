@@ -12,9 +12,11 @@ if(process.version[1]>4){
     Events = require('event-pubsub');
 }
 
+let eventParser = new EventParser();
+
 class Server extends Events{
     constructor(path,config,log,port){
-        super(config);
+        super();
         Object.assign(
             this,
             {
@@ -30,6 +32,8 @@ class Server extends Events{
                 broadcast       : broadcast
             }
         );
+
+        eventParser=new EventParser(this.config);
 
         this.on(
             'close',
@@ -291,7 +295,7 @@ function startServer() {
                 'error',
                 err
             );
-        }.bind(this)
+        }
     );
 
     this.server.maxConnections=this.config.maxConnections;
