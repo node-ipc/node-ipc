@@ -2,7 +2,7 @@
 
 const net = require('net'),
     tls = require('tls'),
-    EventParser = new require('../entities/EventParser.js'),
+    EventParser = require('../entities/EventParser.js'),
     Message = require('js-message'),
     fs = require('fs'),
     Queue = require('js-queue');
