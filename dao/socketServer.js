@@ -259,6 +259,7 @@ function serverCreated(socket) {
 }
 
 function startServer() {
+    var self = this;
     this.log(
         'starting server on ',this.path,
         ((this.port)?`:${this.port}`:'')
@@ -289,9 +290,9 @@ function startServer() {
     this.server.on(
         'error',
         function(err){
-            this.log('server error',err);
+            self.log('server error',err);
 
-            this.publish(
+            self.publish(
                 'error',
                 err
             );
