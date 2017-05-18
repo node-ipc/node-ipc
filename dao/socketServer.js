@@ -259,7 +259,6 @@ function serverCreated(socket) {
 }
 
 function startServer() {
-    var self = this;
     this.log(
         'starting server on ',this.path,
         ((this.port)?`:${this.port}`:'')
@@ -290,13 +289,13 @@ function startServer() {
     this.server.on(
         'error',
         function(err){
-            self.log('server error',err);
+            this.log('server error',err);
 
-            self.publish(
+            this.publish(
                 'error',
                 err
             );
-        }
+        }.bind(this)
     );
 
     this.server.maxConnections=this.config.maxConnections;
