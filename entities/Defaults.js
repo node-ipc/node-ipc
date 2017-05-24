@@ -28,6 +28,7 @@ class Defaults{
         this.encoding='utf8';
         this.rawBuffer=false;
         this.sync=false;
+        this.unlink=true;
 
         this.delimiter='\f';
 
