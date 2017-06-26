@@ -102,6 +102,7 @@ Set these variables in the `ipc.config` scope to overwrite or set default values
         silent          : false,
         logInColor      : true,
         logDepth        : 5,
+        logger          : console.log,
         maxConnections  : 100,
         retry           : 500,
         maxRetries      : false,
@@ -130,6 +131,7 @@ Set these variables in the `ipc.config` scope to overwrite or set default values
 | silent   | turn on/off logging default is false which means logging is on |
 | logInColor   | turn on/off util.inspect colors for ipc.log |
 | logDepth   | set the depth for util.inspect during ipc.log |
+| logger   | the function which receives the output from ipc.log; should take a single string argument |
 | maxConnections| this is the max number of connections allowed to a socket. It is currently only being set on Unix Sockets. Other Socket types are using the system defaults. |
 | retry    | this is the time in milliseconds a client will wait before trying to reconnect to a server if the connection is lost. This does not effect UDP sockets since they do not have a client server relationship like Unix Sockets and TCP Sockets. |
 | maxRetries    | if set, it represents the maximum number of retries after each disconnect before giving up and completely killing a specific connection |
@@ -148,12 +150,13 @@ These methods are available in the IPC Scope.
 
 ipc.log will accept any number of arguments and if `ipc.config.silent` is not set, it will concat them all with a single space ' ' between them and then log them to the console. This is fast because it prevents any concatenation from happening if the ipc.config.silent is set ` true `. That way if you leave your logging in place it should have almost no effect on performance.
 
-The log also uses util.inspect You can control if it should log in color as well as the log depth via ` ipc.config `
+The log also uses util.inspect You can control if it should log in color, the log depth, and the destination via ` ipc.config `
 
 ```javascript
 
     ipc.config.logInColor=true; //default
     ipc.config.logDepth=5; //default    
+    ipc.config.logger=console.log.bind(console); // default
 
 ```
 

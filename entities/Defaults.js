@@ -34,6 +34,7 @@ class Defaults{
         this.silent=false;
         this.logDepth=5;
         this.logInColor=true;
+        this.logger=console.log.bind(console);
 
         this.maxConnections=100;
         this.retry=500;
