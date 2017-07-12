@@ -82,7 +82,7 @@ function log(){
         );
     }
 
-    console.log(
+    this.config.logger(
         args.join(' ')
     );
 }
