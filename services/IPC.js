@@ -61,12 +61,10 @@ class IPC{
     }
 }
 
-function log(){
+function log(...args){
     if(this.config.silent){
         return;
     }
-
-    const args=Array.prototype.slice.call(arguments);
 
     for(let i=0, count=args.length; i<count; i++){
         if(typeof args[i] != 'object'){
@@ -111,9 +109,9 @@ function serve(path,callback){
     }
     if(!path){
         this.log(
-            'Server path not specified, so defaulting to'.notice,
-            'ipc.config.socketRoot + ipc.config.appspace + ipc.config.id'.variable,
-            (this.config.socketRoot+this.config.appspace+this.config.id).data
+            'Server path not specified, so defaulting to',
+            'ipc.config.socketRoot + ipc.config.appspace + ipc.config.id',
+            this.config.socketRoot+this.config.appspace+this.config.id
         );
         path=this.config.socketRoot+this.config.appspace+this.config.id;
     }
@@ -153,9 +151,9 @@ function serveNet(host,port,UDPType,callback){
     }
     if(!host){
         this.log(
-            'Server host not specified, so defaulting to'.notice,
-            'ipc.config.networkHost'.variable,
-            this.config.networkHost.data
+            'Server host not specified, so defaulting to',
+            'ipc.config.networkHost',
+            this.config.networkHost
         );
         host=this.config.networkHost;
     }
@@ -178,8 +176,8 @@ function serveNet(host,port,UDPType,callback){
     }
     if(!port){
         this.log(
-            'Server port not specified, so defaulting to'.notice,
-            'ipc.config.networkPort'.variable,
+            'Server port not specified, so defaulting to',
+            'ipc.config.networkPort',
             this.config.networkPort
         );
         port=this.config.networkPort;
@@ -227,16 +225,16 @@ function connect(id,path,callback){
 
     if(!id){
         this.log(
-            'Service id required'.warn,
-            'Requested service connection without specifying service id. Aborting connection attempt'.notice
+            'Service id required',
+            'Requested service connection without specifying service id. Aborting connection attempt'
         );
         return;
     }
 
     if(!path){
         this.log(
-            'Service path not specified, so defaulting to'.notice,
-            'ipc.config.socketRoot + ipc.config.appspace + id'.variable,
+            'Service path not specified, so defaulting to',
+            'ipc.config.socketRoot + ipc.config.appspace + id',
             (this.config.socketRoot+this.config.appspace+id).data
         );
         path=this.config.socketRoot+this.config.appspace+id;
@@ -245,9 +243,9 @@ function connect(id,path,callback){
     if(this.of[id]){
         if(!this.of[id].socket.destroyed){
             this.log(
-                'Already Connected to'.notice,
-                id.variable,
-                '- So executing success without connection'.notice
+                'Already Connected to',
+                id,
+                '- So executing success without connection'
             );
             callback();
             return;
@@ -267,8 +265,8 @@ function connect(id,path,callback){
 function connectNet(id,host,port,callback){
     if(!id){
         this.log(
-            'Service id required'.warn,
-            'Requested service connection without specifying service id. Aborting connection attempt'.notice
+            'Service id required',
+            'Requested service connection without specifying service id. Aborting connection attempt'
         );
         return;
     }
@@ -284,9 +282,9 @@ function connectNet(id,host,port,callback){
     }
     if(!host){
         this.log(
-            'Server host not specified, so defaulting to'.notice,
-            'ipc.config.networkHost'.variable,
-            this.config.networkHost.data
+            'Server host not specified, so defaulting to',
+            'ipc.config.networkHost',
+            this.config.networkHost
         );
         host=this.config.networkHost;
     }
@@ -297,8 +295,8 @@ function connectNet(id,host,port,callback){
     }
     if(!port){
         this.log(
-            'Server port not specified, so defaulting to'.notice,
-            'ipc.config.networkPort'.variable,
+            'Server port not specified, so defaulting to',
+            'ipc.config.networkPort',
             this.config.networkPort
         );
         port=this.config.networkPort;
@@ -314,10 +312,11 @@ function connectNet(id,host,port,callback){
 
     if(this.of[id]){
         if(!this.of[id].socket.destroyed){
+
             this.log(
-                'Already Connected to'.notice,
-                id.variable,
-                '- So executing success without connection'.notice
+                'Already Connected to',
+                id,
+                '- So executing success without connection'
             );
             callback();
             return;

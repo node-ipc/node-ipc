@@ -107,6 +107,7 @@ Set these variables in the `ipc.config` scope to overwrite or set default values
         retry           : 500,
         maxRetries      : false,
         stopRetrying    : false,
+        unlink          : true,
         interfaces      : {
             localAddress: false,
             localPort   : false,
@@ -136,6 +137,7 @@ Set these variables in the `ipc.config` scope to overwrite or set default values
 | retry    | this is the time in milliseconds a client will wait before trying to reconnect to a server if the connection is lost. This does not effect UDP sockets since they do not have a client server relationship like Unix Sockets and TCP Sockets. |
 | maxRetries    | if set, it represents the maximum number of retries after each disconnect before giving up and completely killing a specific connection |
 | stopRetrying| Defaults to false meaning clients will continue to retry to connect to servers indefinitely at the retry interval. If set to any number the client will stop retrying when that number is exceeded after each disconnect. If set to true in real time it will immediately stop trying to connect regardless of maxRetries. If set to 0, the client will ***NOT*** try to reconnect. |
+| unlink| Defaults to true meaning that the module will take care of deleting the IPC socket prior to startup.  If you use `node-ipc` in a clustered environment where there will be multiple listeners on the same socket, you must set this to `false` and then take care of deleting the socket in your own code. |
 | interfaces| primarily used when specifying which interface a client should connect through. see the [socket.connect documentation in the node.js api](https://nodejs.org/api/net.html#net_socket_connect_options_connectlistener) |
 
 ----
@@ -787,6 +789,86 @@ Writing explicit buffers, int types, doubles, floats etc. as well as big endian 
     ipc.server.emit(
         myBuffer
     );
+
+```
+
+#### Server with the `cluster` Module
+`node-ipc` can be used with Node.js' [cluster module](https://nodejs.org/api/cluster.html) to provide the ability to have multiple readers for a single socket.  Doing so simply requires you to set the `unlink` property in the config to `false` and take care of unlinking the socket path in the master process:
+
+##### Server
+
+```javascript
+
+    const fs = require('fs');
+    const ipc=require('../../../node-ipc');
+    const cpuCount = require('os').cpus().length;
+    const cluster = require('cluster');
+    const socketPath = '/tmp/ipc.sock';
+
+    ipc.config.unlink = false;
+
+    if (cluster.isMaster) {
+       if (fs.existsSync(socketPath)) {
+           fs.unlinkSync(socketPath);
+       }
+
+       for (let i = 0; i < cpuCount; i++) {
+           cluster.fork();
+       }
+    }else{
+       ipc.serve(
+         socketPath,
+         function() {
+           ipc.server.on(
+             'currentDate',
+             function(data,socket) {
+               console.log(`pid ${process.pid} got: `, data);
+             }
+           );
+         }
+      );
+
+      ipc.server.start();
+      console.log(`pid ${process.pid} listening on ${socketPath}`);
+    }
+
+```
+
+##### Client
+
+```javascript
+
+    const fs = require('fs');
+    const ipc = require('../../node-ipc');
+
+    const socketPath = '/tmp/ipc.sock';
+
+    //loop forever so you can see the pid of the cluster sever change in the logs
+    setInterval(
+      function() {
+        ipc.connectTo(
+          'world',
+          socketPath,
+          connecting
+         );
+      },
+      2000
+    );
+
+    function connecting(socket) {
+      ipc.of.world.on(
+        'connect',
+        function() {
+          ipc.of.world.emit(
+            'currentDate',
+            {
+                 message: new Date().toISOString()
+            }
+          );
+          ipc.disconnect('world');
+        }
+      );
+    }
 
 ```
 

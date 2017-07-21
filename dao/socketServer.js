@@ -58,10 +58,14 @@ class Server extends Events{
             return;
         }
 
-        fs.unlink(
-            this.path,
-            startServer.bind(this)
-        );
+        if(this.config.unlink){
+            fs.unlink(
+                this.path,
+                startServer.bind(this)
+            );
+        }else{
+            startServer.bind(this)();
+        }
     }
 }
 
