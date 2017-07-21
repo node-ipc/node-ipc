@@ -799,55 +799,77 @@ Writing explicit buffers, int types, doubles, floats etc. as well as big endian 
 
 ```javascript
 
-    var fs = require('fs');
-    var ipc = require('node-ipc');
-    var cpuCount = require('os').cpus().length;
-    var cluster = require('cluster');
-    var socketPath = '/tmp/ipc.sock';
-    
+    const fs = require('fs');
+    const ipc=require('../../../node-ipc');
+    const cpuCount = require('os').cpus().length;
+    const cluster = require('cluster');
+    const socketPath = '/tmp/ipc.sock';
+
     ipc.config.unlink = false;
 
     if (cluster.isMaster) {
-        if (fs.existsSync(socketPath)) {
-            fs.unlinkSync(socketPath);
-        }
+       if (fs.existsSync(socketPath)) {
+           fs.unlinkSync(socketPath);
+       }
 
-        for (var i = 0; i < cpuCount; i++) {
-            cluster.fork();
-        }
+       for (let i = 0; i < cpuCount; i++) {
+           cluster.fork();
+       }
+    }else{
+       ipc.serve(
+         socketPath,
+         function() {
+           ipc.server.on(
+             'currentDate',
+             function(data,socket) {
+               console.log(`pid ${process.pid} got: `, data);
+             }
+           );
+         }
+      );
+
+      ipc.server.start();
+      console.log(`pid ${process.pid} listening on ${socketPath}`);
     }
 
-    else {
-        ipc.serve(socketPath, function() {
-            ipc.server.on('message', function(data) {
-                console.log('pid ' + process.pid + ' got: ' + data.message);
-            });
-        });
-
-        ipc.server.start();
-        console.log('pid ' + process.pid + ' listening on ' + socketPath);
-    }
-``` 
+```
 
 ##### Client
 
 ```javascript
 
-    var fs = require('fs');
-    var ipc = require('node-ipc');
+    const fs = require('fs');
+    const ipc = require('../../node-ipc');
 
-    var socketPath = '/tmp/ipc.sock';
+    const socketPath = '/tmp/ipc.sock';
 
-    setInterval(function() {
-	    ipc.connectTo('world', socketPath, function(socket) {
-	    	ipc.of.world.on('connect', function() {
-	    		ipc.of.world.emit('message', {
-	    			message: new Date().toISOString()
-	    		});
-	    		ipc.disconnect('world');
-	    	});
-	    });
-    }, 2000);
+    //loop forever so you can see the pid of the cluster sever change in the logs
+    setInterval(
+      function() {
+        ipc.connectTo(
+          'world',
+          socketPath,
+          connecting
+         );
+      },
+      2000
+    );
+
+    function connecting(socket) {
+      ipc.of.world.on(
+        'connect',
+        function() {
+          ipc.of.world.emit(
+            'currentDate',
+            {
+                 message: new Date().toISOString()
+            }
+          );
+          ipc.disconnect('world');
+        }
+      );
+    }
+
 ```
 
 #### Licensed under DBAD license
