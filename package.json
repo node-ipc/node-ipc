@@ -10,7 +10,7 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
-    "event-pubsub": "4.2.4",
+    "event-pubsub": "4.3.0",
     "js-message": "1.0.5",
     "js-queue": "2.0.0"
   },
