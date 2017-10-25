@@ -98,6 +98,7 @@ Set these variables in the `ipc.config` scope to overwrite or set default values
         networkPort     : 8000,
         encoding        : 'utf8',
         rawBuffer       : false,
+        delimiter       : '\f',
         sync            : false,
         silent          : false,
         logInColor      : true,
@@ -128,6 +129,7 @@ Set these variables in the `ipc.config` scope to overwrite or set default values
 | networkPort| the default port on which TCP, TLS, or UDP sockets should connect |
 | encoding | the default encoding for data sent on sockets. Mostly used if rawBuffer is set to true. Valid values are : ` ascii` ` utf8 ` ` utf16le` ` ucs2` ` base64` ` hex ` . |
 | rawBuffer| if true, data will be sent and received as a raw node ` Buffer ` __NOT__ an ` Object ` as JSON. This is great for Binary or hex IPC, and communicating with other processes in languages like C and C++  |
+| delimiter| the delimiter at the end of each data packet. |
 | sync     | synchronous requests. Clients will not send new requests until the server answers. |
 | silent   | turn on/off logging default is false which means logging is on |
 | logInColor   | turn on/off util.inspect colors for ipc.log |
