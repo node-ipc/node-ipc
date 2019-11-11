@@ -5,12 +5,8 @@ const net = require('net'),
     fs = require('fs'),
     dgram = require('dgram'),
     EventParser = require('../entities/EventParser.js'),
-    Message = require('js-message');
-
-let Events = require('event-pubsub/es5');
-if(process.version[1]>4){
+    Message = require('js-message'),
     Events = require('event-pubsub');
-}
 
 let eventParser = new EventParser();
 
