@@ -161,18 +161,18 @@ function gotData(socket,data,UDPSocket){
         return;
     }
 
-    if(!this.ipcBuffer){
-        this.ipcBuffer='';
+    if(!sock.ipcBuffer){
+        sock.ipcBuffer='';
     }
 
-    data=(this.ipcBuffer+=data);
+    data=(sock.ipcBuffer+=data);
 
     if(data.slice(-1)!=eventParser.delimiter || data.indexOf(eventParser.delimiter) == -1){
         this.log('Messages are large, You may want to consider smaller messages.');
         return;
     }
 
-    this.ipcBuffer='';
+    sock.ipcBuffer='';
 
     data=eventParser.parse(data);
 

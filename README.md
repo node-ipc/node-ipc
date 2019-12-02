@@ -122,7 +122,7 @@ Set these variables in the `ipc.config` scope to overwrite or set default values
 
 | variable | documentation |
 |----------|---------------|
-| appspace | used for Unix Socket (Unix Domain Socket) namespacing. If not set specifically, the Unix Domain Socket will combine the socketRoot, appspace, and id to form the Unix Socket Path for creation or binding. This is available incase you have many apps running on your system, you may have several sockets with the same id, but if you change the appspace, you will still have app specic unique sockets.|
+| appspace | used for Unix Socket (Unix Domain Socket) namespacing. If not set specifically, the Unix Domain Socket will combine the socketRoot, appspace, and id to form the Unix Socket Path for creation or binding. This is available in case you have many apps running on your system, you may have several sockets with the same id, but if you change the appspace, you will still have app specic unique sockets.|
 | socketRoot| the directory in which to create or bind to a Unix Socket |
 | id       | the id of this socket or service |
 | networkHost| the local or remote host on which TCP, TLS or UDP Sockets should connect |
@@ -464,7 +464,7 @@ or specifying everything UDP
 
 | method  | definition |
 |-----------|------------|
-|start| start serving need top call ` serve ` or ` serveNet ` first to set up the server |
+|start| start serving need to call ` serve ` or ` serveNet ` first to set up the server |
 |stop| close the server and stop serving |
 
 ----
