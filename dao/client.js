@@ -5,12 +5,8 @@ const net = require('net'),
     EventParser = require('../entities/EventParser.js'),
     Message = require('js-message'),
     fs = require('fs'),
-    Queue = require('js-queue');
-
-let Events = require('event-pubsub/es5');
-if(process.version[1]>4){
+    Queue = require('js-queue'),
     Events = require('event-pubsub');
-}
 
 let eventParser = new EventParser();
 
