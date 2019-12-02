@@ -464,7 +464,7 @@ or specifying everything UDP
 
 | method  | definition |
 |-----------|------------|
-|start| start serving need top call ` serve ` or ` serveNet ` first to set up the server |
+|start| start serving need to call ` serve ` or ` serveNet ` first to set up the server |
 |stop| close the server and stop serving |
 
 ----
