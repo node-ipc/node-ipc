@@ -1,7 +1,7 @@
 # http://www.appveyor.com/docs/appveyor-yml
 
 # version format
-version: 8.9.3.{build}
+version: 9.1.2.{build}
 
 # Test against these versions of Io.js and Node.js.
 environment:
