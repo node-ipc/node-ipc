@@ -759,7 +759,7 @@ Writing explicit buffers, int types, doubles, floats etc. as well as big endian 
     ipc.config.encoding='hex';
 
     //make a 6 byte buffer for example
-    const myBuffer=new Buffer(6).fill(0);
+    const myBuffer=Buffer.alloc(6).fill(0);
 
     //fill the first 2 bytes with a 16 bit (2 byte) short unsigned int
 

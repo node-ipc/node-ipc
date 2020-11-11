@@ -21,7 +21,7 @@ ipc.connectTo(
             'connect',
             function(){
                 //make a 6 byte buffer for example
-                const myBuffer=new Buffer(6).fill(0);
+                const myBuffer=Buffer.alloc(6).fill(0);
 
                 myBuffer.writeUInt16BE(0x02,0);
                 myBuffer.writeUInt32BE(0xffeecc,2);

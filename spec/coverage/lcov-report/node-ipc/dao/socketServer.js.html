@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for node-ipc/dao/socketServer.js</title>
+    <title>Code coverage report for node-ipc\dao\socketServer.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">63.75% </span>
+        <span class="strong">64.78% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>102/160</span>
+        <span class='fraction'>103/159</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">56.67% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>14/19</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">63.75% </span>
+        <span class="strong">64.78% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>102/160</span>
+        <span class='fraction'>103/159</span>
       </div>
     </div>
   </div>
@@ -450,10 +450,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -502,8 +498,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -746,9 +746,9 @@
 <span class="cline-any cline-yes">4×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -846,12 +846,8 @@ const net = require('net'),
     fs = require('fs'),
     dgram = require('dgram'),
     EventParser = require('../entities/EventParser.js'),
-    Message = require('js-message');
-&nbsp;
-let Events = require('event-pubsub/es5');
-<span class="missing-if-branch" title="else path not taken" >E</span>if(process.version[1]&gt;4){
+    Message = require('js-message'),
     Events = require('event-pubsub');
-}
 &nbsp;
 let eventParser = new EventParser();
 &nbsp;
@@ -899,10 +895,14 @@ class Server extends Events{
 <span class="cstat-no" title="statement not covered" >            return;</span>
         }
 &nbsp;
-        fs.unlink(
-            this.path,
-            startServer.bind(this)
-        );
+        <span class="missing-if-branch" title="else path not taken" >E</span>if(this.config.unlink){
+            fs.unlink(
+                this.path,
+                startServer.bind(this)
+            );
+        }else{
+<span class="cstat-no" title="statement not covered" >            startServer.bind(this)();</span>
+        }
     }
 }
 &nbsp;
@@ -915,7 +915,7 @@ function emit(socket, type, data){
 &nbsp;
     <span class="missing-if-branch" title="if path not taken" >I</span>if(this.config.rawBuffer){
 <span class="cstat-no" title="statement not covered" >        this.log(this.config.encoding)</span>
-<span class="cstat-no" title="statement not covered" >        message=new Buffer(type,this.config.encoding);</span>
+<span class="cstat-no" title="statement not covered" >        message=Buffer.from(type,this.config.encoding);</span>
     }else{
         message=eventParser.format(message);
     }
@@ -945,7 +945,7 @@ function emit(socket, type, data){
 <span class="cstat-no" title="statement not covered" >    message.data=data;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if(this.config.rawBuffer){</span>
-<span class="cstat-no" title="statement not covered" >        message=new Buffer(type,this.config.encoding);</span>
+<span class="cstat-no" title="statement not covered" >        message=Buffer.from(type,this.config.encoding);</span>
     }else{
 <span class="cstat-no" title="statement not covered" >        message=eventParser.format(message);</span>
     }
@@ -993,7 +993,7 @@ function serverClosed(){
 function gotData(socket,data,UDPSocket){
     let sock=((this.udp4 || this.udp6)? UDPSocket : <span class="branch-1 cbranch-no" title="branch not covered" >socket)</span>;
     <span class="missing-if-branch" title="if path not taken" >I</span>if(this.config.rawBuffer){
-<span class="cstat-no" title="statement not covered" >        data=new Buffer(data,this.config.encoding);</span>
+<span class="cstat-no" title="statement not covered" >        data=Buffer.from(data,this.config.encoding);</span>
 <span class="cstat-no" title="statement not covered" >        this.publish(</span>
             'data',
             data,
@@ -1002,18 +1002,18 @@ function gotData(socket,data,UDPSocket){
 <span class="cstat-no" title="statement not covered" >        return;</span>
     }
 &nbsp;
-    <span class="missing-if-branch" title="else path not taken" >E</span>if(!this.ipcBuffer){
-        this.ipcBuffer='';
+    <span class="missing-if-branch" title="else path not taken" >E</span>if(!sock.ipcBuffer){
+        sock.ipcBuffer='';
     }
 &nbsp;
-    data=(this.ipcBuffer+=data);
+    data=(sock.ipcBuffer+=data);
 &nbsp;
     <span class="missing-if-branch" title="if path not taken" >I</span>if(data.slice(-1)!=eventParser.delimiter || data.indexOf(eventParser.delimiter) == -1){
 <span class="cstat-no" title="statement not covered" >        this.log('Messages are large, You may want to consider smaller messages.');</span>
 <span class="cstat-no" title="statement not covered" >        return;</span>
     }
 &nbsp;
-    this.ipcBuffer='';
+    sock.ipcBuffer='';
 &nbsp;
     data=eventParser.parse(data);
 &nbsp;
@@ -1081,7 +1081,7 @@ function serverCreated(socket) {
             let data;
 &nbsp;
             <span class="missing-if-branch" title="if path not taken" >I</span>if(this.config.rawSocket){
-<span class="cstat-no" title="statement not covered" >                data=new Buffer(msg,this.config.encoding);</span>
+<span class="cstat-no" title="statement not covered" >                data=Buffer.from(msg,this.config.encoding);</span>
             }else{
                 data=msg.toString();
             }
@@ -1136,17 +1136,17 @@ function startServer() {
                 'error',
                 err
             );
-        }
+        }.bind(this)
     );
 &nbsp;
     this.server.maxConnections=this.config.maxConnections;
 &nbsp;
     if(!this.port){
         this.log('starting server as', 'Unix || Windows Socket');
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (process.platform ==='win32'){
-<span class="cstat-no" title="statement not covered" >            this.path = this.path.replace(/^\//, '');</span>
-<span class="cstat-no" title="statement not covered" >            this.path = this.path.replace(/\//g, '-');</span>
-<span class="cstat-no" title="statement not covered" >            this.path= `\\\\.\\pipe\\${this.path}`;</span>
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (process.platform ==='win32'){
+            this.path = this.path.replace(/^\//, '');
+            this.path = this.path.replace(/\//g, '-');
+            this.path= `\\\\.\\pipe\\${this.path}`;
         }
 &nbsp;
         this.server.listen(
@@ -1215,7 +1215,7 @@ function startServer() {
 }
 &nbsp;
 function UDPWrite(message,socket){
-    let data=new Buffer(message, this.config.encoding);
+    let data=Buffer.from(message, this.config.encoding);
     this.server.send(
         data,
         0,
@@ -1243,7 +1243,7 @@ module.exports=Server;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Apr 15 2017 22:58:40 GMT-0700 (PDT)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Nov 11 2020 12:19:05 GMT-0800 (Pacific Standard Time)
 </div>
 </div>
 <script src="../../prettify.js"></script>

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for node-ipc/dao/client.js</title>
+    <title>Code coverage report for node-ipc\dao\client.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">71.68% </span>
+        <span class="strong">74.55% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>81/113</span>
+        <span class='fraction'>82/110</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50.94% </span>
+        <span class="strong">54.9% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>27/53</span>
+        <span class='fraction'>28/51</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>9/9</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">71.68% </span>
+        <span class="strong">74.55% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>81/113</span>
+        <span class='fraction'>82/110</span>
       </div>
     </div>
   </div>
@@ -296,11 +296,7 @@
 251
 252
 253
-254
-255
-256
-257
-258</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+254</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -308,10 +304,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -384,9 +376,9 @@
 <span class="cline-any cline-yes">7×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7×</span>
@@ -548,10 +540,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7×</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">6×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -564,12 +556,8 @@ const net = require('net'),
     EventParser = require('../entities/EventParser.js'),
     Message = require('js-message'),
     fs = require('fs'),
-    Queue = require('js-queue');
-&nbsp;
-let Events = require('event-pubsub/es5');
-<span class="missing-if-branch" title="else path not taken" >E</span>if(process.version[1]&gt;4){
+    Queue = require('js-queue'),
     Events = require('event-pubsub');
-}
 &nbsp;
 let eventParser = new EventParser();
 &nbsp;
@@ -603,7 +591,7 @@ function emit(type,data){
     message.data=data;
 &nbsp;
     <span class="missing-if-branch" title="if path not taken" >I</span>if(this.config.rawBuffer){
-<span class="cstat-no" title="statement not covered" >        message=new Buffer(type,this.config.encoding);</span>
+<span class="cstat-no" title="statement not covered" >        message=Buffer.from(type,this.config.encoding);</span>
     }else{
         message=eventParser.format(message);
     }
@@ -640,10 +628,10 @@ function connect(){
 &nbsp;
         options.path=client.path;
 &nbsp;
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (process.platform ==='win32' &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!client.path.startsWith('\\\\.\\pipe\\'))</span>{
-<span class="cstat-no" title="statement not covered" >            options.path = options.path.replace(/^\//, '');</span>
-<span class="cstat-no" title="statement not covered" >            options.path = options.path.replace(/\//g, '-');</span>
-<span class="cstat-no" title="statement not covered" >            options.path= `\\\\.\\pipe\\${options.path}`;</span>
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (process.platform ==='win32' &amp;&amp; !client.path.startsWith('\\\\.\\pipe\\')){
+            options.path = options.path.replace(/^\//, '');
+            options.path = options.path.replace(/\//g, '-');
+            options.path= `\\\\.\\pipe\\${options.path}`;
         }
 &nbsp;
         client.socket = net.connect(options);
@@ -768,7 +756,7 @@ function connect(){
             <span class="missing-if-branch" title="if path not taken" >I</span>if(client.config.rawBuffer){
 <span class="cstat-no" title="statement not covered" >                client.publish(</span>
                    'data',
-                   new Buffer(data,client.config.encoding)
+                   Buffer.from(data,client.config.encoding)
                 );
 <span class="cstat-no" title="statement not covered" >                if(!client.config.sync){</span>
 <span class="cstat-no" title="statement not covered" >                    return;</span>
@@ -804,8 +792,8 @@ function connect(){
                 );
             }
 &nbsp;
-            <span class="missing-if-branch" title="if path not taken" >I</span>if(!client.config.sync){
-<span class="cstat-no" title="statement not covered" >                return;</span>
+            if(!client.config.sync){
+                return;
             }
 &nbsp;
             client.queue.next();
@@ -820,7 +808,7 @@ module.exports=Client;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Apr 15 2017 22:58:40 GMT-0700 (PDT)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Nov 11 2020 12:19:05 GMT-0800 (Pacific Standard Time)
 </div>
 </div>
 <script src="../../prettify.js"></script>

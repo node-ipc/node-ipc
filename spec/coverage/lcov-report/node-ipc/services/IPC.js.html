@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for node-ipc/services/IPC.js</title>
+    <title>Code coverage report for node-ipc\services\IPC.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">65.93% </span>
+        <span class="strong">65.67% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>89/135</span>
+        <span class='fraction'>88/134</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">60.81% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>7/8</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">65.93% </span>
+        <span class="strong">65.67% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>89/135</span>
+        <span class='fraction'>88/134</span>
       </div>
     </div>
   </div>
@@ -380,8 +380,7 @@
 335
 336
 337
-338
-339</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+338</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -448,8 +447,6 @@
 <span class="cline-any cline-yes">116×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">116×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">116×</span>
 <span class="cline-any cline-yes">370×</span>
@@ -697,6 +694,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -782,12 +780,10 @@ class IPC{
     }
 }
 &nbsp;
-function log(){
+function log(...args){
     <span class="missing-if-branch" title="if path not taken" >I</span>if(this.config.silent){
 <span class="cstat-no" title="statement not covered" >        return;</span>
     }
-&nbsp;
-    const args=Array.prototype.slice.call(arguments);
 &nbsp;
     for(let i=0, count=args.length; i&lt;count; i++){
         if(typeof args[i] != 'object'){
@@ -803,7 +799,7 @@ function log(){
         );
     }
 &nbsp;
-    console.log(
+    this.config.logger(
         args.join(' ')
     );
 }
@@ -832,9 +828,9 @@ function serve(path,callback){
     }
     <span class="missing-if-branch" title="if path not taken" >I</span>if(!path){
 <span class="cstat-no" title="statement not covered" >        this.log(</span>
-            'Server path not specified, so defaulting to'.notice,
-            'ipc.config.socketRoot + ipc.config.appspace + ipc.config.id'.variable,
-            (this.config.socketRoot+this.config.appspace+this.config.id).data
+            'Server path not specified, so defaulting to',
+            'ipc.config.socketRoot + ipc.config.appspace + ipc.config.id',
+            this.config.socketRoot+this.config.appspace+this.config.id
         );
 <span class="cstat-no" title="statement not covered" >        path=this.config.socketRoot+this.config.appspace+this.config.id;</span>
     }
@@ -874,9 +870,9 @@ function serveNet(host,port,UDPType,callback){
     }
     if(!host){
         this.log(
-            'Server host not specified, so defaulting to'.notice,
-            'ipc.config.networkHost'.variable,
-            this.config.networkHost.data
+            'Server host not specified, so defaulting to',
+            'ipc.config.networkHost',
+            this.config.networkHost
         );
         host=this.config.networkHost;
     }
@@ -899,8 +895,8 @@ function serveNet(host,port,UDPType,callback){
     }
     if(!port){
         this.log(
-            'Server port not specified, so defaulting to'.notice,
-            'ipc.config.networkPort'.variable,
+            'Server port not specified, so defaulting to',
+            'ipc.config.networkPort',
             this.config.networkPort
         );
         port=this.config.networkPort;
@@ -948,16 +944,16 @@ function connect(id,path,callback){
 &nbsp;
     <span class="missing-if-branch" title="if path not taken" >I</span>if(!id){
 <span class="cstat-no" title="statement not covered" >        this.log(</span>
-            'Service id required'.warn,
-            'Requested service connection without specifying service id. Aborting connection attempt'.notice
+            'Service id required',
+            'Requested service connection without specifying service id. Aborting connection attempt'
         );
 <span class="cstat-no" title="statement not covered" >        return;</span>
     }
 &nbsp;
     if(!path){
         this.log(
-            'Service path not specified, so defaulting to'.notice,
-            'ipc.config.socketRoot + ipc.config.appspace + id'.variable,
+            'Service path not specified, so defaulting to',
+            'ipc.config.socketRoot + ipc.config.appspace + id',
             (this.config.socketRoot+this.config.appspace+id).data
         );
         path=this.config.socketRoot+this.config.appspace+id;
@@ -966,9 +962,9 @@ function connect(id,path,callback){
     <span class="missing-if-branch" title="if path not taken" >I</span>if(this.of[id]){
 <span class="cstat-no" title="statement not covered" >        if(!this.of[id].socket.destroyed){</span>
 <span class="cstat-no" title="statement not covered" >            this.log(</span>
-                'Already Connected to'.notice,
-                id.variable,
-                '- So executing success without connection'.notice
+                'Already Connected to',
+                id,
+                '- So executing success without connection'
             );
 <span class="cstat-no" title="statement not covered" >            callback();</span>
 <span class="cstat-no" title="statement not covered" >            return;</span>
@@ -988,8 +984,8 @@ function connect(id,path,callback){
 function connectNet(id,host,port,callback){
     <span class="missing-if-branch" title="if path not taken" >I</span>if(!id){
 <span class="cstat-no" title="statement not covered" >        this.log(</span>
-            'Service id required'.warn,
-            'Requested service connection without specifying service id. Aborting connection attempt'.notice
+            'Service id required',
+            'Requested service connection without specifying service id. Aborting connection attempt'
         );
 <span class="cstat-no" title="statement not covered" >        return;</span>
     }
@@ -1005,9 +1001,9 @@ function connectNet(id,host,port,callback){
     }
     <span class="missing-if-branch" title="else path not taken" >E</span>if(!host){
         this.log(
-            'Server host not specified, so defaulting to'.notice,
-            'ipc.config.networkHost'.variable,
-            this.config.networkHost.data
+            'Server host not specified, so defaulting to',
+            'ipc.config.networkHost',
+            this.config.networkHost
         );
         host=this.config.networkHost;
     }
@@ -1018,8 +1014,8 @@ function connectNet(id,host,port,callback){
     }
     <span class="missing-if-branch" title="if path not taken" >I</span>if(!port){
 <span class="cstat-no" title="statement not covered" >        this.log(</span>
-            'Server port not specified, so defaulting to'.notice,
-            'ipc.config.networkPort'.variable,
+            'Server port not specified, so defaulting to',
+            'ipc.config.networkPort',
             this.config.networkPort
         );
 <span class="cstat-no" title="statement not covered" >        port=this.config.networkPort;</span>
@@ -1035,10 +1031,11 @@ function connectNet(id,host,port,callback){
 &nbsp;
     <span class="missing-if-branch" title="if path not taken" >I</span>if(this.of[id]){
 <span class="cstat-no" title="statement not covered" >        if(!this.of[id].socket.destroyed){</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >            this.log(</span>
-                'Already Connected to'.notice,
-                id.variable,
-                '- So executing success without connection'.notice
+                'Already Connected to',
+                id,
+                '- So executing success without connection'
             );
 <span class="cstat-no" title="statement not covered" >            callback();</span>
 <span class="cstat-no" title="statement not covered" >            return;</span>
@@ -1063,7 +1060,7 @@ module.exports=IPC;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Apr 15 2017 22:58:40 GMT-0700 (PDT)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Nov 11 2020 12:19:05 GMT-0800 (Pacific Standard Time)
 </div>
 </div>
 <script src="../../prettify.js"></script>

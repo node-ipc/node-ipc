@@ -40,7 +40,7 @@ function emit(type,data){
     message.data=data;
 
     if(this.config.rawBuffer){
-        message=new Buffer(type,this.config.encoding);
+        message=Buffer.from(type,this.config.encoding);
     }else{
         message=eventParser.format(message);
     }
@@ -205,7 +205,7 @@ function connect(){
             if(client.config.rawBuffer){
                 client.publish(
                    'data',
-                   new Buffer(data,client.config.encoding)
+                   Buffer.from(data,client.config.encoding)
                 );
                 if(!client.config.sync){
                     return;
