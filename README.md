@@ -1,7 +1,5 @@
 node-ipc
 ================
-**v10.x development underway. This includes an apache 2.0 licence**
-
 *a nodejs module for local and remote Inter Process Communication* with full support for Linux, Mac and Windows. It also supports all forms of socket communication from low level unix and windows sockets to UDP and secure TLS and TCP sockets.
 
 A great solution for complex multiprocess **Neural Networking** in Node.JS
