@@ -30,7 +30,7 @@ Package details websites :
 * [GitHub.io site](http://riaevangelist.github.io/node-ipc/ "node-ipc documentation"). A prettier version of this site.
 * [NPM Module](https://www.npmjs.org/package/node-ipc "node-ipc npm module"). The npm page for the node-ipc module.
 
-This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/).
+This work is licenced via the MIT Licence.
 
 #### Older versions of node
 
@@ -876,5 +876,5 @@ Writing explicit buffers, int types, doubles, floats etc. as well as big endian 
 
 ```
 
-#### Licensed under DBAD license
-See the [DBAD license](https://github.com/philsturgeon/dbad) in your language or our [licence.md](https://github.com/RIAEvangelist/node-phidget-API/blob/master/license.md) file.
+#### Licensed under MIT license
+See the [MIT license](https://github.com/RIAEvangelist/node-ipc/blob/master/license) file.
