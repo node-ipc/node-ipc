@@ -1,10 +1,9 @@
 #OS
 os:
-  - linux
   - osx
-
-#Travis having trouble with UDP6 sockets
-dist: trusty
+# Travis UDP6 not supported on linux, not even on loopback ::1  Super annoying.
+# - linux
+  
 
 #node versions
 language: node_js
