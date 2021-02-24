@@ -3,6 +3,9 @@ os:
   - linux
   - osx
 
+#Xenial does not support ipv6 on Travis
+dist: focal
+
 #node versions
 language: node_js
 node_js:
