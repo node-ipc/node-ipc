@@ -3,8 +3,8 @@ os:
   - linux
   - osx
 
-#Xenial does not support ipv6 on Travis
-dist: focal
+#Travis having trouble with UDP6 sockets
+dist: trusty
 
 #node versions
 language: node_js
