@@ -188,6 +188,9 @@ function connect(){
 
             setTimeout(
                 function retryTimeout(){
+                    if (client.explicitlyDisconnected) {
+                        return;
+                    }
                     client.retriesRemaining--;
                     client.connect();
                 }.bind(null,client),
