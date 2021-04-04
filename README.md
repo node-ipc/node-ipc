@@ -480,7 +480,6 @@ or specifying everything UDP
 |destroy||triggered when socket has been totally destroyed, no further auto retries will happen and all references are gone.|
 |data|buffer|triggered when ipc.config.rawBuffer is true and a message is received.|
 |***your event type***|***your event data***|triggered when a JSON message is received. The event name will be the type string from your message and the param will be the data object from your message eg : ` { type:'myEvent',data:{a:1}} ` |
-||||
 
 ### Multiple IPC Instances
 
