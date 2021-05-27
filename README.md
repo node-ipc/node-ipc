@@ -56,7 +56,7 @@ You may want to install jasmine and istanbul globally with ` sudo npm install -g
 4. [IPC Events](#ipc-events)
 5. [Multiple IPC instances](#multiple-ipc-instances)
 6. [Basic Examples](#basic-examples)
-    1. [Server for Unix||Windows Sockets & TCP Sockets](#server-for-unix-sockets--tcp-sockets)
+    1. [Server for Unix||Windows Sockets & TCP Sockets](#server-for-unix-sockets-windows-sockets--tcp-sockets)
     2. [Client for Unix||Windows Sockets & TCP Sockets](#client-for-unix-sockets--tcp-sockets)
     4. [Server & Client for UDP Sockets](#server--client-for-udp-sockets)
     5. [Raw Buffers, Real Time and / or Binary Sockets](#raw-buffer-or-binary-sockets)
