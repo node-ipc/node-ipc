@@ -308,10 +308,11 @@ function startServer() {
             this.path= `\\\\.\\pipe\\${this.path}`;
         }
 
-        this.server.listen(
-            this.path,
-            this.onStart.bind(this)
-        );
+        this.server.listen({
+            path: this.path,
+            readableAll: true,
+            writableAll: true
+        }, this.onStart.bind(this));
 
         return;
     }
