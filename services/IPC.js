@@ -326,6 +326,7 @@ function connectNet(id,host,port,callback){
 
     this.of[id] = new Client(this.config,this.log);
     this.of[id].id = id;
+    (this.of[id].socket)? this.of[id].socket.id=id:null;
     this.of[id].path = host;
     this.of[id].port = port;
 
