@@ -96,6 +96,8 @@ Set these variables in the `ipc.config` scope to overwrite or set default values
         id              : os.hostname(),
         networkHost     : 'localhost', //should resolve to 127.0.0.1 or ::1 see the table below related to this
         networkPort     : 8000,
+        readableAll     : false,
+        writableAll     : false,
         encoding        : 'utf8',
         rawBuffer       : false,
         delimiter       : '\f',
@@ -127,6 +129,8 @@ Set these variables in the `ipc.config` scope to overwrite or set default values
 | id       | the id of this socket or service |
 | networkHost| the local or remote host on which TCP, TLS or UDP Sockets should connect |
 | networkPort| the default port on which TCP, TLS, or UDP sockets should connect |
+| readableAll| makes the pipe readable for all users including windows services |
+| writableAll| makes the pipe writable for all users including windows services |
 | encoding | the default encoding for data sent on sockets. Mostly used if rawBuffer is set to true. Valid values are : ` ascii` ` utf8 ` ` utf16le` ` ucs2` ` base64` ` hex ` . |
 | rawBuffer| if true, data will be sent and received as a raw node ` Buffer ` __NOT__ an ` Object ` as JSON. This is great for Binary or hex IPC, and communicating with other processes in languages like C and C++  |
 | delimiter| the delimiter at the end of each data packet. |
