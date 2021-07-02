@@ -33,6 +33,9 @@ class Defaults{
     networkHost = (this.IPType == 'IPv6') ? '::1' : '127.0.0.1';
     networkPort = 8000;
 
+    readableAll = false;
+    writableAll = false;
+
     interface={
         localAddress:false,
         localPort:false,
