@@ -310,8 +310,8 @@ function startServer() {
 
         this.server.listen({
             path: this.path,
-            readableAll: true,
-            writableAll: true
+            readableAll: this.config.readableAll,
+            writableAll: this.config.writableAll
         }, this.onStart.bind(this));
 
         return;
