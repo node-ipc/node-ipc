@@ -1,6 +1,5 @@
-'use strict';
 
-const Defaults = require('./Defaults.js');
+import Defaults from './Defaults.js';
 
 class Parser{
   constructor(config){
@@ -29,4 +28,7 @@ class Parser{
   }
 }
 
-module.exports=Parser;
+export {
+  Parser as default,
+  Parser
+};

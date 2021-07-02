@@ -1,6 +1,5 @@
-'use strict';
 
-const ipc=require('../../../node-ipc');
+import ipc from '../../../node-ipc.js';
 
 /***************************************\
  *

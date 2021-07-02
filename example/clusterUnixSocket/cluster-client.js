@@ -1,5 +1,5 @@
-const fs = require('fs');
-const ipc = require('../../node-ipc');
+const fs = from 'fs');
+const ipc = from '../../node-ipc');
 
 const socketPath = '/tmp/ipc.sock';
 

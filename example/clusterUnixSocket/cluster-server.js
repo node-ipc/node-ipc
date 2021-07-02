@@ -1,7 +1,7 @@
-const fs = require('fs');
-const ipc=require('../../../node-ipc');
-const cpuCount = require('os').cpus().length;
-const cluster = require('cluster');
+const fs = from 'fs');
+import ipc from '../../../node-ipc.js';
+const cpuCount = from 'os').cpus().length;
+const cluster = from 'cluster');
 const socketPath = '/tmp/ipc.sock';
 
 ipc.config.unlink = false;

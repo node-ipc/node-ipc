@@ -1,33 +1,23 @@
-'use strict';
 
-const net = require('net'),
-    tls = require('tls'),
-    fs = require('fs'),
-    dgram = require('dgram'),
-    EventParser = require('../entities/EventParser.js'),
-    Message = require('js-message'),
-    Events = require('event-pubsub');
+import net from 'net';
+import tls from 'tls';
+import fs from 'fs';
+import dgram from 'dgram';
+import EventParser from '../entities/EventParser.js';
+import Message from 'js-message';
+import Events from 'event-pubsub';
 
 let eventParser = new EventParser();
 
 class Server extends Events{
     constructor(path,config,log,port){
         super();
-        Object.assign(
-            this,
-            {
-                config          : config,
-                path            : path,
-                port            : port,
-                udp4            : false,
-                udp6            : false,
-                log             : log,
-                server          : false,
-                sockets         : [],
-                emit            : emit,
-                broadcast       : broadcast
-            }
-        );
+        this.config = config;
+        this.path = path;
+        this.port = port;
+        this.log  = log;
+
+        this.publish=super.emit;
 
         eventParser=new EventParser(this.config);
 
@@ -37,8 +27,15 @@ class Server extends Events{
         );
     }
 
+    udp4=false;
+    udp6=false;
+    server=false;
+    sockets=[];
+    emit=emit;
+    broadcast=broadcast;
+
     onStart(socket){
-        this.trigger(
+        this.publish(
             'start',
             socket
         );
@@ -396,4 +393,7 @@ function UDPWrite(message,socket){
     );
 }
 
-module.exports=Server;
+export {
+    Server as default,
+    Server
+};

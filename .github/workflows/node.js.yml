@@ -20,7 +20,6 @@ jobs:
           - macos-latest
           - windows-latest
         node_version:
-          - 12.x
           - 14.x
           - 16.x
     steps:

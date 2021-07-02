@@ -1,35 +1,32 @@
-'use strict';
-
-const net = require('net'),
-    tls = require('tls'),
-    EventParser = require('../entities/EventParser.js'),
-    Message = require('js-message'),
-    fs = require('fs'),
-    Queue = require('js-queue'),
-    Events = require('event-pubsub');
+import net from 'net';
+import tls from 'tls';
+import EventParser from '../entities/EventParser.js';
+import Message from 'js-message';
+import fs from 'fs';
+import Queue from 'js-queue';
+import Events from 'event-pubsub';
 
 let eventParser = new EventParser();
 
 class Client extends Events{
     constructor(config,log){
         super();
-        Object.assign(
-            this,
-            {
-                Client  : Client,
-                config  : config,
-                queue   : new Queue,
-                socket  : false,
-                connect : connect,
-                emit    : emit,
-                log     : log,
-                retriesRemaining:config.maxRetries||0,
-                explicitlyDisconnected: false
-            }
-        );
+        this.config=config;
+        this.log=log;
+        this.publish=super.emit;
+        
+        (config.maxRetries)? this.retriesRemaining=config.maxRetries:0;
 
         eventParser=new EventParser(this.config);
     }
+
+    Client=Client;
+    queue =new Queue;
+    socket=false;
+    connect=connect;
+    emit=emit;
+    retriesRemaining=0;
+    explicitlyDisconnected=false;
 }
 
 function emit(type,data){
@@ -45,11 +42,13 @@ function emit(type,data){
         message=eventParser.format(message);
     }
 
+    //volitile emit
     if(!this.config.sync){
         this.socket.write(message);
         return;
     }
 
+    //sync, non-volitile, ack emit
     this.queue.add(
         syncEmit.bind(this,message)
     );
@@ -253,4 +252,7 @@ function connect(){
     );
 }
 
-module.exports=Client;
+export {
+    Client as default,
+    Client
+};

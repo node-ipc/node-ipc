@@ -1,65 +1,60 @@
-'use strict';
 
-const Defaults = require('../entities/Defaults.js'),
-    Client = require('../dao/client.js'),
-    Server = require('../dao/socketServer.js'),
-    util = require('util');
+import Defaults from '../entities/Defaults.js';
+import Client from '../dao/client.js';
+import Server from '../dao/socketServer.js';
+import util from 'util';
 
 class IPC{
     constructor(){
-        Object.defineProperties(
-            this,
-            {
-                config      : {
-                    enumerable:true,
-                    writable:true,
-                    value:new Defaults
-                },
-                connectTo   : {
-                    enumerable:true,
-                    writable:false,
-                    value:connect
-                },
-                connectToNet: {
-                    enumerable:true,
-                    writable:false,
-                    value:connectNet
-                },
-                disconnect  : {
-                    enumerable:true,
-                    writable:false,
-                    value:disconnect
-                },
-                serve       : {
-                    enumerable:true,
-                    writable:false,
-                    value:serve
-                },
-                serveNet    : {
-                    enumerable:true,
-                    writable:false,
-                    value:serveNet
-                },
-                of          : {
-                    enumerable:true,
-                    writable:true,
-                    value:{}
-                },
-                server      : {
-                    enumerable:true,
-                    writable:true,
-                    configurable:true,
-                    value:false
-                },
-                log         : {
-                    enumerable:true,
-                    writable:false,
-                    value:log
-                }
-            }
-        );
+
+    }
+    
+    //public members
+    config=new Defaults;
+    of={};
+    server=false;
+
+    //protected methods
+    get connectTo(){
+        return connect;
+    }
+    get connectToNet(){
+        return connectNet;
+    }
+    get disconnect(){
+        return disconnect
+    }
+    get serve(){
+        return serve;
+    }
+    get serveNet(){
+        return serveNet;
+    }
+    get log(){
+        return log;
+    }
+
+    set connectTo(value){
+        return connect;
+    }
+    set connectToNet(value){
+        return connectNet;
+    }
+    set disconnect(value){
+        return disconnect
+    }
+    set serve(value){
+        return serve;
+    }
+    set serveNet(value){
+        return serveNet;
+    }
+    set log(value){
+        return log;
     }
 }
+
+    
 
 function log(...args){
     if(this.config.silent){
@@ -255,6 +250,7 @@ function connect(id,path,callback){
 
     this.of[id] = new Client(this.config,this.log);
     this.of[id].id = id;
+    (this.of[id].socket)? (this.of[id].socket.id=id):null;
     this.of[id].path = path;
 
     this.of[id].connect();
@@ -326,7 +322,7 @@ function connectNet(id,host,port,callback){
 
     this.of[id] = new Client(this.config,this.log);
     this.of[id].id = id;
-    (this.of[id].socket)? this.of[id].socket.id=id:null;
+    (this.of[id].socket)? (this.of[id].socket.id=id):null;
     this.of[id].path = host;
     this.of[id].port = port;
 
@@ -335,4 +331,7 @@ function connectNet(id,host,port,callback){
     callback(this);
 }
 
-module.exports=IPC;
+export {
+    IPC as default,
+    IPC
+};

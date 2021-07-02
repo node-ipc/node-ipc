@@ -1,6 +1,4 @@
-'use strict';
-
-const IPC = require('./services/IPC.js');
+import IPC from './services/IPC.js';
 
 class IPCModule extends IPC{
     constructor(){
@@ -18,4 +16,9 @@ class IPCModule extends IPC{
     }
 }
 
-module.exports=new IPCModule;
+const singleton=new IPCModule;
+
+export {
+    singleton as default,
+    IPCModule
+}

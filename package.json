@@ -2,6 +2,7 @@
   "name": "node-ipc",
   "version": "9.2.0",
   "description": "A nodejs module for local and remote Inter Process Communication (IPC), Neural Networking, and able to facilitate machine learning.",
+  "type": "module",
   "main": "node-ipc.js",
   "directories": {
     "example": "example"
@@ -10,25 +11,22 @@
     "node": ">=8.0.0"
   },
   "dependencies": {
-    "event-pubsub": "4.3.0",
+    "event-pubsub": "5.0.3",
     "js-message": "1.0.7",
-    "js-queue": "2.0.2"
+    "js-queue": "2.0.2",
+    "strong-type": "^1.0.1"
   },
   "devDependencies": {
-    "codacy-coverage": "2.0.0",
-    "jasmine": "2.4.1",
-    "istanbul": "0.4.1",
-    "node-cmd": "2.0.0"
+    "c8": "^7.7.3",
+    "lcov2badge": "^0.1.2",
+    "node-cmd": "^4.0.0",
+    "node-http-server": "^8.1.4",
+    "vanilla-test": "^1.4.8"
   },
   "scripts": {
-    "test-windows": "istanbul cover -x **/spec/** -dir ./spec/coverage ./node_modules/jasmine/bin/jasmine.js",
-    "test": "istanbul cover -x **/spec/** -dir ./spec/coverage jasmine",
-    "cover": "istanbul cover -x **/spec/** -dir ./spec/coverage jasmine",
-    "coverup": "cat ./spec/coverage/lcov.info | codacy-coverage"
+    "test": "npm i && c8 -r lcov -r html node test/CI.js && c8 report && node ./lcov.js",
+    "coverage": "echo 'See your coverage report at http://localhost:8080' && node-http-server port=8080 root=./coverage/"
   },
-  "pre-commit": [
-    "cover"
-  ],
   "keywords": [
     "IPC",
     "Neural Networking",
