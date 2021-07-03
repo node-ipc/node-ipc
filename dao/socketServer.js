@@ -90,7 +90,7 @@ function emit(socket, type, data){
         );
         return;
     }
-
+    
     socket.write(message);
 }
 

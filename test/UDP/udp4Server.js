@@ -1,6 +1,6 @@
 
-const ipc=from '../node-ipc');
-const process=from 'process');
+import ipc from '../../node-ipc.js';
+import process from 'process';
 const dieAfter=60000;
 
 //die after 60 seconds

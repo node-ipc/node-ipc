@@ -15,20 +15,31 @@ setTimeout(
 
 ipc.config.id = 'tcpClient';
 ipc.config.retry= 600;
-ipc.config.silent=true;
+//ipc.config.silent=true;
 ipc.config.networkPort=8500;
 
 
-ipc.connectToNet('tcpClient');
+ipc.connectToNet(
+    'testWorld',
+    function(){
+        ipc.of.testWorld.on(
+            'connect',
+            function(){
+                ipc.of.testWorld.emit(
+                    'message',
+                    'hello'
+                );
+            }
+        );
 
-ipc.of.tcpClient.on(
-    'message',
-    function(data){
-        if(data.type=='END'){
-            killClientProcess();
-        }
+        ipc.of.testWorld.on(
+            'END',
+            function(data){
+                killClientProcess();
+            }
+        )
     }
-)
+);
 
 export {
     dieAfter as default,

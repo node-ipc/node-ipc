@@ -34,15 +34,21 @@ async function run(){
 
         ipc.config.networkPort=8500;
         
-        let clientCounter=0;
+        let requiredCount=2;
+        let requiredCounter=0;
 
         ipc.serveNet(
             function serverStarted(){
                 ipc.server.on(
                     'connect',
                     function connected(socket){
-                        clientCounter++;
-                        ipc.emit(socket,'END');
+                        requiredCounter++;
+                        ipc.server.on(
+                            'message',
+                            function(data){
+                                requiredCounter++;
+                            }
+                        )
                     }
                 );
             }
@@ -50,13 +56,12 @@ async function run(){
         
         ipc.server.start();
                 
-        await delay(transmit_delay*3);
-
+        await delay(transmit_delay*2);
+        
+        ipc.server.broadcast('END');
         ipc.server.stop();
 
-        console.log(clientCounter,1)
-
-        test.compare(clientCounter,1);
+        test.compare(requiredCount,requiredCounter);
 
     }catch(err){
         fail(err);
