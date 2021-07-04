@@ -31,6 +31,7 @@ async function run(){
         ipc.config.retry = 60;
         ipc.config.maxRetries = 3;
         ipc.config.stopRetrying = false;
+        ipc.config.silent=true;
 
         //set to -1 because there is an error on the first fail
         //before retrying
@@ -53,6 +54,10 @@ async function run(){
         );
 
         await delay(ipc.config.retry*ipc.config.maxRetries + transmit_delay);
+        
+        ipc.config.stopRetrying = true;
+        
+        ipc.of.tcpFakeServer.emit('END');
 
         ipc.disconnect('tcpFakeServer');
 
@@ -169,11 +174,7 @@ async function run(){
         test.compare(data.message,'I am TCP server!');
         
         ipc.of.tcpServer.emit(
-            'message',
-            {
-                id      : ipc.config.id,
-                message : 'END'
-            }
+            'END'
         );
 
         ipc.disconnect('tcpServer');

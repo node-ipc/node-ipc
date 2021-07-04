@@ -2,6 +2,7 @@
 import cmd from 'node-cmd';
 import {run as TCPClientRun} from './TCP/client.js';
 import {run as TCPServerRun} from './TCP/server.js';
+import {run as UDPRun} from './UDP/client.js';
 
 function logOutput(name,err, data, stderr){
     console.log(`
@@ -30,5 +31,21 @@ cmd.run(
 );
 
 
+cmd.run(
+    'node ./test/UDP/UDP4Server.js',
+    function(err, data, stderr){
+        logOutput('UDP4',err, data, stderr)
+    }
+);
+cmd.run(
+    'node ./test/UDP/UDP6Server.js',
+    function(err, data, stderr){
+        logOutput('UDP6',err, data, stderr)       
+    }
+
+);
+
+
 await TCPClientRun();
 await TCPServerRun();
+await UDPRun();

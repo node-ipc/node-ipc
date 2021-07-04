@@ -59,6 +59,7 @@ async function run(){
         await delay(transmit_delay*2);
         
         ipc.server.broadcast('END');
+        ipc.config.stopRetrying = true;
         ipc.server.stop();
 
         test.compare(requiredCount,requiredCounter);

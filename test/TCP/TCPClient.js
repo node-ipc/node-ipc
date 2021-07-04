@@ -15,7 +15,7 @@ setTimeout(
 
 ipc.config.id = 'tcpClient';
 ipc.config.retry= 600;
-//ipc.config.silent=true;
+ipc.config.silent=true;
 ipc.config.networkPort=8500;
 
 
@@ -34,9 +34,7 @@ ipc.connectToNet(
 
         ipc.of.testWorld.on(
             'END',
-            function(data){
-                killClientProcess();
-            }
+            killClientProcess
         )
     }
 );

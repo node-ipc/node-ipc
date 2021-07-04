@@ -7,7 +7,6 @@ function killServerProcess(){
     process.exit(0);
 }
 
-//die after 60 seconds
 setTimeout(
     killServerProcess,
     dieAfter
@@ -25,10 +24,6 @@ ipc.serveNet(
             function gotMessage(data,socket){
                 console.log('Server recieved message',data);
 
-                if(data.message=="END"){
-                    killServerProcess();
-                }
-
                 ipc.server.emit(
                     socket,
                     'message',
@@ -39,6 +34,11 @@ ipc.serveNet(
                 );
                 console.log('server emitted data')
             }
+        );
+
+        ipc.server.on(
+            'END',
+            killServerProcess
         );
 
         console.log('TCP server up');

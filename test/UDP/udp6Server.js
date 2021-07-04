@@ -1,13 +1,14 @@
+import ipc from '../../node-ipc.js';
+import process from 'process';
 
-const ipc=from '../node-ipc');
-const process=from 'process');
-const dieAfter=60000;
+const dieAfter = 30e3;
 
-//die after 60 seconds
+function killServerProcess(){
+    process.exit(0);
+}
+
 setTimeout(
-    function killServerProcess(){
-        process.exit(0);
-    },
+    killServerProcess,
     dieAfter
 );
 
@@ -32,6 +33,11 @@ ipc.serveNet(
                     }
                 );
             }
+        );
+
+        ipc.server.on(
+            'END',
+            killServerProcess
         );
     }
 );
