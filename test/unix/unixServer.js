@@ -1,19 +1,20 @@
+import ipc from '../../node-ipc.js';
+import process from 'process';
 
-const ipc=from '../node-ipc');
-const process=from 'process');
-const dieAfter=30000;
+const dieAfter=30e3;
 
-//die after 60 seconds
+function killServerProcess(){
+    process.exit(0);
+}
+
 setTimeout(
-    function killServerProcess(){
-        process.exit(0);
-    },
+    killServerProcess,
     dieAfter
 );
 
 ipc.config.id = 'unixServer';
 ipc.config.retry= 1500;
-ipc.config.silent=true;
+ipc.config.silent=false;
 
 ipc.serve(
     function serverStarted(){
@@ -33,5 +34,9 @@ ipc.serve(
     }
 );
 
+ipc.server.on(
+    'END',
+    killServerProcess
+);
 
 ipc.server.start();

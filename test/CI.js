@@ -3,6 +3,8 @@ import cmd from 'node-cmd';
 import {run as TCPClientRun} from './TCP/client.js';
 import {run as TCPServerRun} from './TCP/server.js';
 import {run as UDPRun} from './UDP/client.js';
+import {run as unixClientRun} from './unix/client.js';
+
 
 function logOutput(name,err, data, stderr){
     console.log(`
@@ -46,6 +48,21 @@ cmd.run(
 );
 
 
+cmd.run(
+    'node ./test/unix/unixServer.js',
+    function(err, data, stderr){
+        logOutput('unix/posix',err, data, stderr)       
+    }
+);
+cmd.run(
+    'node ./test/unix/unixServerSync.js',
+    function(err, data, stderr){
+        logOutput('unix/posix sync',err, data, stderr)       
+    }
+);
+
+
 await TCPClientRun();
 await TCPServerRun();
 await UDPRun();
+await unixClientRun();
