@@ -17,7 +17,8 @@ GitHub info :
 ![node-ipc GitHub Release](https://img.shields.io/github/release/RIAEvangelist/node-ipc.svg) ![GitHub license node-ipc license](https://img.shields.io/github/license/RIAEvangelist/node-ipc.svg) ![open issues for node-ipc on GitHub](https://img.shields.io/github/issues/RIAEvangelist/node-ipc.svg)
 
 Code Coverage Info :  
-![lcov node-ipc](/blob/main/coverage/lcov.svg)
+![lcov node-ipc](/coverage/lcov.svg)
+Run `npm run coverage` to host a local version of the coverage report on [localhost:8080](http://localhost:8080) This is the same format as Istanbul and NYC. It should be very familiar.
 
 Package details websites :
 * [GitHub.io site](http://riaevangelist.github.io/node-ipc/ "node-ipc documentation"). A prettier version of this site.
