@@ -6,6 +6,10 @@ A great solution for complex multiprocess **Neural Networking** in Node.JS
 
 **npm install node-ipc**
 
+#### for commonjs or node <v14
+
+set version to `<10.0.0` in your `pagage.json` for the node-ipc dep.
+
 #### NPM Stats
 
 npm info :  [See npm trends and stats for node-ipc](http://npm-stat.com/charts.html?package=node-ipc&author=&from=&to=)   
@@ -490,7 +494,8 @@ Sometimes you might need explicit and independent instances of node-ipc. Just fo
 
 ```javascript
 
-    const RawIPC=from 'node-ipc').IPC;
+    import {IPCModule} from 'node-ipc';
+
     const ipc=new RawIPC;
     const someOtherExplicitIPC=new RawIPC;
 
@@ -525,7 +530,7 @@ The server is the process keeping a socket for IPC open. Multiple sockets can co
 
 ```javascript
 
-    var ipc=from 'node-ipc');
+    import ipc from 'node-ipc';
 
     ipc.config.id   = 'world';
     ipc.config.retry= 1500;
@@ -562,7 +567,7 @@ The client connects to the servers socket for Inter Process Communication. The s
 
 ```javascript
 
-    var ipc=from 'node-ipc');
+    import ipc from 'node-ipc';
 
     ipc.config.id   = 'hello';
     ipc.config.retry= 1500;
@@ -608,7 +613,7 @@ This is the most basic example which will work for both local and remote UDP Soc
 
 ```javascript
 
-    var ipc=from '../../../node-ipc');
+    import ipc from 'node-ipc';
 
     ipc.config.id   = 'world';
     ipc.config.retry= 1500;
@@ -803,11 +808,14 @@ Writing explicit buffers, int types, doubles, floats etc. as well as big endian 
 
 ```javascript
 
-    const fs = from 'fs');
-    const ipc=from '../../../node-ipc');
-    const cpuCount = from 'os').cpus().length;
-    const cluster = from 'cluster');
-    const socketPath = '/tmp/ipc.sock';
+    import fs  from 'fs';
+    import ipc from 'node-ipc';
+    import {cpus}  from 'os';
+    import cluster  from 'cluster';
+    
+    const cpuCount=cpus().length;
+
+    const socketPath='/tmp/ipc.sock';
 
     ipc.config.unlink = false;
 
@@ -842,8 +850,8 @@ Writing explicit buffers, int types, doubles, floats etc. as well as big endian 
 
 ```javascript
 
-    const fs = from 'fs');
-    const ipc = from '../../node-ipc');
+    import fs  from 'fs';
+    import ipc  from 'node-ipc';
 
     const socketPath = '/tmp/ipc.sock';
 
