@@ -808,10 +808,10 @@ Writing explicit buffers, int types, doubles, floats etc. as well as big endian 
 
 ```javascript
 
-    import fs  from 'fs'
+    import fs  from 'fs';
     import ipc from 'node-ipc';
     import {cpus}  from 'os';
-    import cluster  from 'cluster'
+    import cluster  from 'cluster';
     
     const cpuCount=cpus().length;
 

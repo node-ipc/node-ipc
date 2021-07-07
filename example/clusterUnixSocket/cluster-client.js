@@ -1,5 +1,5 @@
-const fs = from 'fs');
-const ipc = from '../../node-ipc');
+import fs  from 'fs';
+import ipc  from '../../node-ipc';
 
 const socketPath = '/tmp/ipc.sock';
 
