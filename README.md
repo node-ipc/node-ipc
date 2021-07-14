@@ -8,7 +8,7 @@ A great solution for complex multiprocess **Neural Networking** in Node.JS
 
 #### for commonjs or node <v14
 
-set version to `<10.0.0` in your `pagage.json` for the node-ipc dep.
+set version to `<10.0.0` in your `package.json` for the node-ipc dep.
 
 #### NPM Stats
 
