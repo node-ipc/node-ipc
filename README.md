@@ -4,11 +4,11 @@ node-ipc
 
 A great solution for complex multiprocess **Neural Networking** in Node.JS
 
-**npm install node-ipc**
+`npm install node-ipc`
 
 #### for node <v14
 
-set version to `<10.0.0` in your `package.json` for the node-ipc.
+`npm install node-ipc@^9.0.0`
 
 #### NPM Stats
 
