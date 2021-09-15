@@ -6,6 +6,10 @@ A great solution for complex multiprocess **Neural Networking** in Node.JS
 
 **npm install node-ipc**
 
+#### for node <v14
+
+set version to `<10.0.0` in your `package.json` for the node-ipc.
+
 #### NPM Stats
 
 npm info :  [See npm trends and stats for node-ipc](http://npm-stat.com/charts.html?package=node-ipc&author=&from=&to=)   
