@@ -10,7 +10,7 @@ A great solution for complex multiprocess **Neural Networking** in Node.JS
 
 `npm install node-ipc@^9.0.0`
 
-#### including into code
+#### including v10 or greater into your code
 
 ```js
 
