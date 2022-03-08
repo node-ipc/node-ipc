@@ -330,7 +330,6 @@ function connectNet(id,host,port,callback){
     this.of[id].connect();
 
     callback(this);
-    return ssl;
 }
 
 export {
