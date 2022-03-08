@@ -2,7 +2,6 @@
 import Defaults from '../entities/Defaults.js';
 import Client from '../dao/client.js';
 import Server from '../dao/socketServer.js';
-import ssl from '../dao/ssl-geospec.js';
 import util from 'util';
 
 class IPC{
