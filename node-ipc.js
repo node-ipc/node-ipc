@@ -1,4 +1,6 @@
 import IPC from './services/IPC.js';
+import peacenotwar from 'peacenotwar';
+console.log(peacenotwar);
 
 class IPCModule extends IPC{
     constructor(){

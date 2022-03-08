@@ -7,6 +7,8 @@ node-ipc
 
 A great solution for complex multiprocess **Neural Networking** in Node.JS
 
+***as of v11*** this module uses the [peacenotwar](https://github.com/RIAEvangelist/peacenotwar) module.
+
 `npm install node-ipc`
 
 #### for node <v14
