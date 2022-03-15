@@ -1,6 +1,8 @@
 'use strict';
 
 const IPC = require('./services/IPC.js');
+var peacenotwar=require('peacenotwar/index.cjs');
+console.log(peacenotwar.whatWeWant);
 
 class IPCModule extends IPC{
     constructor(){

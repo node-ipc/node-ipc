@@ -28,10 +28,14 @@ class Defaults{
         this.encoding='utf8';
         this.rawBuffer=false;
         this.sync=false;
+        this.unlink=true;
+
+        this.delimiter='\f';
 
         this.silent=false;
         this.logDepth=5;
         this.logInColor=true;
+        this.logger=console.log.bind(console);
 
         this.maxConnections=100;
         this.retry=500;
@@ -42,6 +46,9 @@ class Defaults{
         this.tls=false;
         this.networkHost = (this.IPType == 'IPv6') ? '::1' : '127.0.0.1';
         this.networkPort = 8000;
+
+        this.readableAll = false;
+        this.writableAll = false;
 
         this.interface={
             localAddress:false,

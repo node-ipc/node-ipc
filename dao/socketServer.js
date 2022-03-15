@@ -4,13 +4,11 @@ const net = require('net'),
     tls = require('tls'),
     fs = require('fs'),
     dgram = require('dgram'),
-    eventParser = require('./eventParser.js'),
-    Message = require('js-message');
-
-let Events = require('event-pubsub/es5');
-if(process.version[1]>4){
+    EventParser = require('../entities/EventParser.js'),
+    Message = require('js-message'),
     Events = require('event-pubsub');
-}
+
+let eventParser = new EventParser();
 
 class Server extends Events{
     constructor(path,config,log,port){
@@ -27,10 +25,11 @@ class Server extends Events{
                 server          : false,
                 sockets         : [],
                 emit            : emit,
-                broadcast       : broadcast,
-                of              : {}
+                broadcast       : broadcast
             }
         );
+
+        eventParser=new EventParser(this.config);
 
         this.on(
             'close',
@@ -55,49 +54,47 @@ class Server extends Events{
             return;
         }
 
-        fs.unlink(
-            this.path,
-            startServer.bind(this)
-        );
+        if(this.config.unlink){
+            fs.unlink(
+                this.path,
+                startServer.bind(this)
+            );
+        }else{
+            startServer.bind(this)();
+        }
     }
 }
 
-function emit(sockets, type, data){
-    if(! (sockets instanceof Array)){
-      sockets=[sockets];
+function emit(socket, type, data){
+    this.log('dispatching event to socket', ' : ', type, data);
+
+    let message=new Message;
+    message.type=type;
+    message.data=data;
+
+    if(this.config.rawBuffer){
+        this.log(this.config.encoding)
+        message=Buffer.from(type,this.config.encoding);
+    }else{
+        message=eventParser.format(message);
     }
 
-    for(const socket of sockets){
-      this.log('dispatching event to socket', ' : ', type, data);
+    if(this.udp4 || this.udp6){
 
-      let message=new Message;
-      message.type=type;
-      message.data=data;
+        if(!socket.address || !socket.port){
+            this.log('Attempting to emit to a single UDP socket without supplying socket address or port. Redispatching event as broadcast to all connected sockets');
+            this.broadcast(type,data);
+            return;
+        }
 
-      if(this.config.rawBuffer){
-          this.log(this.config.encoding)
-          message=new Buffer(type,this.config.encoding);
-      }else{
-          message=eventParser.format(message);
-      }
-
-      if(this.udp4 || this.udp6){
-
-          if(!socket.address || !socket.port){
-              this.log('Attempting to emit to a single UDP socket without supplying socket address or port. Redispatching event as broadcast to all connected sockets');
-              this.broadcast(type,data);
-              return;
-          }
-
-          this.server.write(
-              message,
-              socket
-          );
-          return;
-      }
-
-      socket.write(message);
+        this.server.write(
+            message,
+            socket
+        );
+        return;
     }
+
+    socket.write(message);
 }
 
 function broadcast(type,data){
@@ -107,7 +104,7 @@ function broadcast(type,data){
     message.data=data;
 
     if(this.config.rawBuffer){
-        message=new Buffer(type,this.config.encoding);
+        message=Buffer.from(type,this.config.encoding);
     }else{
         message=eventParser.format(message);
     }
@@ -136,16 +133,6 @@ function serverClosed(){
 
         if(socket.id){
             destroyedSocketId=socket.id;
-            if(this.of[socket.id]){
-              const group=this.of[socket.id];
-              let index=group.indexOf(socket);
-              if(index>-1){
-                group.splice(index,1);
-                if(group.length<1){
-                  delete this.of[socket.id]
-                }
-              }
-            }
         }
 
         this.log('socket disconnected',destroyedSocketId.toString());
@@ -165,7 +152,7 @@ function serverClosed(){
 function gotData(socket,data,UDPSocket){
     let sock=((this.udp4 || this.udp6)? UDPSocket : socket);
     if(this.config.rawBuffer){
-        data=new Buffer(data,this.config.encoding);
+        data=Buffer.from(data,this.config.encoding);
         this.publish(
             'data',
             data,
@@ -174,18 +161,18 @@ function gotData(socket,data,UDPSocket){
         return;
     }
 
-    if(!this.ipcBuffer){
-        this.ipcBuffer='';
+    if(!sock.ipcBuffer){
+        sock.ipcBuffer='';
     }
 
-    data=(this.ipcBuffer+=data);
+    data=(sock.ipcBuffer+=data);
 
     if(data.slice(-1)!=eventParser.delimiter || data.indexOf(eventParser.delimiter) == -1){
         this.log('Messages are large, You may want to consider smaller messages.');
         return;
     }
 
-    this.ipcBuffer='';
+    sock.ipcBuffer='';
 
     data=eventParser.parse(data);
 
@@ -193,12 +180,9 @@ function gotData(socket,data,UDPSocket){
         let message=new Message;
         message.load(data.shift());
 
-        if (!sock.id && message.data && message.data.id){
+        // Only set the sock id if it is specified.
+        if (message.data && message.data.id){
             sock.id=message.data.id;
-            if(!this.of[sock.id]){
-              this.of[sock.id]=[];
-            }
-            this.of[sock.id].push(sock);
         }
 
         this.log('received event of : ',message.type,message.data);
@@ -256,7 +240,7 @@ function serverCreated(socket) {
             let data;
 
             if(this.config.rawSocket){
-                data=new Buffer(msg,this.config.encoding);
+                data=Buffer.from(msg,this.config.encoding);
             }else{
                 data=msg.toString();
             }
@@ -275,9 +259,6 @@ function serverCreated(socket) {
 }
 
 function startServer() {
-    //persist scope through event bindings
-    const server=this;
-
     this.log(
         'starting server on ',this.path,
         ((this.port)?`:${this.port}`:'')
@@ -308,13 +289,13 @@ function startServer() {
     this.server.on(
         'error',
         function(err){
-            server.log('server error',err);
-            console.log(server)
-            server.publish(
+            this.log('server error',err);
+
+            this.publish(
                 'error',
                 err
             );
-        }
+        }.bind(this)
     );
 
     this.server.maxConnections=this.config.maxConnections;
@@ -327,10 +308,11 @@ function startServer() {
             this.path= `\\\\.\\pipe\\${this.path}`;
         }
 
-        this.server.listen(
-            this.path,
-            this.onStart.bind(this)
-        );
+        this.server.listen({
+            path: this.path,
+            readableAll: this.config.readableAll,
+            writableAll: this.config.writableAll
+        }, this.onStart.bind(this));
 
         return;
     }
@@ -393,7 +375,7 @@ function startTLSServer(){
 }
 
 function UDPWrite(message,socket){
-    let data=new Buffer(message, this.config.encoding);
+    let data=Buffer.from(message, this.config.encoding);
     this.server.send(
         data,
         0,

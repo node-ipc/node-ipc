@@ -2,15 +2,13 @@
 
 const net = require('net'),
     tls = require('tls'),
-    eventParser = require('./eventParser.js'),
+    EventParser = require('../entities/EventParser.js'),
     Message = require('js-message'),
     fs = require('fs'),
-    Queue = require('js-queue');
-
-let Events = require('event-pubsub/es5');
-if(process.version[1]>4){
+    Queue = require('js-queue'),
     Events = require('event-pubsub');
-}
+
+let eventParser = new EventParser();
 
 class Client extends Events{
     constructor(config,log){
@@ -29,6 +27,8 @@ class Client extends Events{
                 explicitlyDisconnected: false
             }
         );
+
+        eventParser=new EventParser(this.config);
     }
 }
 
@@ -40,7 +40,7 @@ function emit(type,data){
     message.data=data;
 
     if(this.config.rawBuffer){
-        message=new Buffer(type,this.config.encoding);
+        message=Buffer.from(type,this.config.encoding);
     }else{
         message=eventParser.format(message);
     }
@@ -153,14 +153,6 @@ function connect(){
     client.socket.on(
         'connect',
         function connectionMade(){
-            if(!client.config.rawBuffer){
-              client.emit(
-                '__IPC__REGISTER__',
-                {
-                  id:client.config.id
-                }
-              );
-            }
             client.publish('connect');
             client.retriesRemaining=client.config.maxRetries;
             client.log('retrying reset');
@@ -196,6 +188,9 @@ function connect(){
 
             setTimeout(
                 function retryTimeout(){
+                    if (client.explicitlyDisconnected) {
+                        return;
+                    }
                     client.retriesRemaining--;
                     client.connect();
                 }.bind(null,client),
@@ -213,7 +208,7 @@ function connect(){
             if(client.config.rawBuffer){
                 client.publish(
                    'data',
-                   new Buffer(data,client.config.encoding)
+                   Buffer.from(data,client.config.encoding)
                 );
                 if(!client.config.sync){
                     return;
