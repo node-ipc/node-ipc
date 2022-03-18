@@ -18,12 +18,15 @@ jobs:
         node_version:
           - 14.x
           - 16.x
+          - 17.x
     steps:
       - uses: actions/checkout@v2
+
       - name: Install Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+
       - name: Install dependencies
         run: yarn
 
