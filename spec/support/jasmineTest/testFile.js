@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const cmd=require('node-cmd');
+const cmd = require("node-cmd");
 
 cmd.run(`node ${__dirname}/unixServer.js`);
 cmd.run(`node ${__dirname}/unixServerSync.js`);

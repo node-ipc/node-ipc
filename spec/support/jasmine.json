@@ -1,13 +1,13 @@
 {
   "spec_dir": "spec",
   "spec_files": [
-      "support/jasmineTest/testFile.js",
+    "support/jasmineTest/testFile.js",
 
-      "support/jasmineTest/Unix/unixSocketClient.spec.js",
-      "support/jasmineTest/UDP/udpSocketClient.spec.js",
-      "support/jasmineTest/TCP/tcpSocketClient.spec.js",
-      "support/jasmineTest/Unix/unixSocketServer.spec.js",
+    "support/jasmineTest/Unix/unixSocketClient.spec.js",
+    "support/jasmineTest/UDP/udpSocketClient.spec.js",
+    "support/jasmineTest/TCP/tcpSocketClient.spec.js",
+    "support/jasmineTest/Unix/unixSocketServer.spec.js",
 
-      "support/jasmineTest/TCP/tcpSocketServer.spec.js"
+    "support/jasmineTest/TCP/tcpSocketServer.spec.js"
   ]
 }

@@ -1,4 +1,4 @@
-const ipc=require('../../../node-ipc');
+const ipc = require("../../../node-ipc");
 
 /***************************************\
  *
@@ -7,34 +7,20 @@ const ipc=require('../../../node-ipc');
  *
  * *************************************/
 
-ipc.config.id = 'world';
-ipc.config.retry= 1500;
-ipc.config.rawBuffer=true;
-ipc.config.encoding='ascii';
+ipc.config.id = "world";
+ipc.config.retry = 1500;
+ipc.config.rawBuffer = true;
+ipc.config.encoding = "ascii";
 
-ipc.serve(
-    function(){
-        ipc.server.on(
-            'connect',
-            function(socket){
-                ipc.server.emit(
-                    socket,
-                    'hello'
-                );
-            }
-        );
+ipc.serve(function () {
+  ipc.server.on("connect", function (socket) {
+    ipc.server.emit(socket, "hello");
+  });
 
-        ipc.server.on(
-            'data',
-            function(data,socket){
-                ipc.log('got a message', data,data.toString());
-                ipc.server.emit(
-                    socket,
-                    'goodbye'
-                );
-            }
-        );
-    }
-);
+  ipc.server.on("data", function (data, socket) {
+    ipc.log("got a message", data, data.toString());
+    ipc.server.emit(socket, "goodbye");
+  });
+});
 
 ipc.server.start();

@@ -1,4 +1,4 @@
-const ipc=require('../../../node-ipc');
+const ipc = require("../../../node-ipc");
 
 /***************************************\
  *
@@ -7,39 +7,22 @@ const ipc=require('../../../node-ipc');
  *
  * *************************************/
 
-ipc.config.id = 'world';
-ipc.config.retry= 1500;
+ipc.config.id = "world";
+ipc.config.retry = 1500;
 ipc.config.sync = true;
 
-ipc.serveNet(
-    function(){
-        ipc.server.on(
-            'message',
-            function(data,socket){
-                ipc.log('got a message from ',socket.id, data);
-                //fake some synch procedural code
-                setTimeout(
-                    function(){
-                        ipc.server.emit(
-                            socket,
-                            'message',
-                            data+' world!'
-                        );
-                    },
-                    3000
-                );
-            }
-        );
+ipc.serveNet(function () {
+  ipc.server.on("message", function (data, socket) {
+    ipc.log("got a message from ", socket.id, data);
+    //fake some synch procedural code
+    setTimeout(function () {
+      ipc.server.emit(socket, "message", data + " world!");
+    }, 3000);
+  });
 
-        ipc.server.on(
-            'socket.disconnected',
-            function(socket,id){
-                ipc.log('DISCONNECTED from ',id,'\n\n');
-            }
-        );
-    }
-);
-
-
+  ipc.server.on("socket.disconnected", function (socket, id) {
+    ipc.log("DISCONNECTED from ", id, "\n\n");
+  });
+});
 
 ipc.server.start();

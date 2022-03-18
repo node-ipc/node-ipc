@@ -19,13 +19,15 @@
     "codacy-coverage": "^2.0.0",
     "istanbul": "^0.4.1",
     "jasmine": "^2.4.1",
-    "node-cmd": ">=1.2.0"
+    "node-cmd": ">=1.2.0",
+    "prettier": "^2.6.0"
   },
   "scripts": {
     "test-windows": "istanbul cover -x **/spec/** -dir ./spec/coverage ./node_modules/jasmine/bin/jasmine.js",
     "test": "istanbul cover -x **/spec/** -dir ./spec/coverage jasmine",
     "cover": "istanbul cover -x **/spec/** -dir ./spec/coverage jasmine",
-    "coverup": "cat ./spec/coverage/lcov.info | codacy-coverage"
+    "coverup": "cat ./spec/coverage/lcov.info | codacy-coverage",
+    "lint": "prettier -w ."
   },
   "pre-commit": [
     "cover"
