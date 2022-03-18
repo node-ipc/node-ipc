@@ -40,7 +40,7 @@ async function run() {
       port: 8095,
     };
 
-    ipc.serveNet(UDPAddr.address, "udp4", async function serverStarted() {
+    ipc.serveNet(UDPAddr.address, "udp4").then(async () => {
       ipc.server.on("message", function gotMessage(data, socket) {
         console.log(data, socket);
         serverID = data.id;
@@ -90,7 +90,7 @@ async function run() {
       port: 8099,
     };
 
-    ipc.serveNet(UDP6Addr.address, "udp6", async function serverStarted() {
+    ipc.serveNet(UDP6Addr.address, "udp6").then(async () => {
       ipc.server.on("message", function gotMessage(data, socket) {
         serverID = data.id;
         message = data.message;

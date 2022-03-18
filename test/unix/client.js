@@ -35,17 +35,16 @@ async function run() {
     let expectedServerID = "unixServer";
     let expectedMessage = "I am unix server!";
 
-    ipc.connectTo("unixServer", function open() {
-      ipc.of.unixServer.on("connect", function connected() {
-        ipc.of.unixServer.on("message", function gotMessage(data) {
-          serverID = data.id;
-          serverMessage = data.message;
-        });
+    await ipc.connectTo("unixServer");
+    ipc.of.unixServer.on("connect", function connected() {
+      ipc.of.unixServer.on("message", function gotMessage(data) {
+        serverID = data.id;
+        serverMessage = data.message;
+      });
 
-        ipc.of.unixServer.emit("message", {
-          id: ipc.config.id,
-          message: "Hello from Client.",
-        });
+      ipc.of.unixServer.emit("message", {
+        id: ipc.config.id,
+        message: "Hello from Client.",
       });
     });
 
@@ -72,21 +71,20 @@ async function run() {
     const messageTotal = 5;
     let responseCounter = 0;
 
-    ipc.connectTo("unixServerSync", "/tmp/app.unixServerSync", function open() {
-      ipc.of.unixServerSync.on("connect", function connected() {
-        for (let i = 0; i < messageTotal; i++) {
-          ipc.of.unixServerSync.emit("message", {
-            id: ipc.config.id,
-            message: "Unix Client Request ",
-          });
-        }
-
-        ipc.of.unixServerSync.on("message", function gotMessage(data) {
-          if (data.message !== "Response from unix server") {
-            throw new Error("data.message!=='Response from unix server'");
-          }
-          responseCounter++;
+    await ipc.connectTo("unixServerSync", "/tmp/app.unixServerSync");
+    ipc.of.unixServerSync.on("connect", function connected() {
+      for (let i = 0; i < messageTotal; i++) {
+        ipc.of.unixServerSync.emit("message", {
+          id: ipc.config.id,
+          message: "Unix Client Request ",
         });
+      }
+
+      ipc.of.unixServerSync.on("message", function gotMessage(data) {
+        if (data.message !== "Response from unix server") {
+          throw new Error("data.message!=='Response from unix server'");
+        }
+        responseCounter++;
       });
     });
 
@@ -101,18 +99,6 @@ async function run() {
     fail(err);
   }
   cleanup();
-
-  // try{
-  //     test.expects(
-  //         ''
-  //     );
-
-  //     const ipc=new IPCModule;
-
-  // }catch(err){
-  //     fail(err);
-  // }
-  // cleanup();
 }
 
 export { run as default, run };

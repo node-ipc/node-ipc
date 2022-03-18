@@ -36,7 +36,7 @@ async function run() {
     //before retrying
     let errorCount = -1;
 
-    ipc.connectToNet("tcpFakeServer", 8002, function open() {});
+    ipc.connectToNet("tcpFakeServer", 8002);
 
     ipc.of.tcpFakeServer.on("error", function gotError(err) {
       errorCount++;
@@ -71,7 +71,7 @@ async function run() {
     //before retrying
     let errorCount = -1;
 
-    ipc.connectToNet("tcpFakeServer", 8002, function open() {});
+    ipc.connectToNet("tcpFakeServer", 8002);
 
     ipc.of.tcpFakeServer.on("error", function gotError(err) {
       is.defined(err);
@@ -102,7 +102,7 @@ async function run() {
 
     let data = {};
 
-    ipc.connectToNet("tcpServer", 8300, function open() {
+    ipc.connectToNet("tcpServer", 8300).then(() => {
       ipc.of.tcpServer.on("connect", function connected() {
         ipc.of.tcpServer.emit("message", {
           id: ipc.config.id,

@@ -11,7 +11,7 @@ ipc.config.id = "world";
 ipc.config.retry = 1500;
 ipc.config.maxConnections = 1;
 
-ipc.serveNet(function () {
+ipc.serveNet().then(() => {
   ipc.server.on("message", function (data, socket) {
     ipc.log("got a message : ", data);
     ipc.server.emit(socket, "message", data + " world!");

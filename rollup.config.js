@@ -1,7 +1,7 @@
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import ts from "rollup-plugin-ts";
-import alias from '@rollup/plugin-alias';
+import alias from "@rollup/plugin-alias";
 
 export default [
   {
@@ -12,12 +12,13 @@ export default [
         format: "esm",
       },
     ],
-    plugins: [
-      ts(),
-      nodeResolve(),
-      commonjs(),
+    plugins: [ts(), nodeResolve(), commonjs()],
+    external: [
+      "@node-ipc/event-pubsub",
+      "js-message",
+      "js-queue",
+      "type-strong",
     ],
-    external: ["@node-ipc/event-pubsub", "js-message", "js-queue", "type-strong"],
   },
   {
     input: "node-ipc.ts",
@@ -30,9 +31,12 @@ export default [
     plugins: [
       ts(),
       alias({
-          entries: [
-              {find: "../strong-type/index.js", replacement: "strong-type/index.js"},
-          ]
+        entries: [
+          {
+            find: "../strong-type/index.js",
+            replacement: "strong-type/index.js",
+          },
+        ],
       }),
       nodeResolve(),
       commonjs(),

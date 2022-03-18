@@ -13,19 +13,19 @@ class IPC {
   server = false;
 
   //protected methods
-  protected get connectTo() {
+  get connectTo() {
     return connect;
   }
-  protected get connectToNet() {
+  get connectToNet() {
     return connectNet;
   }
-  protected get disconnect() {
+  get disconnect() {
     return disconnect;
   }
-  protected get serve() {
+  get serve() {
     return serve;
   }
-  protected get serveNet() {
+  get serveNet() {
     return serveNet;
   }
   protected get log() {
@@ -52,7 +52,7 @@ function log(...args) {
   this.config.logger(args.join(" "));
 }
 
-function disconnect(id) {
+function disconnect(id: string) {
   if (!this.of[id]) {
     return;
   }
@@ -69,223 +69,181 @@ function disconnect(id) {
   delete this.of[id];
 }
 
-function serve(path, callback) {
-  if (typeof path == "function") {
-    callback = path;
-    path = false;
-  }
-  if (!path) {
-    this.log(
-      "Server path not specified, so defaulting to",
-      "ipc.config.socketRoot + ipc.config.appspace + ipc.config.id",
-      this.config.socketRoot + this.config.appspace + this.config.id
-    );
-    path = this.config.socketRoot + this.config.appspace + this.config.id;
-  }
-
-  if (!callback) {
-    callback = emptyCallback;
-  }
-
-  this.server = new Server(path, this.config, log);
-
-  this.server.on("start", callback);
-}
-
-function emptyCallback() {
-  //Do Nothing
-}
-
-function serveNet(host, port, UDPType, callback) {
-  if (typeof host == "number") {
-    callback = UDPType;
-    UDPType = port;
-    port = host;
-    host = false;
-  }
-  if (typeof host == "function") {
-    callback = host;
-    UDPType = false;
-    host = false;
-    port = false;
-  }
-  if (!host) {
-    this.log(
-      "Server host not specified, so defaulting to",
-      "ipc.config.networkHost",
-      this.config.networkHost
-    );
-    host = this.config.networkHost;
-  }
-  if (host.toLowerCase() == "udp4" || host.toLowerCase() == "udp6") {
-    callback = port;
-    UDPType = host.toLowerCase();
-    port = false;
-    host = this.config.networkHost;
-  }
-
-  if (typeof port == "string") {
-    callback = UDPType;
-    UDPType = port;
-    port = false;
-  }
-  if (typeof port == "function") {
-    callback = port;
-    UDPType = false;
-    port = false;
-  }
-  if (!port) {
-    this.log(
-      "Server port not specified, so defaulting to",
-      "ipc.config.networkPort",
-      this.config.networkPort
-    );
-    port = this.config.networkPort;
-  }
-
-  if (typeof UDPType == "function") {
-    callback = UDPType;
-    UDPType = false;
-  }
-
-  if (!callback) {
-    callback = emptyCallback;
-  }
-
-  this.server = new Server(host, this.config, log, port);
-
-  if (UDPType) {
-    this.server[UDPType] = true;
-    if (UDPType === "udp4" && host === "::1") {
-      // bind udp4 socket to an ipv4 address
-      this.server.path = "127.0.0.1";
-    }
-  }
-
-  this.server.on("start", callback);
-}
-
-function connect(id, path, callback) {
-  if (typeof path == "function") {
-    callback = path;
-    path = false;
-  }
-
-  if (!callback) {
-    callback = emptyCallback;
-  }
-
-  if (!id) {
-    this.log(
-      "Service id required",
-      "Requested service connection without specifying service id. Aborting connection attempt"
-    );
-    return;
-  }
-
-  if (!path) {
-    this.log(
-      "Service path not specified, so defaulting to",
-      "ipc.config.socketRoot + ipc.config.appspace + id",
-      (this.config.socketRoot + this.config.appspace + id).data
-    );
-    path = this.config.socketRoot + this.config.appspace + id;
-  }
-
-  if (this.of[id]) {
-    if (!this.of[id].socket.destroyed) {
+function serve(path?: string) {
+  return new Promise<void>((resolve) => {
+    if (!path) {
       this.log(
-        "Already Connected to",
-        id,
-        "- So executing success without connection"
+        "Server path not specified, so defaulting to",
+        "ipc.config.socketRoot + ipc.config.appspace + ipc.config.id",
+        this.config.socketRoot + this.config.appspace + this.config.id
       );
-      callback();
-      return;
+      path = this.config.socketRoot + this.config.appspace + this.config.id;
     }
-    this.of[id].socket.destroy();
-  }
 
-  this.of[id] = new Client(this.config, this.log);
-  this.of[id].id = id;
-  this.of[id].socket ? (this.of[id].socket.id = id) : null;
-  this.of[id].path = path;
+    this.server = new Server(path, this.config, log);
 
-  this.of[id].connect();
-
-  callback(this);
+    this.server.on("start", resolve);
+  });
 }
 
-function connectNet(id, host, port, callback) {
-  if (!id) {
-    this.log(
-      "Service id required",
-      "Requested service connection without specifying service id. Aborting connection attempt"
-    );
-    return;
-  }
-  if (typeof host == "number") {
-    callback = port;
-    port = host;
-    host = false;
-  }
-  if (typeof host == "function") {
-    callback = host;
-    host = false;
-    port = false;
-  }
-  if (!host) {
-    this.log(
-      "Server host not specified, so defaulting to",
-      "ipc.config.networkHost",
-      this.config.networkHost
-    );
-    host = this.config.networkHost;
-  }
-
-  if (typeof port == "function") {
-    callback = port;
-    port = false;
-  }
-  if (!port) {
-    this.log(
-      "Server port not specified, so defaulting to",
-      "ipc.config.networkPort",
-      this.config.networkPort
-    );
-    port = this.config.networkPort;
-  }
-
-  if (typeof callback == "string") {
-    // @ts-expect-error TODO: Actually fix this
-    UDPType = callback;
-    callback = false;
-  }
-  if (!callback) {
-    callback = emptyCallback;
-  }
-
-  if (this.of[id]) {
-    if (!this.of[id].socket.destroyed) {
-      this.log(
-        "Already Connected to",
-        id,
-        "- So executing success without connection"
-      );
-      callback();
-      return;
+function serveNet(UDPType: string): Promise<void>;
+function serveNet(port: number, UDPType: string): Promise<void>;
+function serveNet(host: string, UDPType: string): Promise<void>;
+function serveNet(host: string, port: number): Promise<void>;
+function serveNet(host: string, port: number, UDPType: string): Promise<void>;
+function serveNet(host: unknown, port?: unknown, UDPType?: unknown) {
+  return new Promise<void>((resolve, reject) => {
+    // Host omitted
+    if (typeof host == "number") {
+      UDPType = port;
+      port = host;
+      host = false;
     }
-    this.of[id].socket.destroy();
-  }
+    // Port omitted
+    if (
+      typeof port == "string" &&
+      (port.toLowerCase() == "udp4" || port.toLowerCase() == "udp6")
+    ) {
+      UDPType = port;
+      port = false;
+    }
+    // Host & port omitted
+    if (
+      typeof host === "string" &&
+      (host.toLowerCase() == "udp4" || host.toLowerCase() == "udp6")
+    ) {
+      UDPType = host.toLowerCase();
+    }
 
-  this.of[id] = new Client(this.config, this.log);
-  this.of[id].id = id;
-  this.of[id].socket ? (this.of[id].socket.id = id) : null;
-  this.of[id].path = host;
-  this.of[id].port = port;
+    if (!host) {
+      this.log(
+        "Server host not specified, so defaulting to",
+        "ipc.config.networkHost",
+        this.config.networkHost
+      );
+      host = this.config.networkHost;
+    }
 
-  this.of[id].connect();
+    if (!port) {
+      this.log(
+        "Server port not specified, so defaulting to",
+        "ipc.config.networkPort",
+        this.config.networkPort
+      );
+      port = this.config.networkPort;
+    }
 
-  callback(this);
+    this.server = new Server(host as string, this.config, log, port as number);
+    if (UDPType) {
+      this.server[UDPType as string] = true;
+      if (UDPType === "udp4" && host === "::1") {
+        // bind udp4 socket to an ipv4 address
+        this.server.path = "127.0.0.1";
+      }
+    }
+
+    this.server.on("start", resolve);
+  });
+}
+
+function connect(id: string, path?: string) {
+  return new Promise<void>((resolve, reject) => {
+    if (!id) {
+      this.log(
+        "Service id required",
+        "Requested service connection without specifying service id. Aborting connection attempt"
+      );
+      return reject();
+    }
+
+    if (!path) {
+      this.log(
+        "Service path not specified, so defaulting to",
+        "ipc.config.socketRoot + ipc.config.appspace + id",
+        this.config.socketRoot + this.config.appspace + id
+      );
+      path = this.config.socketRoot + this.config.appspace + id;
+    }
+
+    if (this.of[id]) {
+      if (!this.of[id].socket.destroyed) {
+        this.log(
+          "Already Connected to",
+          id,
+          "- So executing success without connection"
+        );
+        return resolve();
+      }
+      this.of[id].socket.destroy();
+    }
+
+    this.of[id] = new Client(this.config, this.log);
+    this.of[id].id = id;
+    this.of[id].socket ? (this.of[id].socket.id = id) : null;
+    this.of[id].path = path;
+
+    this.of[id].connect();
+
+    resolve();
+  });
+}
+
+function connectNet(id: string, port: number): Promise<void>;
+function connectNet(id: string, host: string, port: number): Promise<void>;
+function connectNet(id: string, host: unknown, port?: unknown) {
+  return new Promise<void>((resolve, reject) => {
+    if (!id) {
+      this.log(
+        "Service id required",
+        "Requested service connection without specifying service id. Aborting connection attempt"
+      );
+      return reject("Service id required");
+    }
+    // Host omitted
+    if (typeof host == "number") {
+      port = host;
+      host = false;
+    }
+    if (!host) {
+      this.log(
+        "Server host not specified, so defaulting to",
+        "ipc.config.networkHost",
+        this.config.networkHost
+      );
+      host = this.config.networkHost;
+    }
+
+    if (!port) {
+      this.log(
+        "Server port not specified, so defaulting to",
+        "ipc.config.networkPort",
+        this.config.networkPort
+      );
+      port = this.config.networkPort;
+    }
+
+    if (this.of[id]) {
+      if (!this.of[id].socket.destroyed) {
+        this.log(
+          "Already Connected to",
+          id,
+          "- So executing success without connection"
+        );
+        return resolve();
+      }
+      this.of[id].socket.destroy();
+    }
+
+    this.of[id] = new Client(this.config, this.log);
+    this.of[id].id = id;
+    this.of[id].socket ? (this.of[id].socket.id = id) : null;
+    this.of[id].path = host;
+    this.of[id].port = port;
+
+    this.of[id].connect();
+
+    resolve();
+  });
 }
 
 export { IPC as default, IPC };

@@ -12,7 +12,7 @@ ipc.config.retry = 1500;
 ipc.config.rawBuffer = true;
 ipc.config.encoding = "ascii";
 
-ipc.serveNet(function () {
+ipc.serveNet().then(() => {
   ipc.server.on("connect", function (socket) {
     ipc.server.emit(socket, "hello");
   });

@@ -32,7 +32,7 @@ async function run() {
     let requiredCount = 2;
     let requiredCounter = 0;
 
-    ipc.serveNet(function serverStarted() {
+    ipc.serveNet().then(() => {
       ipc.server.on("connect", function connected(socket) {
         requiredCounter++;
         ipc.server.on("message", function (data) {

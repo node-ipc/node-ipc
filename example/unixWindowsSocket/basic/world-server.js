@@ -10,7 +10,7 @@ import ipc from "../../../node-ipc.js";
 ipc.config.id = "world";
 ipc.config.retry = 1500;
 
-ipc.serve(function () {
+ipc.serve().then(() => {
   ipc.server.on("app.message", function (data, socket) {
     ipc.server.emit(socket, "app.message", {
       id: ipc.config.id,

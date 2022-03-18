@@ -11,7 +11,7 @@ ipc.config.id = "goodbye";
 ipc.config.retry = 1500;
 ipc.config.maxRetries = 10;
 
-ipc.connectToNet("world", function () {
+ipc.connectToNet("world").then(() => {
   ipc.of.world.on("connect", function () {
     ipc.log("## connected to world ##", ipc.config.delay);
     ipc.of.world.emit("app.message", {

@@ -17,8 +17,13 @@ class Server extends Events {
     delimiter?: string;
     rawBuffer?: boolean;
     unlink?: boolean;
-  }
-  constructor(path: string, config, log: (...msg: string[]) => unknown, port?: number) {
+  };
+  constructor(
+    path: string,
+    config,
+    log: (...msg: string[]) => unknown,
+    port?: number
+  ) {
     super();
     this.config = config;
     this.path = path;

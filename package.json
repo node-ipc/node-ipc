@@ -38,7 +38,7 @@
     "typescript": "^4.6.2"
   },
   "scripts": {
-    "test": "yarn && yarn build && c8 -r lcov -r html node test/CI.js && c8 report && node ./lcov.js",
+    "test": "yarn build && c8 -r lcov -r html node test/CI.js && c8 report && node ./lcov.js",
     "coverage": "echo 'See your coverage report at http://localhost:8080' && node-http-server port=8080 root=./coverage/",
     "lint": "prettier -w .",
     "build": "rollup -c && mv cjs/node-ipc.js cjs/node-ipc.cjs && mv cjs/node-ipc.d.ts cjs/node-ipc.d.cts",

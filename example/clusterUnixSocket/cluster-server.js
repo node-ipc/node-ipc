@@ -17,7 +17,7 @@ if (cluster.isMaster) {
     cluster.fork();
   }
 } else {
-  ipc.serve(socketPath, function () {
+  ipc.serve(socketPath).then(() => {
     ipc.server.on("currentDate", function (data, socket) {
       console.log(`pid ${process.pid} got: `, data);
     });

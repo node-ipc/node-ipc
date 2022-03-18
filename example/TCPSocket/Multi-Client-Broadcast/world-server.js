@@ -15,7 +15,7 @@ var messages = {
   hello: false,
 };
 
-ipc.serveNet(function () {
+ipc.serveNet().then(() => {
   ipc.server.on("app.message", function (data, socket) {
     ipc.log("got a message from", data.id, data.message);
     messages[data.id] = true;

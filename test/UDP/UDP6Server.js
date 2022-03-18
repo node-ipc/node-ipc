@@ -14,7 +14,7 @@ ipc.config.retry = 1500;
 ipc.config.silent = true;
 ipc.config.networkPort = 8099;
 
-ipc.serveNet("::1", "udp6", function serverStarted() {
+ipc.serveNet("::1", "udp6").then(() => {
   ipc.server.on("message", function gotMessage(data, socket) {
     ipc.server.emit(socket, "message", {
       id: ipc.config.id,

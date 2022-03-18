@@ -13,7 +13,7 @@ ipc.config.id = "unixServerSync";
 ipc.config.retry = 1500;
 ipc.config.silent = true;
 
-ipc.serve(function serverStarted() {
+ipc.serve().then(() => {
   let ready = false;
 
   ipc.server.on("message", function gotMessage(data, socket) {

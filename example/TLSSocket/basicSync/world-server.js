@@ -15,7 +15,7 @@ ipc.config.tls = {
   private: __dirname + "/../../../local-node-ipc-certs/private/server.key",
 };
 
-ipc.serveNet(function () {
+ipc.serveNet().then(() => {
   ipc.server.on("message", function (data, socket) {
     ipc.log("got a message : ", data);
     setTimeout(function () {

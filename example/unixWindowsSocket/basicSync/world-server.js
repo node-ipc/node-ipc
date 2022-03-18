@@ -11,7 +11,7 @@ ipc.config.id = "world";
 ipc.config.retry = 1500;
 ipc.config.sync = true;
 
-ipc.serve(function () {
+ipc.serve().then(() => {
   ipc.server.on("app.message", function (data, socket) {
     setTimeout(function () {
       ipc.server.emit(socket, "app.message", {

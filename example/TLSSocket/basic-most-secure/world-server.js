@@ -19,7 +19,7 @@ ipc.config.tls = {
   trustedConnections: [__dirname + "/../../../local-node-ipc-certs/client.pub"],
 };
 
-ipc.serveNet(function () {
+ipc.serveNet().then(() => {
   ipc.server.on("message", function (data, socket) {
     ipc.log("got a message : ", data);
     ipc.server.emit(socket, "message", data + " world!");

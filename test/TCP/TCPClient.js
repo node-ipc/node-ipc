@@ -14,7 +14,7 @@ ipc.config.retry = 600;
 ipc.config.silent = true;
 ipc.config.networkPort = 8500;
 
-ipc.connectToNet("testWorld", function () {
+ipc.connectToNet("testWorld").then(() => {
   ipc.of.testWorld.on("connect", function () {
     ipc.of.testWorld.emit("message", "hello");
   });

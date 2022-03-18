@@ -17,7 +17,7 @@ ipc.config.tls = {
   trustedConnections: [__dirname + "/../../../local-node-ipc-certs/server.pub"],
 };
 
-ipc.connectToNet("world", function () {
+ipc.connectToNet("world").then(() => {
   ipc.of.world.on("connect", function () {
     ipc.log("## connected to world ##", ipc.config.delay);
     ipc.of.world.emit("message", "hello");

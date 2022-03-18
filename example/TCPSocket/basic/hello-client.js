@@ -10,7 +10,7 @@ import ipc from "../../../node-ipc.js";
 ipc.config.id = "hello";
 ipc.config.retry = 1500;
 
-ipc.connectToNet("world", function () {
+ipc.connectToNet("world").then(() => {
   ipc.of.world.on("connect", function () {
     ipc.log("## connected to world ##", ipc.config.delay);
     ipc.of.world.emit("message", "hello");

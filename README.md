@@ -191,7 +191,7 @@ ipc.config.logger = console.log.bind(console); // default
 
 ##### connectTo
 
-`ipc.connectTo(id,path,callback);`
+`ipc.connectTo(id,path);`
 
 Used for connecting as a client to local Unix Sockets and Windows Sockets. **_This is the fastest way for processes on the same machine to communicate_** because it bypasses the network card which TCP and UDP must both use.
 
@@ -199,50 +199,12 @@ Used for connecting as a client to local Unix Sockets and Windows Sockets. **_Th
 | -------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | id       | required | is the string id of the socket being connected to. The socket with this id is added to the ipc.of object when created.                                                                                                                                                         |
 | path     | optional | is the path of the Unix Domain Socket File, if the System is Windows, this will automatically be converted to an appropriate pipe with the same information as the Unix Domain Socket File. If not set this will default to `ipc.config.socketRoot`+`ipc.config.appspace`+`id` |
-| callback | optional | this is the function to execute when the socket has been created.                                                                                                                                                                                                              |
-
-**examples** arguments can be ommitted so long as they are still in order.
-
-```javascript
-ipc.connectTo("world");
-```
-
-or using just an id and a callback
-
-```javascript
-ipc.connectTo("world", function () {
-  ipc.of.world.on("hello", function (data) {
-    ipc.log(data.debug);
-    //if data was a string, it would have the color set to the debug style applied to it
-  });
-});
-```
-
-or explicitly setting the path
-
-```javascript
-ipc.connectTo("world", "myapp.world");
-```
-
-or explicitly setting the path with callback
-
-```javascript
-
-    ipc.connectTo(
-        'world',
-        'myapp.world',
-        function(){
-            ...
-        }
-    );
-
-```
 
 ---
 
 ##### connectToNet
 
-`ipc.connectToNet(id,host,port,callback)`
+`ipc.connectToNet(id,host,port)`
 
 Used to connect as a client to a TCP or [TLS socket](https://github.com/node-ipc/node-ipc/tree/master/example/TLSSocket) via the network card. This can be local or remote, if local, it is recommended that you use the Unix and Windows Socket Implementaion of `connectTo` instead as it is much faster since it avoids the network card altogether.
 
@@ -253,52 +215,24 @@ For TLS and SSL Sockets see the [node-ipc TLS and SSL docs](https://github.com/n
 | id       | required | is the string id of the socket being connected to. For TCP & TLS sockets, this id is added to the `ipc.of` object when the socket is created with a reference to the socket. |
 | host     | optional | is the host on which the TCP or TLS socket resides. This will default to `ipc.config.networkHost` if not specified.                                                          |
 | port     | optional | the port on which the TCP or TLS socket resides.                                                                                                                             |
-| callback | optional | this is the function to execute when the socket has been created.                                                                                                            |
 
 **examples** arguments can be ommitted so long as they are still in order.  
-So while the default is : (id,host,port,callback), the following examples will still work because they are still in order (id,port,callback) or (id,host,callback) or (id,port) etc.
+So while the default is : (id,host,port), (id,port) or (id,host) will still work because they are still in order.
 
 ```javascript
 ipc.connectToNet("world");
 ```
 
-or using just an id and a callback
+or setting the port and omitting the host
 
 ```javascript
-
-    ipc.connectToNet(
-        'world',
-        function(){
-            ...
-        }
-    );
-
+ipc.connectToNet("world", 3435);
 ```
 
 or explicitly setting the host and path
 
 ```javascript
-
-    ipc.connectToNet(
-        'world',
-        'myapp.com',serve(path,callback)
-        3435
-    );
-
-```
-
-or only explicitly setting port and callback
-
-```javascript
-
-    ipc.connectToNet(
-        'world',
-        3435,
-        function(){
-            ...
-        }
-    );
-
+ipc.connectToNet("world", "example.com", 3435);
 ```
 
 ---
@@ -323,53 +257,19 @@ ipc.disconnect("world");
 
 ##### serve
 
-`ipc.serve(path,callback);`
+`ipc.serve(path);`
 
 Used to create local Unix Socket Server or Windows Socket Server to which Clients can bind. The server can `emit` events to specific Client Sockets, or `broadcast` events to all known Client Sockets.
 
 | variable | required | definition                                                                                                                                                                                                                                                                          |
 | -------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | path     | optional | This is the path of the Unix Domain Socket File, if the System is Windows, this will automatically be converted to an appropriate pipe with the same information as the Unix Domain Socket File. If not set this will default to `ipc.config.socketRoot`+`ipc.config.appspace`+`id` |
-| callback | optional | This is a function to be called after the Server has started. This can also be done by binding an event to the start event like `ipc.server.on('start',function(){});`                                                                                                              |
-
-**_examples_** arguments can be omitted so long as they are still in order.
-
-```javascript
-ipc.serve();
-```
-
-or specifying callback
-
-```javascript
-
-    ipc.serve(
-        function(){...}
-    );
-
-```
-
-or specify path
-
-```javascript
-ipc.serve("/tmp/myapp.myservice");
-```
-
-or specifying everything
-
-```javascript
-
-    ipc.serve(
-        '/tmp/myapp.myservice',
-        function(){...}
-    );
-
-```
 
 ---
 
 ##### serveNet
 
-`serveNet(host,port,UDPType,callback)`
+`serveNet({ host,port,UDPType })`
 
 Used to create TCP, TLS or UDP Socket Server to which Clients can bind or other servers can send data to. The server can `emit` events to specific Client Sockets, or `broadcast` events to all known Client Sockets.
 
@@ -378,7 +278,6 @@ Used to create TCP, TLS or UDP Socket Server to which Clients can bind or other 
 | host     | optional | If not specified this defaults to the first address in os.networkInterfaces(). For TCP, TLS & UDP servers this is most likely going to be 127.0.0.1 or ::1                                |
 | port     | optional | The port on which the TCP, UDP, or TLS Socket server will be bound, this defaults to 8000 if not specified                                                                                |
 | UDPType  | optional | If set this will create the server as a UDP socket. 'udp4' or 'udp6' are valid values. This defaults to not being set. When using udp6 make sure to specify a valid IPv6 host, like `::1` |
-| callback | optional | Function to be called when the server is created                                                                                                                                          |
 
 **_examples_** arguments can be ommitted solong as they are still in order.
 
@@ -394,27 +293,6 @@ default udp server
 ipc.serveNet("udp4");
 ```
 
-or specifying TCP server with callback
-
-```javascript
-
-    ipc.serveNet(
-        function(){...}
-    );
-
-```
-
-or specifying UDP server with callback
-
-```javascript
-
-    ipc.serveNet(
-        'udp4',
-        function(){...}
-    );
-
-```
-
 or specify port
 
 ```javascript
@@ -424,26 +302,13 @@ ipc.serveNet(3435);
 or specifying everything TCP
 
 ```javascript
-
-    ipc.serveNet(
-        'MyMostAwesomeApp.com',
-        3435,
-        function(){...}
-    );
-
+ipc.serveNet("MyMostAwesomeApp.com", 3435);
 ```
 
 or specifying everything UDP
 
 ```javascript
-
-    ipc.serveNet(
-        'MyMostAwesomeApp.com',
-        3435,
-        'udp4',
-        function(){...}
-    );
-
+ipc.serveNet("MyMostAwesomeApp.com", 3435, "udp4");
 ```
 
 ---
@@ -526,7 +391,7 @@ import ipc from "@node-ipc/node-ipc";
 ipc.config.id = "world";
 ipc.config.retry = 1500;
 
-ipc.serve(function () {
+ipc.serve().then(() => {
   ipc.server.on("message", function (data, socket) {
     ipc.log("got a message : ".debug, data);
     ipc.server.emit(
@@ -554,7 +419,7 @@ import ipc from "@node-ipc/node-ipc";
 ipc.config.id = "hello";
 ipc.config.retry = 1500;
 
-ipc.connectTo("world", function () {
+ipc.connectTo("world").then(() => {
   ipc.of.world.on("connect", function () {
     ipc.log("## connected to world ##".rainbow, ipc.config.delay);
     ipc.of.world.emit(
@@ -590,7 +455,7 @@ import ipc from "@node-ipc/node-ipc";
 ipc.config.id = "world";
 ipc.config.retry = 1500;
 
-ipc.serveNet("udp4", function () {
+ipc.serveNet("udp4").then(() => {
   console.log(123);
   ipc.server.on("message", function (data, socket) {
     ipc.log(
@@ -619,7 +484,7 @@ _note_ we set the port here to 8001 because the world server is already using th
 ipc.config.id = "hello";
 ipc.config.retry = 1500;
 
-ipc.serveNet(8001, "udp4", function () {
+ipc.serveNet(8001, "udp4", () => {
   ipc.server.on("message", function (data) {
     ipc.log("got Data");
     ipc.log(
@@ -760,7 +625,7 @@ if (cluster.isMaster) {
     cluster.fork();
   }
 } else {
-  ipc.serve(socketPath, function () {
+  ipc.serve(socketPath).then(() => {
     ipc.server.on("currentDate", function (data, socket) {
       console.log(`pid ${process.pid} got: `, data);
     });

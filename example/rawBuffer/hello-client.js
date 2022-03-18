@@ -12,7 +12,7 @@ ipc.config.retry = 1500;
 ipc.config.rawBuffer = true;
 ipc.config.encoding = "hex";
 
-ipc.connectTo("world", function () {
+ipc.connectTo("world").then(() => {
   ipc.of.world.on("connect", function () {
     //make a 6 byte buffer for example
     const myBuffer = Buffer.alloc(6).fill(0);

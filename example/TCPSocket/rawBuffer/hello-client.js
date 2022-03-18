@@ -12,7 +12,7 @@ ipc.config.retry = 1500;
 ipc.config.rawBuffer = true;
 ipc.config.encoding = "ascii";
 
-ipc.connectToNet("world", function () {
+ipc.connectToNet("world").then(() => {
   ipc.of.world.on("connect", function () {
     ipc.log("## connected to world ##", ipc.config.delay);
     ipc.of.world.emit("hello");

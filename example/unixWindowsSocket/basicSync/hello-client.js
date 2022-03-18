@@ -11,7 +11,7 @@ ipc.config.id = "hello";
 ipc.config.retry = 1000;
 ipc.config.sync = true;
 
-ipc.connectTo("world", function () {
+ipc.connectTo("world").then(() => {
   ipc.of.world.on("connect", function () {
     ipc.log("## connected to world ##", ipc.config.delay);
 

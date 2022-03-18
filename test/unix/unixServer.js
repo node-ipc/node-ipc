@@ -13,7 +13,7 @@ ipc.config.id = "unixServer";
 ipc.config.retry = 1500;
 ipc.config.silent = false;
 
-ipc.serve(function serverStarted() {
+ipc.serve().then(() => {
   ipc.server.on("message", function gotMessage(data, socket) {
     ipc.server.emit(socket, "message", {
       id: ipc.config.id,

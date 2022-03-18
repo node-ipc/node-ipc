@@ -14,7 +14,7 @@ ipc.config.retry = 1500;
 ipc.config.networkPort = 8300;
 ipc.config.silent = true;
 
-ipc.serveNet(function serverStarted() {
+ipc.serveNet().then(() => {
   ipc.server.on("message", function gotMessage(data, socket) {
     console.log("Server recieved message", data);
 
