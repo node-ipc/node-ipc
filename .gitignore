@@ -9,3 +9,6 @@ node-ipc.cjs
 !.yarn/plugins
 !.yarn/sdks
 !.yarn/versions
+dist
+cjs
+node-ipc.js

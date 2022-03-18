@@ -4,12 +4,16 @@ import EventParser from "../entities/EventParser.js";
 import Message from "js-message";
 import fs from "fs";
 import Queue from "js-queue";
-import Events from "event-pubsub";
+import Events from "@node-ipc/event-pubsub";
+import { Config } from "../types/config.js";
 
 let eventParser = new EventParser();
 
 class Client extends Events {
-  constructor(config, log) {
+  config: Config;
+  log: (...args: string[]) => unknown;
+  publish: (type: string, ...args: unknown[]) => this;
+  constructor(config: Config, log: (...args: string[]) => unknown) {
     super();
     this.config = config;
     this.log = log;
@@ -24,8 +28,9 @@ class Client extends Events {
   queue = new Queue();
   socket = false;
   connect = connect;
-  emit = emit;
-  retriesRemaining = 0;
+  // @ts-expect-error We're overwriting a parent member here
+  emit: (type: any, data: any) => void = emit;
+  retriesRemaining: number | true = 0;
   explicitlyDisconnected = false;
 }
 
@@ -71,7 +76,7 @@ function connect() {
     return;
   }
 
-  const options = {};
+  const options: Partial<net.TcpNetConnectOpts & net.IpcNetConnectOpts> = {};
 
   if (!client.port) {
     client.log("Connecting client on Unix Socket :", client.path);
@@ -87,7 +92,7 @@ function connect() {
       options.path = `\\\\.\\pipe\\${options.path}`;
     }
 
-    client.socket = net.connect(options);
+    client.socket = net.connect(options as net.IpcNetConnectOpts);
   } else {
     options.host = client.path;
     options.port = client.port;
@@ -114,7 +119,7 @@ function connect() {
 
     if (!client.config.tls) {
       client.log("Connecting client via TCP to", options);
-      client.socket = net.connect(options);
+      client.socket = net.connect(options as net.TcpNetConnectOpts);
     } else {
       client.log(
         "Connecting client via TLS to",

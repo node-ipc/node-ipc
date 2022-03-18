@@ -1,11 +1,14 @@
-import Defaults from "./Defaults.js";
+import { Config } from "../types/config";
+import Defaults from "./Defaults";
 
 class Parser {
-  constructor(config) {
+  delimiter: string;
+
+  constructor(config?: Partial<Config> & { delimiter?: string }) {
     if (!config) {
       config = new Defaults();
     }
-    this.delimiter = config.delimiter;
+    this.delimiter = config.delimiter ?? "\f";
   }
 
   format(message) {

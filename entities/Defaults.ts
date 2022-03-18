@@ -1,13 +1,14 @@
 import os from "os";
+import { Config } from "../types/config";
 
-class Defaults {
+class Defaults implements Config {
   constructor() {}
 
   appspace = "app.";
   socketRoot = "/tmp/";
   id = os.hostname();
 
-  encoding = "utf8";
+  encoding: "ascii" | "utf8" | "utf16le" | "ucs2" | "base64" | "hex" = "utf8";
   rawBuffer = false;
   sync = false;
   unlink = true;
@@ -25,7 +26,13 @@ class Defaults {
   stopRetrying = false;
 
   IPType = getIPType();
-  tls = false;
+  tls:
+    | {
+        rejectUnauthorized?: boolean | undefined;
+        public?: string | undefined;
+        private?: string | undefined;
+      }
+    | false = false;
   networkHost = this.IPType == "IPv6" ? "::1" : "127.0.0.1";
   networkPort = 8000;
 

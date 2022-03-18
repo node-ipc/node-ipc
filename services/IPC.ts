@@ -2,51 +2,33 @@ import Defaults from "../entities/Defaults.js";
 import Client from "../dao/client.js";
 import Server from "../dao/socketServer.js";
 import util from "util";
+import type { Config } from "../types/config.js";
 
 class IPC {
   constructor() {}
 
   //public members
-  config = new Defaults();
+  config: Config = new Defaults();
   of = {};
   server = false;
 
   //protected methods
-  get connectTo() {
+  protected get connectTo() {
     return connect;
   }
-  get connectToNet() {
+  protected get connectToNet() {
     return connectNet;
   }
-  get disconnect() {
+  protected get disconnect() {
     return disconnect;
   }
-  get serve() {
+  protected get serve() {
     return serve;
   }
-  get serveNet() {
+  protected get serveNet() {
     return serveNet;
   }
-  get log() {
-    return log;
-  }
-
-  set connectTo(value) {
-    return connect;
-  }
-  set connectToNet(value) {
-    return connectNet;
-  }
-  set disconnect(value) {
-    return disconnect;
-  }
-  set serve(value) {
-    return serve;
-  }
-  set serveNet(value) {
-    return serveNet;
-  }
-  set log(value) {
+  protected get log() {
     return log;
   }
 }
@@ -274,6 +256,7 @@ function connectNet(id, host, port, callback) {
   }
 
   if (typeof callback == "string") {
+    // @ts-expect-error TODO: Actually fix this
     UDPType = callback;
     callback = false;
   }

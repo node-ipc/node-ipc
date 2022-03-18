@@ -4,12 +4,21 @@ import fs from "fs";
 import dgram from "dgram";
 import EventParser from "../entities/EventParser.js";
 import Message from "js-message";
-import Events from "event-pubsub";
+import Events from "@node-ipc/event-pubsub";
 
 let eventParser = new EventParser();
 
 class Server extends Events {
-  constructor(path, config, log, port) {
+  log: (...msg: string[]) => unknown;
+  port: number;
+  path: string;
+  publish: (type: string, ...args: unknown[]) => this;
+  config: {
+    delimiter?: string;
+    rawBuffer?: boolean;
+    unlink?: boolean;
+  }
+  constructor(path: string, config, log: (...msg: string[]) => unknown, port?: number) {
     super();
     this.config = config;
     this.path = path;
@@ -25,9 +34,12 @@ class Server extends Events {
 
   udp4 = false;
   udp6 = false;
-  server = false;
+  server: net.Server = null;
   sockets = [];
-  emit = emit;
+  // @ts-expect-error We're overwriting a parent method here
+  // With a different signature
+  emit: (socket: string, type: string, data: unknown) => void = emit;
+
   broadcast = broadcast;
 
   onStart(socket) {
@@ -52,7 +64,7 @@ class Server extends Events {
   }
 }
 
-function emit(socket, type, data) {
+function emit(socket, type: string, data: unknown) {
   this.log("dispatching event to socket", " : ", type, data);
 
   let message = new Message();
