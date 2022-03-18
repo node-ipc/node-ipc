@@ -1,25 +1,19 @@
 # node-ipc
 
-[![Sponsor RIAEvangelist to help development of node-ipc](https://img.shields.io/static/v1?label=Sponsor%20Me%20On%20Github&message=%E2%9D%A4&logo=GitHub&link=https://github.com/sponsors/RIAEvangelist)](https://github.com/sponsors/RIAEvangelist)
-
 _a nodejs module for local and remote Inter Process Communication_ with full support for Linux, Mac and Windows. It also supports all forms of socket communication from low level unix and windows sockets to UDP and secure TLS and TCP sockets.
 
 A great solution for complex multiprocess **Neural Networking** in Node.JS
 
-`npm install node-ipc`
-
-#### for node <v14
-
-`npm install node-ipc@^9.0.0`
+`npm install @node-ipc/node-ipc`
 
 #### including v10 or greater into your code
 
 ```js
 //es6
-import ipc from "node-ipc";
+import ipc from "@node-ipc/node-ipc";
 
 //commonjs
-const ipc = require("node-ipc").default;
+const ipc = require("@node-ipc/node-ipc").default;
 ```
 
 #### NPM Stats
@@ -39,10 +33,10 @@ Run `npm run coverage` to host a local version of the coverage report on [localh
 Testing done with [vanilla-test](https://github.com/node-ipc/vanilla-test)  
 `vanilla-test` integrates with [c8](https://github.com/bcoe/c8) for native ESM coverage without the need to transpile your code. At the time of writing, this is the only way to natively test ESM, and it is amazing!
 
-Package details websites :
+Package details websites:
 
-- [GitHub.io site](http://riaevangelist.github.io/node-ipc/ "node-ipc documentation"). A prettier version of this site.
-- [NPM Module](https://www.npmjs.org/package/node-ipc "node-ipc npm module"). The npm page for the node-ipc module.
+- [GitHub.io site](http://node-ipc.github.io/node-ipc/ "node-ipc documentation"). A prettier version of this site.
+- [NPM Module](https://www.npmjs.org/package/@node-ipc/node-ipc "@node-icp/node-ipc npm module"). The npm page for the @node-icp/node-ipc module.
 
 This work is licenced via the MIT Licence.
 
@@ -519,7 +513,7 @@ You can find [Advanced Examples](https://github.com/node-ipc/node-ipc/tree/maste
 The server is the process keeping a socket for IPC open. Multiple sockets can connect to this server and talk to it. It can also broadcast to all clients or emit to a specific client. This is the most basic example which will work for local Unix and Windows Sockets as well as local or remote network TCP Sockets.
 
 ```javascript
-import ipc from "node-ipc";
+import ipc from "@node-ipc/node-ipc";
 
 ipc.config.id = "world";
 ipc.config.retry = 1500;
@@ -547,7 +541,7 @@ ipc.server.start();
 The client connects to the servers socket for Inter Process Communication. The socket will receive events emitted to it specifically as well as events which are broadcast out on the socket by the server. This is the most basic example which will work for both local Unix Sockets and local or remote network TCP Sockets.
 
 ```javascript
-import ipc from "node-ipc";
+import ipc from "@node-ipc/node-ipc";
 
 ipc.config.id = "hello";
 ipc.config.retry = 1500;
@@ -583,7 +577,7 @@ This is the most basic example which will work for both local and remote UDP Soc
 ##### UDP Server 1 - "World"
 
 ```javascript
-import ipc from "node-ipc";
+import ipc from "@node-ipc/node-ipc";
 
 ipc.config.id = "world";
 ipc.config.retry = 1500;
@@ -739,7 +733,7 @@ ipc.server.emit(myBuffer);
 
 ```javascript
 import fs from "fs";
-import ipc from "node-ipc";
+import ipc from "@node-ipc/node-ipc";
 import { cpus } from "os";
 import cluster from "cluster";
 
@@ -773,7 +767,7 @@ if (cluster.isMaster) {
 
 ```javascript
 import fs from "fs";
-import ipc from "node-ipc";
+import ipc from "@node-ipc/node-ipc";
 
 const socketPath = "/tmp/ipc.sock";
 
