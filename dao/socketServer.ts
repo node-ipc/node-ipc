@@ -36,8 +36,7 @@ class Server extends Events {
   udp6 = false;
   server: net.Server = null;
   sockets = [];
-  // @ts-expect-error We're overwriting a parent method here
-  // With a different signature
+  // @ts-expect-error We're overwriting a parent method with a different signature
   emit: (socket: string, type: string, data: unknown) => void = emit;
 
   broadcast = broadcast;

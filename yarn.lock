@@ -33,12 +33,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@node-ipc/event-pubsub@npm:6.0.0":
-  version: 6.0.0
-  resolution: "@node-ipc/event-pubsub@npm:6.0.0"
+"@node-ipc/event-pubsub@npm:6.0.2":
+  version: 6.0.2
+  resolution: "@node-ipc/event-pubsub@npm:6.0.2"
   dependencies:
     strong-type: ^1.1.0
-  checksum: 0a2f38f0c79f9933d7771c57e750af16f491973a0c0ba6029ddc162ea5fd790b650cf33397fee91faa530d7db526bd4aa66977d67238d46cde81ade29f073a26
+  checksum: 1ed88defb389f2295b3d21ac5fd1f2785566063a718e1ea9d6df655221f4cc49ff073c56a2f4085e35995f50e7d3b0223753cacd1cb4415f7a8a556bcc57141f
   languageName: node
   linkType: hard
 
@@ -46,7 +46,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@node-ipc/node-ipc@workspace:."
   dependencies:
-    "@node-ipc/event-pubsub": 6.0.0
+    "@node-ipc/event-pubsub": 6.0.2
     "@rollup/plugin-alias": ^3.1.9
     "@rollup/plugin-commonjs": ^21.0.2
     "@rollup/plugin-node-resolve": ^13.1.3

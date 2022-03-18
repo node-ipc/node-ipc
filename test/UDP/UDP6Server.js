@@ -1,4 +1,4 @@
-import ipc from "../../node-ipc.js";
+import ipc from "../../dist/node-ipc.js";
 import process from "process";
 
 const dieAfter = 30e3;
