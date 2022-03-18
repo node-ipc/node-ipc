@@ -10,7 +10,6 @@ __metadata:
   resolution: "@node-ipc/compat@workspace:."
   dependencies:
     codacy-coverage: ^2.0.0
-    colors: "*"
     event-pubsub: 4.2.3
     istanbul: ^0.4.1
     jasmine: ^2.4.1
@@ -162,13 +161,6 @@ __metadata:
   bin:
     codacy-coverage: ./bin/codacy-coverage.js
   checksum: 256f2e660634a2454144466a84e18e5f0854c7598700486bc915c2c4ba98c69b4a7ab7f17e6eb56917e38e583d89a2786da325f13b701eb5051ebb6d8a73df3e
-  languageName: node
-  linkType: hard
-
-"colors@npm:*":
-  version: 1.4.0
-  resolution: "colors@npm:1.4.0"
-  checksum: 98aa2c2418ad87dedf25d781be69dc5fc5908e279d9d30c34d8b702e586a0474605b3a189511482b9d5ed0d20c867515d22749537f7bc546256c6014f3ebdcec
   languageName: node
   linkType: hard
 

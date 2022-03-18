@@ -10,7 +10,6 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
-    "colors": "*",
     "event-pubsub": "4.2.3",
     "js-message": ">=1.0.5",
     "js-queue": ">=2.0.0"
