@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "event-pubsub": "4.2.3",
-    "js-message": ">=1.0.5",
-    "js-queue": ">=2.0.0"
+    "js-message": "1.0.5",
+    "js-queue": "2.0.0"
   },
   "devDependencies": {
     "codacy-coverage": "^2.0.0",
