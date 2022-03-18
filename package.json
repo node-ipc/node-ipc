@@ -4,10 +4,10 @@
   "description": "A nodejs module for local and remote Inter Process Communication (IPC), Neural Networking, and able to facilitate machine learning.",
   "type": "module",
   "main": "cjs/node-ipc.cjs",
-  "module": "node-ipc.js",
+  "module": "dist/node-ipc.js",
   "exports": {
-    "import": "./node-ipc.js",
-    "require": "./node-ipc.cjs"
+    "import": "./dist/node-ipc.js",
+    "require": "./cjs/node-ipc.cjs"
   },
   "directories": {
     "example": "example"
