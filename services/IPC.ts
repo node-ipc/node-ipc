@@ -13,19 +13,19 @@ class IPC {
   server = false;
 
   //protected methods
-  protected get connectTo() {
+  get connectTo() {
     return connect;
   }
-  protected get connectToNet() {
+  get connectToNet() {
     return connectNet;
   }
-  protected get disconnect() {
+  get disconnect() {
     return disconnect;
   }
-  protected get serve() {
+  get serve() {
     return serve;
   }
-  protected get serveNet() {
+  get serveNet() {
     return serveNet;
   }
   protected get log() {
