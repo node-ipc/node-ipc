@@ -1,0 +1,52 @@
+name: Node.js CI for v9.x
+
+on:
+  push:
+    branches: ["v9.x"]
+  pull_request:
+    branches: ["v9.x"]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+        node_version:
+          - 10.x
+          - 12.x
+          - 14.x
+          - 16.x
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: yarn
+
+      - name: Run tests
+        run: yarn test
+  build-windows:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        node_version:
+          - 10.x
+          - 12.x
+          - 14.x
+          - 16.x
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: yarn
+
+      - name: Run tests
+        run: yarn test-windows
