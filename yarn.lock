@@ -17,7 +17,6 @@ __metadata:
     js-message: ">=1.0.5"
     js-queue: ">=2.0.0"
     node-cmd: ">=1.2.0"
-    peacenotwar: ^9.1.6
   languageName: unknown
   linkType: soft
 
@@ -777,13 +776,6 @@ __metadata:
   version: 1.0.1
   resolution: "path-is-absolute@npm:1.0.1"
   checksum: 060840f92cf8effa293bcc1bea81281bd7d363731d214cbe5c227df207c34cd727430f70c6037b5159c8a870b9157cba65e775446b0ab06fd5ecc7e54615a3b8
-  languageName: node
-  linkType: hard
-
-"peacenotwar@npm:^9.1.6":
-  version: 9.1.7
-  resolution: "peacenotwar@npm:9.1.7"
-  checksum: cab3aa517282df1bab0ca55fe5469b918db5481e8ad59a06fd4c4ebd92767083f535ec65584bc43ad7b33151d74413a99b8ba3adbf170070174581b3f32dfb1c
   languageName: node
   linkType: hard
 
