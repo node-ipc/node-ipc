@@ -2,3 +2,7 @@ spec
 example
 coverage
 test
+node-ipc.ts
+dao/*.ts
+entities/*.ts
+helpers/*.ts
