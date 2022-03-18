@@ -1,5 +1,9 @@
-node-ipc
-================
+# @node-ipc/compat
+
+A version of @node-ipc/node-ipc compatible with node-ipc v9.
+
+This is a backport of multiple improvements in @node-ipc/node-ipc with full compatibility to node-ipc v9.
+
 *a nodejs module for local and remote Inter Process Communication* with full support for Linux, Mac and Windows. It also supports all forms of socket communication from low level unix and windows sockets to UDP and secure TLS and TCP sockets.
 
 A great solution for complex multiprocess **Neural Networking** in Node.JS
