@@ -1,4 +1,4 @@
-import VanillaTest from "vanilla-test";
+import VanillaTest from "@node-ipc/vanilla-test";
 import Is from "strong-type";
 import { IPCModule } from "../../dist/node-ipc.js";
 import delay from "../../helpers/delay.js";

@@ -47,6 +47,7 @@ __metadata:
   resolution: "@node-ipc/node-ipc@workspace:."
   dependencies:
     "@node-ipc/event-pubsub": 6.0.2
+    "@node-ipc/vanilla-test": ^1.4.9
     "@rollup/plugin-alias": ^3.1.9
     "@rollup/plugin-commonjs": ^21.0.2
     "@rollup/plugin-node-resolve": ^13.1.3
@@ -63,9 +64,18 @@ __metadata:
     rollup-plugin-ts: ^2.0.5
     strong-type: 1.1.0
     typescript: ^4.6.2
-    vanilla-test: ^1.4.9
   languageName: unknown
   linkType: soft
+
+"@node-ipc/vanilla-test@npm:^1.4.9":
+  version: 1.4.9
+  resolution: "@node-ipc/vanilla-test@npm:1.4.9"
+  dependencies:
+    ansi-colors-es6: 5.0.0
+    strong-type: 1.1.0
+  checksum: 18eb5ecbcfc1083201a47bd75af2e96f9f6271a9c7b46a21638ff8216543e3be52a4c722583d9efaa8bb189f31c8d39cddef68dbf227465460092d490a0dd237
+  languageName: node
+  linkType: hard
 
 "@npmcli/fs@npm:^1.0.0":
   version: 1.1.1
@@ -270,7 +280,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ansi-colors-es6@npm:^5.0.0":
+"ansi-colors-es6@npm:5.0.0":
   version: 5.0.0
   resolution: "ansi-colors-es6@npm:5.0.0"
   checksum: 72fb8aa34b956a58d2154f491ce3dc1bab613117a6d9cd2b83d4cd2a8d4d9f4ede4bd4d0b407be585991f4ad02a1fb315f06954e7fffd66d9be4e35ae4fbcb62
@@ -1986,16 +1996,6 @@ __metadata:
     convert-source-map: ^1.6.0
     source-map: ^0.7.3
   checksum: 54ce92bec2727879626f623d02c8d193f0c7e919941fa373ec135189a8382265117f5316ea317a1e12a5f9c13d84d8449052a731fe3306fa4beaafbfa4cab229
-  languageName: node
-  linkType: hard
-
-"vanilla-test@npm:^1.4.9":
-  version: 1.4.9
-  resolution: "vanilla-test@npm:1.4.9"
-  dependencies:
-    ansi-colors-es6: ^5.0.0
-    strong-type: ^1.1.0
-  checksum: 11e7732dbee507760512e43a5d432a86ac9a3d95768d802bc82d3c60f7ca206467557460e3f6be307b905228ccb610aaca69123a53b59c5f239db49978f3a968
   languageName: node
   linkType: hard
 

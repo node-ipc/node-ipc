@@ -22,6 +22,7 @@
     "strong-type": "1.1.0"
   },
   "devDependencies": {
+    "@node-ipc/vanilla-test": "^1.4.9",
     "@rollup/plugin-alias": "^3.1.9",
     "@rollup/plugin-commonjs": "^21.0.2",
     "@rollup/plugin-node-resolve": "^13.1.3",
@@ -34,11 +35,9 @@
     "prettier": "^2.6.0",
     "rollup": "^2.70.1",
     "rollup-plugin-ts": "^2.0.5",
-    "typescript": "^4.6.2",
-    "vanilla-test": "^1.4.9"
+    "typescript": "^4.6.2"
   },
   "scripts": {
-    "prepare": "esbuild node-ipc.js --bundle --format=cjs --target=es2018 --platform=node --outfile=node-ipc.cjs",
     "test": "yarn && yarn build && c8 -r lcov -r html node test/CI.js && c8 report && node ./lcov.js",
     "coverage": "echo 'See your coverage report at http://localhost:8080' && node-http-server port=8080 root=./coverage/",
     "lint": "prettier -w .",
