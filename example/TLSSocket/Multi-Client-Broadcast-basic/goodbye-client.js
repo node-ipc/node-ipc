@@ -1,4 +1,4 @@
-import ipc from '../../../node-ipc.js';
+import ipc from "../../../node-ipc.js";
 
 /***************************************\
  *
@@ -7,41 +7,26 @@ import ipc from '../../../node-ipc.js';
  *
  * *************************************/
 
-ipc.config.id = 'goodbye';
-ipc.config.retry= 1500;
-ipc.config.maxRetries= 10;
-ipc.config.tls={
-    rejectUnauthorized:false
+ipc.config.id = "goodbye";
+ipc.config.retry = 1500;
+ipc.config.maxRetries = 10;
+ipc.config.tls = {
+  rejectUnauthorized: false,
 };
 
-ipc.connectToNet(
-    'world',
-    function(){
-        ipc.of.world.on(
-            'connect',
-            function(){
-                ipc.log('## connected to world ##', ipc.config.delay);
-                ipc.of.world.emit(
-                    'app.message',
-                    {
-                        id      : ipc.config.id,
-                        message : 'goodbye'
-                    }
-                );
-            }
-        );
-        ipc.of.world.on(
-            'disconnect',
-            function(){
-                ipc.log('disconnected from world');
-            }
-        );
-        ipc.of.world.on(
-            'kill.connection',
-            function(data){
-                ipc.log('world requested kill.connection');
-                ipc.disconnect('world');
-            }
-        );
-    }
-);
+ipc.connectToNet("world", function () {
+  ipc.of.world.on("connect", function () {
+    ipc.log("## connected to world ##", ipc.config.delay);
+    ipc.of.world.emit("app.message", {
+      id: ipc.config.id,
+      message: "goodbye",
+    });
+  });
+  ipc.of.world.on("disconnect", function () {
+    ipc.log("disconnected from world");
+  });
+  ipc.of.world.on("kill.connection", function (data) {
+    ipc.log("world requested kill.connection");
+    ipc.disconnect("world");
+  });
+});

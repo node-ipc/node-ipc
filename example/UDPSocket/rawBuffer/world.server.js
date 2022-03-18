@@ -1,4 +1,4 @@
-import ipc from '../../../node-ipc.js';
+import ipc from "../../../node-ipc.js";
 
 /***************************************\
  *
@@ -19,25 +19,16 @@ import ipc from '../../../node-ipc.js';
  *
  ***************************************/
 
-ipc.config.id = 'world';
-ipc.config.retry= 1500;
-ipc.config.rawBuffer=true;
-ipc.config.encoding='ascii';
+ipc.config.id = "world";
+ipc.config.retry = 1500;
+ipc.config.rawBuffer = true;
+ipc.config.encoding = "ascii";
 
-ipc.serveNet(
-    'udp4',
-    function(){
-        ipc.server.on(
-            'data',
-            function(data,socket){
-                ipc.log('got a message', data,data.toString());
-                ipc.server.emit(
-                    socket,
-                    'goodbye'
-                );
-            }
-        );
-    }
-);
+ipc.serveNet("udp4", function () {
+  ipc.server.on("data", function (data, socket) {
+    ipc.log("got a message", data, data.toString());
+    ipc.server.emit(socket, "goodbye");
+  });
+});
 
 ipc.server.start();

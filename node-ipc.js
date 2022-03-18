@@ -1,17 +1,13 @@
-import IPC from './services/IPC.js';
+import IPC from "./services/IPC.js";
 
-class IPCModule extends IPC{
-    constructor(){
-        super();
+class IPCModule extends IPC {
+  constructor() {
+    super();
+  }
 
-    }
-
-    IPC=IPC;
+  IPC = IPC;
 }
 
-const singleton=new IPCModule;
+const singleton = new IPCModule();
 
-export {
-    singleton as default,
-    IPCModule
-}
+export { singleton as default, IPCModule };

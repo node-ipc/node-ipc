@@ -1,165 +1,118 @@
-import VanillaTest from 'vanilla-test';
-import Is from 'strong-type';
-import {IPCModule}   from '../../node-ipc.js';
-import delay from '../../helpers/delay.js';
+import VanillaTest from "vanilla-test";
+import Is from "strong-type";
+import { IPCModule } from "../../node-ipc.js";
+import delay from "../../helpers/delay.js";
 
-async function run(){
+async function run() {
+  const test = new VanillaTest();
+  const is = new Is();
 
-    const test=new VanillaTest;
-    const is=new Is;
+  const cleanup = function () {
+    test.pass();
+    test.done();
+  };
 
-    const cleanup=function(){
-        test.pass();
-        test.done();
-    }
+  const fail = function (err) {
+    console.trace(err);
+    test.fail();
+  };
 
-    const fail=function(err){
-        console.trace(err)
-        test.fail();
-    }
+  var transmit_delay = 1000;
 
-    var transmit_delay = 1000;
+  try {
+    test.expects(
+      'unix client to connect to "unixServer" and receive a message.'
+    );
 
-    try{
-        test.expects(
-            'unix client to connect to "unixServer" and receive a message.'
-        );
-        
-        const ipc=new IPCModule;
-        
-        ipc.config.id ='testClient';
-        ipc.config.retry = 900;
+    const ipc = new IPCModule();
 
-        let serverID='';
-        let serverMessage='';
+    ipc.config.id = "testClient";
+    ipc.config.retry = 900;
 
-        let expectedServerID='unixServer';
-        let expectedMessage='I am unix server!';
+    let serverID = "";
+    let serverMessage = "";
 
-        ipc.connectTo(
-            'unixServer',
-             function open(){
-                 ipc.of.unixServer.on(
-                    'connect',
-                    function connected(){
-                        ipc.of.unixServer.on(
-                            'message',
-                            function gotMessage(data){
-                                serverID=data.id
-                                serverMessage=data.message
-                            }
-                        );
+    let expectedServerID = "unixServer";
+    let expectedMessage = "I am unix server!";
 
-                        ipc.of.unixServer.emit(
-                            'message',
-                            {
-                                id      : ipc.config.id,
-                                message : 'Hello from Client.'
-                            }
-                        );
-                    }
-                );
-             }
-        );
+    ipc.connectTo("unixServer", function open() {
+      ipc.of.unixServer.on("connect", function connected() {
+        ipc.of.unixServer.on("message", function gotMessage(data) {
+          serverID = data.id;
+          serverMessage = data.message;
+        });
 
-        await delay(transmit_delay);
+        ipc.of.unixServer.emit("message", {
+          id: ipc.config.id,
+          message: "Hello from Client.",
+        });
+      });
+    });
 
-        ipc.config.stopRetrying=true;
+    await delay(transmit_delay);
 
-        ipc.of.unixServer.emit(
-            'END'
-        );
+    ipc.config.stopRetrying = true;
 
-        
-        
+    ipc.of.unixServer.emit("END");
+  } catch (err) {
+    fail(err);
+  }
+  cleanup();
 
-    }catch(err){
-        fail(err);
-    }
-    cleanup();
+  try {
+    test.expects(
+      "the unix client to send synchronously when config.sync is set to true"
+    );
 
+    const ipc = new IPCModule();
 
+    ipc.config.sync = true;
+    ipc.config.silent = true;
 
+    const messageTotal = 5;
+    let responseCounter = 0;
 
-    try{
-        test.expects(
-            'the unix client to send synchronously when config.sync is set to true'
-        );
-        
-        const ipc=new IPCModule;
+    ipc.connectTo("unixServerSync", "/tmp/app.unixServerSync", function open() {
+      ipc.of.unixServerSync.on("connect", function connected() {
+        for (let i = 0; i < messageTotal; i++) {
+          ipc.of.unixServerSync.emit("message", {
+            id: ipc.config.id,
+            message: "Unix Client Request ",
+          });
+        }
 
-        ipc.config.sync = true;
-        ipc.config.silent = true;
+        ipc.of.unixServerSync.on("message", function gotMessage(data) {
+          if (data.message !== "Response from unix server") {
+            throw new Error("data.message!=='Response from unix server'");
+          }
+          responseCounter++;
+        });
+      });
+    });
 
-        const messageTotal=5;
-        let responseCounter = 0;
+    await delay(transmit_delay);
 
-        ipc.connectTo(
-            'unixServerSync',
-            '/tmp/app.unixServerSync',
-            function open(){
-                ipc.of.unixServerSync.on(
-                    'connect',
-                    function connected(){
+    ipc.config.stopRetrying = true;
 
-                        for(let i=0; i<messageTotal; i++){
-                            ipc.of.unixServerSync.emit(
-                                'message',
-                                {
-                                    id      : ipc.config.id,
-                                    message : 'Unix Client Request '
-                                }
-                            );
-                        }
+    test.compare(responseCounter, messageTotal);
 
-                        ipc.of.unixServerSync.on(
-                            'message',
-                            function gotMessage(data){
-                                if(data.message!=='Response from unix server'){
-                                    throw new Error("data.message!=='Response from unix server'");
-                                };
-                                responseCounter++;
-                            }
-                        );
-                    }
-                );
-            }
-        );
+    ipc.of.unixServerSync.emit("END");
+  } catch (err) {
+    fail(err);
+  }
+  cleanup();
 
-        await delay(transmit_delay);
+  // try{
+  //     test.expects(
+  //         ''
+  //     );
 
-        ipc.config.stopRetrying=true;
-        
-        test.compare(responseCounter,messageTotal);
+  //     const ipc=new IPCModule;
 
-        ipc.of.unixServerSync.emit(
-            'END'
-        );
-    }catch(err){
-        fail(err);
-    }
-    cleanup();
-
-
-
-
-    // try{
-    //     test.expects(
-    //         ''
-    //     );
-        
-    //     const ipc=new IPCModule;
-
-        
-
-    // }catch(err){
-    //     fail(err);
-    // }
-    // cleanup();
-
+  // }catch(err){
+  //     fail(err);
+  // }
+  // cleanup();
 }
 
-export {
-    run as default,
-    run
-}
+export { run as default, run };

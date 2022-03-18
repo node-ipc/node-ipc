@@ -1,4 +1,4 @@
-import ipc from '../../../node-ipc.js';
+import ipc from "../../../node-ipc.js";
 
 /***************************************\
  *
@@ -7,39 +7,22 @@ import ipc from '../../../node-ipc.js';
  *
  * *************************************/
 
-ipc.config.id = 'world';
-ipc.config.retry= 1500;
+ipc.config.id = "world";
+ipc.config.retry = 1500;
 ipc.config.sync = true;
 
-ipc.serveNet(
-    function(){
-        ipc.server.on(
-            'message',
-            function(data,socket){
-                ipc.log('got a message : ', data);
-                //fake some synch procedural code
-                setTimeout(
-                    function(){
-                        ipc.server.emit(
-                            socket,
-                            'message',
-                            data+' world!'
-                        );
-                    },
-                    3000
-                );
-            }
-        );
+ipc.serveNet(function () {
+  ipc.server.on("message", function (data, socket) {
+    ipc.log("got a message : ", data);
+    //fake some synch procedural code
+    setTimeout(function () {
+      ipc.server.emit(socket, "message", data + " world!");
+    }, 3000);
+  });
 
-        ipc.server.on(
-            'socket.disconnected',
-            function(data,socket){
-                console.log(arguments);
-            }
-        );
-    }
-);
-
-
+  ipc.server.on("socket.disconnected", function (data, socket) {
+    console.log(arguments);
+  });
+});
 
 ipc.server.start();

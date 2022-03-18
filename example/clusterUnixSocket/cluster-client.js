@@ -1,31 +1,18 @@
-import fs  from 'fs';
-import ipc  from '../../node-ipc';
+import fs from "fs";
+import ipc from "../../node-ipc";
 
-const socketPath = '/tmp/ipc.sock';
+const socketPath = "/tmp/ipc.sock";
 
 //loop forever so you can see the pid of the cluster sever change in the logs
-setInterval(
-  function() {
-    ipc.connectTo(
-      'world',
-      socketPath,
-      connecting
-     );
-  },
-  2000
-);
+setInterval(function () {
+  ipc.connectTo("world", socketPath, connecting);
+}, 2000);
 
 function connecting(socket) {
-  ipc.of.world.on(
-    'connect',
-    function() {
-      ipc.of.world.emit(
-        'currentDate',
-        {
-             message: new Date().toISOString()
-        }
-      );
-      ipc.disconnect('world');
-    }
-  );
+  ipc.of.world.on("connect", function () {
+    ipc.of.world.emit("currentDate", {
+      message: new Date().toISOString(),
+    });
+    ipc.disconnect("world");
+  });
 }

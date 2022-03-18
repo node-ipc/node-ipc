@@ -1,77 +1,59 @@
-import VanillaTest from 'vanilla-test';
-import Is from 'strong-type';
-import {IPCModule}   from '../../node-ipc.js';
-import delay from '../../helpers/delay.js';
+import VanillaTest from "vanilla-test";
+import Is from "strong-type";
+import { IPCModule } from "../../node-ipc.js";
+import delay from "../../helpers/delay.js";
 
+async function run() {
+  const test = new VanillaTest();
+  const is = new Is();
 
-async function run(){
+  const cleanup = function () {
+    test.pass();
+    test.done();
+  };
 
+  const fail = function (err) {
+    console.trace(err);
+    test.fail();
+  };
 
-    const test=new VanillaTest;
-    const is=new Is;
+  var transmit_delay = 1000;
 
-    const cleanup=function(){
-        test.pass();
-        test.done();
-    }
+  try {
+    test.expects("Server to detect TCP client connection.");
 
-    const fail=function(err){
-        console.trace(err)
-        test.fail();
-    }
+    const ipc = new IPCModule();
 
-    var transmit_delay = 1000;
+    ipc.config.id = "testWorld";
+    ipc.config.retry = 1000;
 
-    try{
-        test.expects(
-            'Server to detect TCP client connection.'
-        );
+    ipc.config.networkPort = 8500;
 
-        const ipc=new IPCModule;
-        
-        ipc.config.id ='testWorld';
-        ipc.config.retry = 1000;
+    let requiredCount = 2;
+    let requiredCounter = 0;
 
-        ipc.config.networkPort=8500;
-        
-        let requiredCount=2;
-        let requiredCounter=0;
+    ipc.serveNet(function serverStarted() {
+      ipc.server.on("connect", function connected(socket) {
+        requiredCounter++;
+        ipc.server.on("message", function (data) {
+          requiredCounter++;
+        });
+      });
+    });
 
-        ipc.serveNet(
-            function serverStarted(){
-                ipc.server.on(
-                    'connect',
-                    function connected(socket){
-                        requiredCounter++;
-                        ipc.server.on(
-                            'message',
-                            function(data){
-                                requiredCounter++;
-                            }
-                        )
-                    }
-                );
-            }
-        );
-        
-        ipc.server.start();
-                
-        await delay(transmit_delay*2);
-        
-        ipc.server.broadcast('END');
-        ipc.config.stopRetrying = true;
-        ipc.server.stop();
+    ipc.server.start();
 
-        test.compare(requiredCount,requiredCounter);
+    await delay(transmit_delay * 2);
 
-    }catch(err){
-        fail(err);
-    }
-    cleanup();
+    ipc.server.broadcast("END");
+    ipc.config.stopRetrying = true;
+    ipc.server.stop();
 
+    test.compare(requiredCount, requiredCounter);
+  } catch (err) {
+    fail(err);
+  }
+  cleanup();
 }
 
-export {
-    run as default,
-    run
-}
+export { run as default, run };

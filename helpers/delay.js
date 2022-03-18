@@ -1,12 +1,7 @@
-async function delay(ms=100) {
-    return new Promise(
-        resolve => {
-            setTimeout(resolve, ms);
-        }
-    );
+async function delay(ms = 100) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 }
 
-export {
-    delay as default,
-    delay
-}
+export { delay as default, delay };
