@@ -1,4 +1,12 @@
-# node-ipc
+# @node-ipc/node-ipc
+
+---
+
+This package was created after `node-ipc` introduced malware and intends to built a maintained version of `node-ipc` without malware and new features.
+
+If you're looking for a replacement for node-ipc v9.x, check out `@node-ipc/compat` in the `v9.x` branch of this repo.
+
+---
 
 _a nodejs module for local and remote Inter Process Communication_ with full support for Linux, Mac and Windows. It also supports all forms of socket communication from low level unix and windows sockets to UDP and secure TLS and TCP sockets.
 
