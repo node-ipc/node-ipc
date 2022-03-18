@@ -18,8 +18,8 @@
   },
   "devDependencies": {
     "codacy-coverage": "^2.0.0",
-    "jasmine": "^2.4.1",
     "istanbul": "^0.4.1",
+    "jasmine": "^2.4.1",
     "node-cmd": ">=1.2.0"
   },
   "scripts": {
@@ -62,5 +62,6 @@
   "bugs": {
     "url": "https://github.com/node-ipc/node-ipc/issues"
   },
-  "homepage": "http://node-ipc.github.io/node-ipc/"
+  "homepage": "http://node-ipc.github.io/node-ipc/",
+  "packageManager": "yarn@3.2.0"
 }
