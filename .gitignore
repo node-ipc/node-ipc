@@ -3,3 +3,9 @@
 /nbproject
 npm-debug.log
 node-ipc.cjs
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions

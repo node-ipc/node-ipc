@@ -65,5 +65,6 @@
   "bugs": {
     "url": "https://github.com/node-ipc/node-ipc/issues"
   },
-  "homepage": "http://node-ipc.github.io/node-ipc/"
+  "homepage": "http://node-ipc.github.io/node-ipc/",
+  "packageManager": "yarn@3.2.0"
 }
