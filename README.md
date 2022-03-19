@@ -2,7 +2,7 @@
 
 ---
 
-This package was created after `node-ipc` introduced malware and intends to built a maintained version of `node-ipc` without malware and new features.
+This package was created after `node-ipc` introduced malware and intends to build a maintained version of `node-ipc` without malware and new features.
 
 If you're looking for a replacement for node-ipc v9.x, check out `@node-ipc/compat` in the `v9.x` branch of this repo.
 
