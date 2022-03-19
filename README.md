@@ -391,8 +391,9 @@ import ipc from "@node-ipc/node-ipc";
 ipc.config.id = "world";
 ipc.config.retry = 1500;
 
+// Do not await this, as start() needs to be called too
 ipc.serve().then(() => {
-  ipc.server.on("message", function (data, socket) {
+  ipc.server.on("message", (data, socket) => {
     ipc.log("got a message : ".debug, data);
     ipc.server.emit(
       socket,
@@ -401,7 +402,7 @@ ipc.serve().then(() => {
       data + " world!"
     );
   });
-  ipc.server.on("socket.disconnected", function (socket, destroyedSocketID) {
+  ipc.server.on("socket.disconnected", (socket, destroyedSocketID) =>{
     ipc.log("client " + destroyedSocketID + " has disconnected!");
   });
 });
@@ -420,19 +421,19 @@ ipc.config.id = "hello";
 ipc.config.retry = 1500;
 
 ipc.connectTo("world").then(() => {
-  ipc.of.world.on("connect", function () {
+  ipc.of.world.on("connect", () => {
     ipc.log("## connected to world ##".rainbow, ipc.config.delay);
     ipc.of.world.emit(
       "message", //any event or message type your server listens for
       "hello"
     );
   });
-  ipc.of.world.on("disconnect", function () {
+  ipc.of.world.on("disconnect", () => {
     ipc.log("disconnected from world".notice);
   });
   ipc.of.world.on(
     "message", //any event or message type your server listens for
-    function (data) {
+    (data) => {
       ipc.log("got a message from world : ".debug, data);
     }
   );
@@ -457,7 +458,7 @@ ipc.config.retry = 1500;
 
 ipc.serveNet("udp4").then(() => {
   console.log(123);
-  ipc.server.on("message", function (data, socket) {
+  ipc.server.on("message", (data, socket) => {
     ipc.log(
       "got a message from ".debug,
       data.from.variable,
@@ -485,7 +486,7 @@ ipc.config.id = "hello";
 ipc.config.retry = 1500;
 
 ipc.serveNet(8001, "udp4", () => {
-  ipc.server.on("message", function (data) {
+  ipc.server.on("message", (data) => {
     ipc.log("got Data");
     ipc.log(
       "got a message from ".debug,
@@ -626,7 +627,7 @@ if (cluster.isMaster) {
   }
 } else {
   ipc.serve(socketPath).then(() => {
-    ipc.server.on("currentDate", function (data, socket) {
+    ipc.server.on("currentDate", (data, socket) => {
       console.log(`pid ${process.pid} got: `, data);
     });
   });
@@ -645,12 +646,12 @@ import ipc from "@node-ipc/node-ipc";
 const socketPath = "/tmp/ipc.sock";
 
 //loop forever so you can see the pid of the cluster sever change in the logs
-setInterval(function () {
+setInterval(() => {
   ipc.connectTo("world", socketPath, connecting);
 }, 2000);
 
 function connecting(socket) {
-  ipc.of.world.on("connect", function () {
+  ipc.of.world.on("connect", () => {
     ipc.of.world.emit("currentDate", {
       message: new Date().toISOString(),
     });
