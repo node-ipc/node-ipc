@@ -1,10 +1,11 @@
-# @node-ipc/node-ipc
+# @node-ipc/ipc
 
 ---
 
 This package was created after `node-ipc` introduced malware and intends to built a maintained version of `node-ipc` without malware and new features.
 
 If you're looking for a replacement for node-ipc v9.x, check out `@node-ipc/compat` in the `v9.x` branch of this repo.
+If you're looking for a drop-in replacement for a later version of node-ipc, check out `@node-ipc/node-ipc`, which doesn't introduce new features or breaking changes.
 
 ---
 
@@ -12,24 +13,24 @@ _a nodejs module for local and remote Inter Process Communication_ with full sup
 
 A great solution for complex multiprocess **Neural Networking** in Node.JS
 
-`npm install @node-ipc/node-ipc`
+`npm install @node-ipc/ipc`
 
 #### including v10 or greater into your code
 
 ```js
 //es6
-import ipc from "@node-ipc/node-ipc";
+import ipc from "@node-ipc/ipc";
 
 //commonjs
-const ipc = require("@node-ipc/node-ipc").default;
+const ipc = require("@node-ipc/ipc").default;
 ```
 
 #### NPM Stats
 
-npm info : [See npm trends and stats for node-ipc](http://npm-stat.com/charts.html?package=@node-ipc/node-ipc&author=&from=&to=)  
-[![NPM](https://nodei.co/npm/@node-ipc/node-ipc.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/@node-ipc/node-ipc/)
-[![Package Quality](http://npm.packagequality.com/badge/@node-ipc/node-ipc.png)](http://packagequality.com/#?package=@node-ipc/node-ipc)  
-![node-ipc npm version](https://img.shields.io/npm/v/@node-ipc/node-ipc.svg) ![supported node version for node-ipc](https://img.shields.io/node/v/@node-ipc/node-ipc.svg) ![total npm downloads for node-ipc](https://img.shields.io/npm/dt/@node-ipc/node-ipc.svg) ![monthly npm downloads for node-ipc](https://img.shields.io/npm/dm/@node-ipc/node-ipc.svg) ![npm licence for node-ipc](https://img.shields.io/npm/l/@node-ipc/node-ipc.svg)
+npm info : [See npm trends and stats for node-ipc](http://npm-stat.com/charts.html?package=@node-ipc/ipc&author=&from=&to=)  
+[![NPM](https://nodei.co/npm/@node-ipc/ipc.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/@node-ipc/ipc/)
+[![Package Quality](http://npm.packagequality.com/badge/@node-ipc/ipc.png)](http://packagequality.com/#?package=@node-ipc/ipc)  
+![node-ipc npm version](https://img.shields.io/npm/v/@node-ipc/ipc.svg) ![supported node version for node-ipc](https://img.shields.io/node/v/@node-ipc/ipc.svg) ![total npm downloads for node-ipc](https://img.shields.io/npm/dt/@node-ipc/ipc.svg) ![monthly npm downloads for node-ipc](https://img.shields.io/npm/dm/@node-ipc/ipc.svg) ![npm licence for node-ipc](https://img.shields.io/npm/l/@node-ipc/ipc.svg)
 
 GitHub info :  
 ![node-ipc GitHub Release](https://img.shields.io/github/release/node-ipc/node-ipc.svg) ![GitHub license node-ipc license](https://img.shields.io/github/license/node-ipc/node-ipc.svg) ![open issues for node-ipc on GitHub](https://img.shields.io/github/issues/node-ipc/node-ipc.svg)
@@ -44,7 +45,7 @@ Testing done with [vanilla-test](https://github.com/node-ipc/vanilla-test)
 Package details websites:
 
 - [GitHub.io site](http://node-ipc.github.io/node-ipc/ "node-ipc documentation"). A prettier version of this site.
-- [NPM Module](https://www.npmjs.org/package/@node-ipc/node-ipc "@node-icp/node-ipc npm module"). The npm page for the @node-icp/node-ipc module.
+- [NPM Module](https://www.npmjs.org/package/@node-ipc/ipc "@node-icp/node-ipc npm module"). The npm page for the @node-icp/node-ipc module.
 
 This work is licenced via the MIT Licence.
 
@@ -386,7 +387,7 @@ You can find [Advanced Examples](https://github.com/node-ipc/node-ipc/tree/maste
 The server is the process keeping a socket for IPC open. Multiple sockets can connect to this server and talk to it. It can also broadcast to all clients or emit to a specific client. This is the most basic example which will work for local Unix and Windows Sockets as well as local or remote network TCP Sockets.
 
 ```javascript
-import ipc from "@node-ipc/node-ipc";
+import ipc from "@node-ipc/ipc";
 
 ipc.config.id = "world";
 ipc.config.retry = 1500;
@@ -415,7 +416,7 @@ ipc.server.start();
 The client connects to the servers socket for Inter Process Communication. The socket will receive events emitted to it specifically as well as events which are broadcast out on the socket by the server. This is the most basic example which will work for both local Unix Sockets and local or remote network TCP Sockets.
 
 ```javascript
-import ipc from "@node-ipc/node-ipc";
+import ipc from "@node-ipc/ipc";
 
 ipc.config.id = "hello";
 ipc.config.retry = 1500;
@@ -451,7 +452,7 @@ This is the most basic example which will work for both local and remote UDP Soc
 ##### UDP Server 1 - "World"
 
 ```javascript
-import ipc from "@node-ipc/node-ipc";
+import ipc from "@node-ipc/ipc";
 
 ipc.config.id = "world";
 ipc.config.retry = 1500;
@@ -607,7 +608,7 @@ ipc.server.emit(myBuffer);
 
 ```javascript
 import fs from "fs";
-import ipc from "@node-ipc/node-ipc";
+import ipc from "@node-ipc/ipc";
 import { cpus } from "os";
 import cluster from "cluster";
 
@@ -641,7 +642,7 @@ if (cluster.isMaster) {
 
 ```javascript
 import fs from "fs";
-import ipc from "@node-ipc/node-ipc";
+import ipc from "@node-ipc/ipc";
 
 const socketPath = "/tmp/ipc.sock";
 
