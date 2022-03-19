@@ -10,7 +10,7 @@ class IPC {
   //public members
   config: Config = new Defaults();
   of = {};
-  server = false;
+  server: Server | false = false;
 
   //protected methods
   get connectTo() {
@@ -25,8 +25,22 @@ class IPC {
   get serve() {
     return serve;
   }
+  get serveNow() {
+    return (path?: string) => {
+      const promise = serve.bind(this)(path);
+      (this.server as Server).start();
+      return promise;
+    };
+  }
   get serveNet() {
     return serveNet;
+  }
+  get serveNetNow() {
+    return (host: unknown, port?: unknown, UDPType?: unknown) => {
+      const promise = serveNet.bind(this)(host, port, UDPType);
+      (this.server as Server).start();
+      return promise;
+    };
   }
   protected get log() {
     return log;
