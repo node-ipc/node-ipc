@@ -17,7 +17,7 @@ export default [
       nodeResolve(),
       commonjs(),
     ],
-    external: ["@node-ipc/event-pubsub", "js-message", "js-queue", "type-strong"],
+    external: ["@node-ipc/event-pubsub", "js-message", "@node-ipc/js-queue", "type-strong"],
   },
   {
     input: "node-ipc.ts",

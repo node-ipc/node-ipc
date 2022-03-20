@@ -3,7 +3,7 @@ import tls from "tls";
 import EventParser from "../entities/EventParser.js";
 import Message from "js-message";
 import fs from "fs";
-import Queue from "js-queue";
+import Queue from "@node-ipc/js-queue";
 import Events from "@node-ipc/event-pubsub";
 import { Config } from "../types/config.js";
 
