@@ -1,6 +1,6 @@
 {
   "name": "@node-ipc/compat",
-  "version": "9.2.4",
+  "version": "9.2.5",
   "description": "A nodejs module for local and remote Inter Process Communication (IPC), Neural Networking, and able to facilitate machine learning.",
   "main": "node-ipc.js",
   "directories": {
