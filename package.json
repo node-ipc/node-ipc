@@ -9,6 +9,7 @@
     "import": "./dist/node-ipc.js",
     "require": "./cjs/node-ipc.cjs"
   },
+  "types": "./dist/node-ipc.d.ts",
   "directories": {
     "example": "example"
   },
