@@ -5,7 +5,7 @@ const net = require("net"),
   EventParser = require("../entities/EventParser.js"),
   Message = require("js-message"),
   fs = require("fs"),
-  Queue = require("js-queue"),
+  Queue = require("@node-ipc/js-queue"),
   Events = require("event-pubsub");
 
 let eventParser = new EventParser();
